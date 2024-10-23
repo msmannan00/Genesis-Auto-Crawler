@@ -10,6 +10,9 @@ from crawler.crawler_instance.genbot_service.parse_controller import parse_contr
 from crawler.crawler_instance.local_shared_model.url_model import url_model, url_model_init
 from crawler.crawler_services.crawler_services.elastic_manager.elastic_controller import elastic_controller
 from crawler.crawler_services.crawler_services.elastic_manager.elastic_enums import ELASTIC_CRUD_COMMANDS, ELASTIC_REQUEST_COMMANDS, ELASTIC_CONNECTIONS
+from crawler.crawler_services.crawler_services.redis_manager.redis_controller import redis_controller
+from crawler.crawler_services.crawler_services.topic_manager.topic_classifier_controller import \
+  topic_classifier_controller
 from crawler.crawler_shared_directory.request_manager.request_handler import request_handler
 from crawler.crawler_instance.genbot_service.genbot_enums import ICRAWL_CONTROLLER_COMMANDS
 from crawler.constants.constant import CRAWL_SETTINGS_CONSTANTS
@@ -133,6 +136,10 @@ def genbot_instance(p_url, p_vid, p_proxy, p_tor_id):
     log.g().e(MANAGE_MESSAGES.S_GENBOT_ERROR + " : " + str(p_vid) + " : " + str(ex))
   finally:
     mongo.close_connection()
+    mongo_controller.get_instance().destroy_instance()
+    redis_controller.get_instance().destroy_instance()
+    elastic_controller.get_instance().destroy_instance()
+    topic_classifier_controller.get_instance().destroy_instance()
     del m_crawler
     gc.collect()
     sleep(5)

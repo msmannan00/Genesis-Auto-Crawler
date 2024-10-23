@@ -33,6 +33,10 @@ class mongo_controller(request_handler):
   def __del__(self):
     self.close_connection()
 
+  @classmethod
+  def destroy_instance(cls):
+      cls.__instance = None
+
   def __link_connection(self):
     connection_params = {
       'host': MONGO_CONNECTIONS.S_MONGO_IP,

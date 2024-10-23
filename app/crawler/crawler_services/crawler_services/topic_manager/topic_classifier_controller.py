@@ -24,6 +24,10 @@ class topic_classifier_controller(request_handler):
     def __predict_classifier(self, p_title,p_description, p_keyword):
         return self.__m_classifier.invoke_trigger(TOPIC_CLASSFIER_MODEL.S_PREDICT_CLASSIFIER, [p_title,p_description, p_keyword])
 
+    @classmethod
+    def destroy_instance(cls):
+        cls.__instance = None
+
     def __clean_classifier(self):
         self.__m_classifier.invoke_trigger(TOPIC_CLASSFIER_MODEL.S_CLEAN_CLASSIFIER)
         self.__m_classifier = None

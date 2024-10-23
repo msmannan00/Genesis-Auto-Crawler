@@ -48,6 +48,14 @@ disconnect_and_remove_networks() {
     docker network ls --format '{{.Name}}' | grep -q "toxic_model_project_backend" && docker network rm toxic_model_project_backend
 }
 
+reset_celery() {
+    echo "Stopping 'trusted-crawler-celery' every 10 seconds..."
+    while true; do
+        docker restart trusted-crawler-celery
+        sleep 43200
+    done
+}
+
 if [ "$1" == "build" ]; then
     #check_or_set_s_server
     echo "Are you sure you want to remove all services and build the project? (y/n)"
@@ -58,6 +66,7 @@ if [ "$1" == "build" ]; then
     download_and_extract_model
     docker compose -p $PROJECT_NAME build
     docker compose -p $PROJECT_NAME up -d
+    reset_celery
     echo "crawler service started"
 elif [ "$1" == "invoke_unique_crawler" ]; then
     echo "operation in development phase"
@@ -72,5 +81,6 @@ else
     disconnect_and_remove_networks
     download_and_extract_model
     docker compose -p $PROJECT_NAME up -d
+    reset_celery
     echo "crawler service started"
 fi

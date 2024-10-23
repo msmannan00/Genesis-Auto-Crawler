@@ -22,6 +22,9 @@ class elastic_controller(request_handler):
     else:
       elastic_controller.__instance = self
 
+  @classmethod
+  def destroy_instance(cls):
+      cls.__instance = None
 
   def __post_data(self, p_data, unique_index=False):
     web_request_manager = webRequestManager()
