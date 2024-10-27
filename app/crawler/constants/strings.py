@@ -24,6 +24,7 @@ class MANAGE_MESSAGES:
   S_APPLICATION_ERROR = "[1] Application encountered an error"
   S_INSTALL_LIVE_URL_ERROR = "[2] Failed to install live URL"
   S_INSTALL_LIVE_URL_STARTED = "[3] Installation of live URL started"
+  S_INSTALL_LIVE_URL_FINISHED = "[3] Installation of live URL finished"
   S_INSTALL_LIVE_URL_TIMEOUT = "[4] Installation of live URL timed out"
   S_REINIT_UNIQUE_URL = "[5] Reinitializing unique URL"
   S_LOAD_URL_ERROR = "[6] Error loading URL"
@@ -70,3 +71,4 @@ class MANAGE_MESSAGES:
   S_UNIQUE_PARSING_URL_STARTED = "[47] Unique URL parsing URL started"
   S_UNIQUE_PARSING_URL_FINISHED = "[48] Unique URL parsing URL finished"
   S_UNIQUE_PARSING_PENDING = "[46] Unique parsing pending"
+  S_UNIQUE_PARSING_COMPLETE = "[47] Unique parsing complete"

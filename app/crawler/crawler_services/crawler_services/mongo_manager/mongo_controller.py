@@ -11,19 +11,8 @@ from crawler.crawler_shared_directory.request_manager.request_handler import req
 class mongo_controller(request_handler):
   __m_connection = None
   __m_mongo_request_generator = None
-  __instance = None
-
-  @staticmethod
-  def get_instance():
-    if mongo_controller.__instance is None:
-      mongo_controller()
-    return mongo_controller.__instance
 
   def __init__(self):
-    if mongo_controller.__instance is not None:
-      raise Exception("This class is a singleton!")
-    else:
-      mongo_controller.__instance = self
     self.__m_mongo_request_generator = mongo_request_generator()
     self.__link_connection()
 

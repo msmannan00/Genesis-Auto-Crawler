@@ -1,9 +1,8 @@
 import argparse
 import subprocess
 import sys
-
 import spacy
-
+import platform
 from crawler.constants.app_status import APP_STATUS
 from crawler.constants.constant import RAW_PATH_CONSTANTS, CRAWL_SETTINGS_CONSTANTS
 from crawler.constants.strings import TOR_STRINGS, MANAGE_MESSAGES
@@ -49,7 +48,13 @@ def initialize_local_setting():
   try:
     nlp_core = spacy.load("en_core_web_sm")
   except OSError:
-    subprocess.run([sys.executable, "-m", "spacy", "download", "en_core_web_sm"], check=True)
+    print("Model not found. Downloading...")
+    download_command = [sys.executable, "-m", "spacy", "download", "en_core_web_sm"]
+    if platform.system().lower() == "windows":
+      subprocess.run(download_command, shell=True, check=True)
+    else:
+      subprocess.run(download_command, check=True)
+
     nlp_core = spacy.load("en_core_web_sm")
   return nlp_core
 
@@ -69,13 +74,13 @@ def main():
 
     elif args.command == 'local_unique_crawler_run':
       initialize_local_setting()
-      redis_controller.get_instance().invoke_trigger(REDIS_COMMANDS.S_SET_BOOL, [REDIS_KEYS.UNIQIE_CRAWLER_RUNNING, False, None])
+      redis_controller().invoke_trigger(REDIS_COMMANDS.S_SET_BOOL, [REDIS_KEYS.UNIQIE_CRAWLER_RUNNING, False, None])
       content_list = prepare_and_fetch_data(CRAWL_SETTINGS_CONSTANTS.S_FEEDER_URL)
       m_proxy, m_tor_id = tor_controller.get_instance().invoke_trigger(TOR_COMMANDS.S_PROXY, [])
       genbot_unique_instance(content_list, m_proxy, m_tor_id)
 
     elif args.command == 'invoke_celery_crawler':
-      redis_controller.get_instance().invoke_trigger(REDIS_COMMANDS.S_SET_BOOL, [REDIS_KEYS.UNIQIE_CRAWLER_RUNNING, False, None])
+      redis_controller().invoke_trigger(REDIS_COMMANDS.S_SET_BOOL, [REDIS_KEYS.UNIQIE_CRAWLER_RUNNING, False, None])
       APP_STATUS.DOCKERIZED_RUN = True
       application_controller.get_instance().invoke_triggers(APPICATION_COMMANDS.S_START_APPLICATION_DOCKERISED)
 

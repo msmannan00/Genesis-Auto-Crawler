@@ -4,7 +4,7 @@ import subprocess
 import sys
 import os
 import signal
-
+import socket
 from crawler.crawler_instance.genbot_service.genbot_unique_controller import genbot_unique_instance
 from crawler.crawler_instance.tor_controller.tor_controller import tor_controller
 from crawler.crawler_instance.tor_controller.tor_enums import TOR_COMMANDS
@@ -21,7 +21,7 @@ celery.conf.task_routes = {
     'celery_controller.start_crawler': {'queue': 'crawler_queue'},
     'celery_controller.invoke_unique_crawler': {'queue': 'unique_crawler_queue'}
 }
-
+socket.setdefaulttimeout(30)
 celery.conf.worker_task_log_format = None
 celery.conf.task_acks_late = True
 celery.conf.worker_prefetch_multiplier = 1
@@ -47,7 +47,7 @@ class celery_controller:
     else:
       celery_controller.__instance = self
     warnings.filterwarnings("ignore")
-    self.__redis_controller = redis_controller.get_instance()
+    self.__redis_controller = redis_controller()
     self.__clear_redis_database()
 
   def __clear_redis_database(self):
@@ -83,13 +83,15 @@ class celery_controller:
 
 
 # Celery tasks
-@celery.task(name='celery_controller.start_crawler')
+@celery.task(name='celery_controller.start_crawler', time_limit=3600, soft_time_limit=3540)
 def start_crawler(url, virtual_id, m_proxy, m_tor_id):
   genbot_instance(url, virtual_id, m_proxy, m_tor_id)
+  gc.collect()
 
-@celery.task(name='celery_controller.invoke_unique_crawler', bind=True)
+@celery.task(name='celery_controller.invoke_unique_crawler', bind=True, time_limit=3600)
 def invoke_unique_crawler(_, url, m_proxy, m_tor_id):
   genbot_unique_instance(url, m_proxy, m_tor_id)
+  gc.collect()
 
 if __name__ == "__main__":
   manager = celery_controller.get_instance()

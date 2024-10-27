@@ -61,7 +61,7 @@ services:
     build:
       context: .
       dockerfile: dockerFiles/api_docker
-    command: celery -A crawler.crawler_services.crawler_services.celery_manager worker --loglevel=INFO --concurrency=${CELERY_WORKER_COUNT} --prefetch-multiplier=1 --max-tasks-per-child=1  -Q crawler_queue,unique_crawler_queue # -P eventlet
+    command: celery -A crawler.crawler_services.crawler_services.celery_manager worker --loglevel=INFO --concurrency=${CELERY_WORKER_COUNT} --prefetch-multiplier=1 --max-tasks-per-child=1 -Q crawler_queue,unique_crawler_queue
     env_file:
       - .env
     depends_on:
@@ -72,6 +72,10 @@ services:
     networks:
       backend:
         ipv4_address: 172.19.0.4
+    deploy:
+      resources:
+        limits:
+          memory: 8G
 
   celery_beat:
     container_name: trusted-crawler-celery_beat
@@ -153,7 +157,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ~/Documents/docker/tor_test:/tor1
+      - ./tor/torrc_1.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9152:9152"
@@ -184,7 +188,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ~/Documents/docker/tor_test:/tor2
+      - ./tor/torrc_2.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9154:9154"
@@ -214,7 +218,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ~/Documents/docker/tor_test:/tor3
+      - ./tor/torrc_3.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9156:9156"
@@ -244,7 +248,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ~/Documents/docker/tor_test:/tor4
+      - ./tor/torrc_4.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9158:9158"
@@ -274,7 +278,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ~/Documents/docker/tor_test:/tor5
+      - ./tor/torrc_5.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9160:9160"
@@ -304,7 +308,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ~/Documents/docker/tor_test:/tor6
+      - ./tor/torrc_6.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9162:9162"
@@ -334,7 +338,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ~/Documents/docker/tor_test:/tor7
+      - ./tor/torrc_7.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9164:9164"
@@ -364,7 +368,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ~/Documents/docker/tor_test:/tor8
+      - ./tor/torrc_8.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9166:9166"
@@ -394,7 +398,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ~/Documents/docker/tor_test:/tor9
+      - ./tor/torrc_9.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9168:9168"
@@ -424,7 +428,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ~/Documents/docker/tor_test:/tor10
+      - ./tor/torrc_10.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9170:9170"
@@ -447,6 +451,7 @@ services:
     networks:
       backend:
         ipv4_address: 172.19.0.19
+
 
 networks:
   backend:

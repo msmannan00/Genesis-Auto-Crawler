@@ -81,11 +81,10 @@ class genbot_unique_controller(request_handler):
           pass
       else:
         os.replace(file_path_new, file_path_old)
-        elastic_controller.get_instance().invoke_trigger(ELASTIC_CRUD_COMMANDS.S_INDEX, [ELASTIC_REQUEST_COMMANDS.S_UNIQUE_INDEX, json.dumps(self.__m_parsed_list), ELASTIC_CONNECTIONS.S_CRAWL_UNIQUE_INDEX])
+        elastic_controller().invoke_trigger(ELASTIC_CRUD_COMMANDS.S_INDEX, [ELASTIC_REQUEST_COMMANDS.S_UNIQUE_INDEX, json.dumps(self.__m_parsed_list), ELASTIC_CONNECTIONS.S_CRAWL_UNIQUE_INDEX])
         with open(file_path_new, 'w'):
           pass
-
-    except Exception:
+    except Exception as ex:
       pass
 
   def start_crawler_instance(self, p_request_url_list):
@@ -116,7 +115,7 @@ class genbot_unique_controller(request_handler):
 
 
 def genbot_unique_instance(p_url_list, p_proxy, p_tor_id):
-  redis_controller_instance = redis_controller.get_instance()
+  redis_controller_instance = redis_controller()
   status = redis_controller_instance.invoke_trigger(REDIS_COMMANDS.S_GET_BOOL, [REDIS_KEYS.UNIQIE_CRAWLER_RUNNING, None, None])
   if not status:
     log.g().i(MANAGE_MESSAGES.S_UNIQUE_PARSING_STARTED + " : " + str(status))
@@ -130,6 +129,7 @@ def genbot_unique_instance(p_url_list, p_proxy, p_tor_id):
     finally:
       redis_controller_instance.invoke_trigger(REDIS_COMMANDS.S_SET_BOOL, [REDIS_KEYS.UNIQIE_CRAWLER_RUNNING, False, None])
       del m_crawler
+      log.g().s(MANAGE_MESSAGES.S_UNIQUE_PARSING_COMPLETE)
   else:
     log.g().i(MANAGE_MESSAGES.S_UNIQUE_PARSING_PENDING)
 

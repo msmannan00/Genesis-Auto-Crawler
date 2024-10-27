@@ -44,7 +44,7 @@ class application_controller(request_handler, ABC):
         while non_bootstrapped_tor_instances:
             instance_status = ", ".join([f"{ip_port} (phase: {phase})" for ip_port, phase in non_bootstrapped_tor_instances])
             log.g().i(f"Waiting for Tor instances to bootstrap: {instance_status}")
-            time.sleep(30)
+            time.sleep(10)
             non_bootstrapped_tor_instances = self.__tor_controller.get_non_bootstrapped_tor_instances()
 
         log.g().i("All Tor instances have bootstrapped successfully.")

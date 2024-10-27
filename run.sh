@@ -10,15 +10,33 @@ ENV_FILE=".env"
 get_local_ip() { hostname -I | awk '{print $1}'; }
 
 check_or_set_s_server() {
+    # Ensure the .env file exists
     [ ! -f "$ENV_FILE" ] && echo ".env file does not exist." && exit 1
+
+    # Load the environment variables
     source "$ENV_FILE"
 
-    if ! curl --silent --head --fail --max-time 5 "$S_SERVER"; then
-        echo "Error: S_SERVER ($S_SERVER) is not accessible. Exiting."
+    # Clean any trailing whitespaces or hidden characters in S_SERVER
+    S_SERVER=$(echo "$S_SERVER" | tr -d '\r' | xargs)
+
+    # Check if S_SERVER is properly set
+    if [ -z "$S_SERVER" ]; then
+        echo "Error: S_SERVER is not set or empty in the .env file." >&2
         exit 1
     fi
 
-    echo "S_SERVER is accessible: $S_SERVER"
+    # Debugging print to ensure the URL looks correct
+    echo "Checking S_SERVER: '$S_SERVER'"
+
+    # Check if S_SERVER is accessible
+    if curl --silent --head --fail --max-time 5 "$S_SERVER" > /dev/null; then
+        # Print the S_SERVER value if accessible
+        echo "SUCCESS: $S_SERVER is accessible." >&2
+    else
+        # Print a clean error message if not accessible
+        echo "Error: $S_SERVER is not accessible." >&2
+        exit 1
+    fi
 }
 
 mkdir -p $DEST_DIR
@@ -49,15 +67,26 @@ disconnect_and_remove_networks() {
 }
 
 reset_celery() {
-    echo "Stopping 'trusted-crawler-celery' every 10 seconds..."
     while true; do
-        docker restart trusted-crawler-celery
-        sleep 43200
+      docker stop trusted-crawler-celery
+      docker start trusted-crawler-celery
+      docker restart trusted-crawler_tor_instace_1
+      docker restart trusted-crawler_tor_instace_2
+      docker restart trusted-crawler_tor_instace_3
+      docker restart trusted-crawler_tor_instace_4
+      docker restart trusted-crawler_tor_instace_5
+      docker restart trusted-crawler_tor_instace_6
+      docker restart trusted-crawler_tor_instace_7
+      docker restart trusted-crawler_tor_instace_8
+      docker restart trusted-crawler_tor_instace_9
+      docker restart trusted-crawler_tor_instace_10
+      sleep 7200
     done
 }
 
 if [ "$1" == "build" ]; then
-    #check_or_set_s_server
+    docker compose down
+    check_or_set_s_server
     echo "Are you sure you want to remove all services and build the project? (y/n)"
     read -r confirm
     [ "$confirm" != "y" ] && exit 0
@@ -66,7 +95,7 @@ if [ "$1" == "build" ]; then
     download_and_extract_model
     docker compose -p $PROJECT_NAME build
     docker compose -p $PROJECT_NAME up -d
-    reset_celery
+    # reset_celery
     echo "crawler service started"
 elif [ "$1" == "invoke_unique_crawler" ]; then
     echo "operation in development phase"
@@ -76,11 +105,12 @@ elif [ "$1" == "stop" ]; then
     docker compose down
     echo "Services stopped successfully."
 else
-    #check_or_set_s_server
+    docker compose down
+    check_or_set_s_server
     clean_docker
     disconnect_and_remove_networks
     download_and_extract_model
     docker compose -p $PROJECT_NAME up -d
-    reset_celery
+    # reset_celery
     echo "crawler service started"
 fi

@@ -8,20 +8,6 @@ from crawler.crawler_shared_directory.request_manager.request_handler import req
 
 
 class elastic_controller(request_handler):
-  __instance = None
-
-  @staticmethod
-  def get_instance():
-    if elastic_controller.__instance is None:
-      elastic_controller()
-    return elastic_controller.__instance
-
-  def __init__(self):
-    if elastic_controller.__instance is not None:
-      raise Exception("This class is a singleton!")
-    else:
-      elastic_controller.__instance = self
-
   @classmethod
   def destroy_instance(cls):
       cls.__instance = None

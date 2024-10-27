@@ -79,28 +79,32 @@ class html_parse_manager(HTMLParser, ABC):
 
                     if any(ext in suffix.lower() for ext in image_extensions):
                         if len(self.m_image_url) < 10:
-                            self.m_image_url.append(clean_url)
+                            if len(clean_url)<150:
+                                self.m_image_url.append(clean_url)
                     elif any(ext in suffix.lower() for ext in video_extensions):
                         if len(self.m_video_url) < 10:
-                            self.m_video_url.append(clean_url)
+                            if len(clean_url)<150:
+                                self.m_video_url.append(clean_url)
                     elif any(ext in suffix.lower() for ext in document_extensions):
                         if len(self.m_doc_url) < 10:
-                            self.m_doc_url.append(clean_url)
+                            if len(clean_url)<150:
+                                self.m_doc_url.append(clean_url)
                     elif any(ext in suffix.lower() for ext in archive_extensions):
                         if len(self.m_archive_url) < 10:
-                            self.m_archive_url.append(clean_url)
+                            if len(clean_url)<150:
+                                self.m_archive_url.append(clean_url)
 
                     elif parent_domain == host_domain and m_host_url.endswith(".onion"):
                         if "#" in p_url:
                             if p_url.count("/") > 2 and "?" in m_host_url and self.m_query_url_count < 5:
                                 self.m_query_url_count += 1
                                 clean_url = helper_method.normalize_slashes(clean_url)
-                                if clean_url not in self.m_sub_url_hashed:
+                                if clean_url not in self.m_sub_url_hashed and len(clean_url)<150:
                                     self.m_sub_url_hashed.append(clean_url)
                         else:
                             self.m_query_url_count += 1
                             p_url = p_url.rstrip('/')
-                            if p_url not in self.m_sub_url and p_url != self.m_base_url:
+                            if p_url not in self.m_sub_url and p_url != self.m_base_url and len(p_url)<150:
                                 self.m_sub_url.append(p_url)
 
                     if ".onion" not in p_url:
@@ -319,9 +323,9 @@ class html_parse_manager(HTMLParser, ABC):
     def __get_content_type(self):
         try:
             if len(self.m_content) > 0:
-                self.m_content_type = topic_classifier_controller.get_instance().invoke_trigger(TOPIC_CLASSFIER_COMMANDS.S_PREDICT_CLASSIFIER, [self.m_title, self.m_important_content, self.m_content])
+                self.m_content_type = topic_classifier_controller().invoke_trigger(TOPIC_CLASSFIER_COMMANDS.S_PREDICT_CLASSIFIER, [self.m_title, self.m_important_content, self.m_content])
                 if self.m_content_type is None:
-                    return CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL
+                   return CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL
                 return self.m_content_type
             return CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL
         except Exception as ex:
@@ -381,3 +385,29 @@ class html_parse_manager(HTMLParser, ABC):
             self.m_video_url.clear()
             self.m_doc_url.clear()
             self.m_archive_url.clear()
+            self.m_soup = None
+
+            self.m_title = STRINGS.S_EMPTY
+            self.m_meta_description = STRINGS.S_EMPTY
+            self.m_meta_content = STRINGS.S_EMPTY
+            self.m_important_content = STRINGS.S_EMPTY
+            self.m_content = STRINGS.S_EMPTY
+            self.m_meta_keyword = STRINGS.S_EMPTY
+            self.m_content_type = CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL
+            self.m_sub_url = []
+            self.m_sub_url_hashed = []
+            self.m_image_url = []
+            self.m_doc_url = []
+            self.m_video_url = []
+            self.m_archive_url = []
+            self.m_clearnet_links = []
+            self.m_paragraph_count = 0
+            self.m_parsed_paragraph_count = 0
+            self.m_query_url_count = 0
+            self.m_non_important_text = STRINGS.S_EMPTY
+            self.m_all_url_count = 0
+            self.m_important_content_raw = []
+            self.m_rec = PARSE_TAGS.S_NONE
+            self.m_sections = []
+            self.m_current_section = ""
+

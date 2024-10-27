@@ -1,4 +1,4 @@
-# Local Imports
+ # Local Imports
 import requests
 import stem as stem
 from requests.adapters import HTTPAdapter
@@ -10,6 +10,7 @@ from crawler.crawler_instance.tor_controller.tor_enums import TOR_COMMANDS, TOR_
 from crawler.crawler_services.crawler_services.redis_manager.redis_controller import redis_controller
 from crawler.crawler_services.crawler_services.redis_manager.redis_enums import REDIS_COMMANDS
 from crawler.crawler_services.helper_services.env_handler import env_handler
+from crawler.crawler_shared_directory.log_manager.log_controller import log
 from crawler.crawler_shared_directory.request_manager.request_handler import request_handler
 from crawler.crawler_instance.tor_controller.tor_enums import TOR_CONTROL_PROXIES
 from crawler.crawler_services.helper_services.scheduler import RepeatedTimer
@@ -34,7 +35,7 @@ class tor_controller(request_handler):
     self.__on_init()
 
   def __on_init(self):
-    self.__redis_controller = redis_controller.get_instance()
+    self.__redis_controller = redis_controller()
 
     self.__session = requests.Session()
     retries = Retry(total=1, backoff_factor=0.1, status_forcelist=[500, 502, 503, 504])
@@ -52,9 +53,20 @@ class tor_controller(request_handler):
   def __invoke_new_circuit(self, m_temp_controller):
     try:
       m_temp_controller.signal(Signal.NEWNYM)
+      self.verify_new_circuit(m_temp_controller)
     except Exception as ex:
-      print(ex, flush=True)
+      log.g().i("Exception in creeating new circuit")
+      log.g().i(ex)
       pass
+
+  def verify_new_circuit(self, controller):
+    try:
+      circuits = controller.get_info("circuit-status")
+      log.g().i("Active circuits:")
+      for circuit in circuits.splitlines():
+        log.g().i(circuit)
+    except Exception as ex:
+      log.g().i(f"Failed to retrieve circuit status: {ex}")
 
   def get_non_bootstrapped_tor_instances(self):
     non_bootstrapped_instances = []
@@ -80,6 +92,7 @@ class tor_controller(request_handler):
       'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36',
       'Cache-Control': 'no-cache'
     }
+
     return self.__session, headers
 
   def __on_proxy(self):

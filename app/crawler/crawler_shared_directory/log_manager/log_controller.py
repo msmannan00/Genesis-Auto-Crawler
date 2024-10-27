@@ -26,15 +26,6 @@ class log:
         if not os.path.exists(RAW_PATH_CONSTANTS.LOG_DIRECTORY):
           os.makedirs(RAW_PATH_CONSTANTS.LOG_DIRECTORY)
 
-        if not log.__file_handler_added:
-          log_filename = datetime.datetime.now().strftime("%Y-%m-%d") + ".log"
-          log_filepath = os.path.join(RAW_PATH_CONSTANTS.LOG_DIRECTORY, log_filename)
-          file_handler = logging.FileHandler(log_filepath)
-          file_handler.setLevel(logging.DEBUG)
-
-          self.__server_instance.addHandler(file_handler)
-          log.__file_handler_added = True
-
         console_handler = logging.StreamHandler()
         console_handler.setLevel(logging.DEBUG)
 
@@ -72,23 +63,37 @@ class log:
           return "Function", caller_file, caller_line
     return "Unknown", "Unknown", 0
 
-  def __write_to_file(self, log_message):
+  def __write_to_file(self, log_message, lines_per_file=10000):
     try:
-      if not os.path.exists(RAW_PATH_CONSTANTS.LOG_DIRECTORY):
-        os.makedirs(RAW_PATH_CONSTANTS.LOG_DIRECTORY, exist_ok=True)
+      log_directory = os.path.join(
+        RAW_PATH_CONSTANTS.LOG_DIRECTORY,
+        datetime.datetime.now().strftime("%Y-%m-%d")
+      )
+      os.makedirs(log_directory, exist_ok=True)
+
+      log_files = sorted([f for f in os.listdir(log_directory)
+                          if f.startswith("log_") and f.endswith(".log")])
+
+      if not log_files:
+        log_filepath = os.path.join(log_directory, "log_1.log")
+      else:
+        last_log_file = os.path.join(log_directory, log_files[-1])
+        if sum(1 for _ in open(last_log_file)) >= lines_per_file:
+          log_number = len(log_files) + 1
+          log_filepath = os.path.join(log_directory, f"log_{log_number}.log")
+        else:
+          log_filepath = last_log_file
 
       caller_class, caller_file, caller_line = self.get_caller_info()
-
-      log_filename = datetime.datetime.now().strftime("%Y-%m-%d") + ".log"
-
-      log_filepath = os.path.join(RAW_PATH_CONSTANTS.LOG_DIRECTORY, log_filename)
+      full_log_message = f"{log_message} - {caller_class} ({caller_file}:{caller_line})"
 
       with open(log_filepath, 'a') as log_file:
-        full_log_message = f"{log_message} - {caller_class} ({caller_file}:{caller_line})"
         log_file.write(full_log_message + "\n")
+
       os.chmod(log_filepath, stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
+
     except Exception as e:
-      pass
+      print(f"Error writing to log: {e}")
 
   def __format_log_message(self, log_type, p_log, include_caller=False):
     current_time = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")

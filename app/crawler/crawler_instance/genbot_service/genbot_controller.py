@@ -10,9 +10,6 @@ from crawler.crawler_instance.genbot_service.parse_controller import parse_contr
 from crawler.crawler_instance.local_shared_model.url_model import url_model, url_model_init
 from crawler.crawler_services.crawler_services.elastic_manager.elastic_controller import elastic_controller
 from crawler.crawler_services.crawler_services.elastic_manager.elastic_enums import ELASTIC_CRUD_COMMANDS, ELASTIC_REQUEST_COMMANDS, ELASTIC_CONNECTIONS
-from crawler.crawler_services.crawler_services.redis_manager.redis_controller import redis_controller
-from crawler.crawler_services.crawler_services.topic_manager.topic_classifier_controller import \
-  topic_classifier_controller
 from crawler.crawler_shared_directory.request_manager.request_handler import request_handler
 from crawler.crawler_instance.genbot_service.genbot_enums import ICRAWL_CONTROLLER_COMMANDS
 from crawler.constants.constant import CRAWL_SETTINGS_CONSTANTS
@@ -43,7 +40,7 @@ class genbot_controller(request_handler):
     self.m_unparsed_url = []
     self.m_parsed_url = []
     self.__m_proxy = {}
-    self.__elastic_controller_instance = elastic_controller.get_instance()
+    self.__elastic_controller_instance = elastic_controller()
 
 
   def init(self, p_proxy, p_tor_id):
@@ -100,8 +97,8 @@ class genbot_controller(request_handler):
             sleep(5)
           continue
 
-      if m_parsed_model is not None and item.m_depth + 1 <= CRAWL_SETTINGS_CONSTANTS.S_MAX_ALLOWED_DEPTH:
-       for sub_url in m_sub_url:
+      if m_parsed_model is not None and item.m_depth < CRAWL_SETTINGS_CONSTANTS.S_MAX_ALLOWED_DEPTH:
+       for sub_url in list(m_sub_url)[0:50]:
          self.m_unparsed_url.append(url_model_init(sub_url, item.m_depth + 1))
 
       m_host_crawled = True
@@ -127,7 +124,7 @@ def genbot_instance(p_url, p_vid, p_proxy, p_tor_id):
   log.g().i(MANAGE_MESSAGES.S_PARSING_WORKER_STARTED + " : " + p_url)
   m_crawler = genbot_controller()
   m_crawler.invoke_trigger(ICRAWL_CONTROLLER_COMMANDS.S_INIT_CRAWLER_INSTANCE, [p_proxy, p_tor_id])
-  mongo = mongo_controller.get_instance()
+  mongo = mongo_controller()
   try:
     m_crawler.invoke_trigger(ICRAWL_CONTROLLER_COMMANDS.S_START_CRAWLER_INSTANCE, [p_url, p_vid])
     p_request_url = helper_method.on_clean_url(p_url)
@@ -136,10 +133,6 @@ def genbot_instance(p_url, p_vid, p_proxy, p_tor_id):
     log.g().e(MANAGE_MESSAGES.S_GENBOT_ERROR + " : " + str(p_vid) + " : " + str(ex))
   finally:
     mongo.close_connection()
-    mongo_controller.get_instance().destroy_instance()
-    redis_controller.get_instance().destroy_instance()
-    elastic_controller.get_instance().destroy_instance()
-    topic_classifier_controller.get_instance().destroy_instance()
     del m_crawler
     gc.collect()
     sleep(5)

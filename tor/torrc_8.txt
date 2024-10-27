@@ -1,0 +1,22 @@
+DataDirectory /tor/data
+PidFile /tor/tor.pid
+CookieAuthFile /tor/control_auth_cookie
+HardwareAccel 1
+Log [handshake]notice [*]notice stderr
+SocksPolicy reject *
+SocksPort unix:/tor/socks5.socket WorldWritable RelaxDirModeCheck
+
+SocksPolicy accept 172.19.0.0/24,accept 127.0.0.1,accept 10.0.0.0/8,accept 172.16.0.0/12,accept 192.168.0.0/16
+SocksPort 0.0.0.0:9166
+ControlPort 0.0.0.0:9167
+
+ControlSocket unix:/tor/control.socket WorldWritable RelaxDirModeCheck
+HashedControlPassword 16:DC634E657103B66260248BDF4C18EB7B417FADCC3F037ED30B1A905C41
+CookieAuthentication 1
+ORPort 0  # Disable relaying
+
+SocksTimeout 10
+CircuitBuildTimeout 15
+MaxCircuitDirtiness 30
+NewCircuitPeriod 3600
+KeepalivePeriod 30

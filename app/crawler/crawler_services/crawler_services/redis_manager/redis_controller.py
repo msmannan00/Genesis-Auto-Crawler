@@ -4,19 +4,8 @@ from crawler.crawler_services.crawler_services.redis_manager.redis_enums import 
 
 class redis_controller:
   __redis = None
-  __instance = None
-
-  @staticmethod
-  def get_instance():
-    if redis_controller.__instance is None:
-      redis_controller()
-    return redis_controller.__instance
 
   def __init__(self):
-    if redis_controller.__instance is not None:
-      raise Exception("This class is a singleton!")
-    else:
-      redis_controller.__instance = self
     self.__redis = redis.StrictRedis(
       port=REDIS_CONNECTIONS.S_DATABASE_PORT,
       host=REDIS_CONNECTIONS.S_DATABASE_IP,

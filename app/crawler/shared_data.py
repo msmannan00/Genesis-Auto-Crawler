@@ -20,7 +20,7 @@ class celery_shared_data:
       raise Exception(MANAGE_MESSAGES.S_SINGLETON_EXCEPTION)
     else:
       celery_shared_data.__instance = self
-    self.redis_controller_instance = redis_controller.get_instance()
+    self.redis_controller_instance = redis_controller()
 
   def get_network_status(self):
     return self.redis_controller_instance.invoke_trigger(REDIS_COMMANDS.S_GET_BOOL, [REDIS_KEYS.S_NETWORK_MONITOR_STATUS, False, None])

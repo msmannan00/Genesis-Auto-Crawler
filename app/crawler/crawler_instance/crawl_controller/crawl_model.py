@@ -25,6 +25,7 @@ class crawl_model(request_handler):
 
   def __init__(self):
     self.__celery_vid = 100000
+    self.__mongo = mongo_controller()
 
 
   def init_parsers(self):
@@ -52,12 +53,12 @@ class crawl_model(request_handler):
 
   # Start Crawler Manager
   def __install_live_url(self):
-    log.g().i(MANAGE_MESSAGES.S_INSTALL_LIVE_URL_STARTED)
+    log.g().i(MANAGE_MESSAGES.S_INSTALL_LIVE_URL_STARTED + " : " + CRAWL_SETTINGS_CONSTANTS.S_FEEDER_URL_UNIQUE)
     web_request_manager = webRequestManager()
     m_proxy, m_tor_id = tor_controller.get_instance().invoke_trigger(TOR_COMMANDS.S_PROXY, [])
 
-    mongo_response = mongo_controller.get_instance().invoke_trigger(MONGO_CRUD.S_READ,[MONGODB_COMMANDS.S_GET_CRAWLABLE_URL_DATA, [None], [None]])
-    mongo_controller.get_instance().invoke_trigger(MONGO_CRUD.S_UPDATE,[MONGODB_COMMANDS.S_RESET_CRAWLABLE_URL, [None], [False]])
+    mongo_response = self.__mongo.invoke_trigger(MONGO_CRUD.S_READ,[MONGODB_COMMANDS.S_GET_CRAWLABLE_URL_DATA, [None], [None]])
+    self.__mongo.invoke_trigger(MONGO_CRUD.S_UPDATE,[MONGODB_COMMANDS.S_RESET_CRAWLABLE_URL, [None], [False]])
     m_live_url_list = list([x['m_url'] for x in mongo_response])
 
     while True:
@@ -82,16 +83,17 @@ class crawl_model(request_handler):
     for m_server_url in m_response_list:
       m_url = helper_method.on_clean_url(m_server_url)
 
-      mongo_controller.get_instance().invoke_trigger(MONGO_CRUD.S_UPDATE, [MONGODB_COMMANDS.S_SET_CRAWLABLE_URL, [m_server_url], [False]])
+      self.__mongo.invoke_trigger(MONGO_CRUD.S_UPDATE, [MONGODB_COMMANDS.S_SET_CRAWLABLE_URL, [m_server_url], [False]])
       if helper_method.is_uri_validator(m_server_url) and m_url not in m_live_url_list:
-        mongo_controller.get_instance().invoke_trigger(MONGO_CRUD.S_UPDATE, [MONGODB_COMMANDS.S_INSTALL_CRAWLABLE_URL, [m_url], [True]])
+        self.__mongo.invoke_trigger(MONGO_CRUD.S_UPDATE, [MONGODB_COMMANDS.S_INSTALL_CRAWLABLE_URL, [m_url], [True]])
         m_updated_url_list.append(m_url)
 
       counter += 1
       if counter % 500 == 0:
         log.g().s(MANAGE_MESSAGES.S_INSTALLED_URL + " : " + m_url)
 
-    mongo_controller.get_instance().invoke_trigger(MONGO_CRUD.S_DELETE, [MONGODB_COMMANDS.S_REMOVE_DEAD_CRAWLABLE_URL, [list(m_live_url_list)], [None]])
+    self.__mongo.invoke_trigger(MONGO_CRUD.S_DELETE, [MONGODB_COMMANDS.S_REMOVE_DEAD_CRAWLABLE_URL, [list(m_live_url_list)], [None]])
+    log.g().i(MANAGE_MESSAGES.S_INSTALL_LIVE_URL_FINISHED + " : " + CRAWL_SETTINGS_CONSTANTS.S_FEEDER_URL_UNIQUE)
     return m_live_url_list, m_updated_url_list
 
   def __init_docker_request(self):
@@ -145,7 +147,7 @@ class crawl_model(request_handler):
     self.init_parsers()
 
     if CRAWL_SETTINGS_CONSTANTS.S_ALLOW_UNIQUE_FEEDER_UPDATES:
-      RepeatedTimer(CRAWL_SETTINGS_CONSTANTS.S_UPDATE_UNIQUE_FEEDER_TIMEOUT, self.reinit_unique_feeders_periodically, False, self.init_parsers)
+      RepeatedTimer(CRAWL_SETTINGS_CONSTANTS.S_UPDATE_UNIQUE_FEEDER_TIMEOUT, self.reinit_unique_feeders_periodically,True)
 
     if APP_STATUS.DOCKERIZED_RUN:
      self.__init_docker_request()

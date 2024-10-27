@@ -6,19 +6,12 @@ from crawler.crawler_shared_directory.request_manager.request_handler import req
 
 class topic_classifier_controller(request_handler):
 
-    __instance = None
     __m_classifier_trainer = None
     __m_classifier = None
 
     # Initializations
-    @staticmethod
-    def get_instance():
-        if topic_classifier_controller.__instance is None:
-            topic_classifier_controller()
-        return topic_classifier_controller.__instance
 
     def __init__(self):
-        topic_classifier_controller.__instance = self
         self.__m_classifier = topic_classifier_model()
 
     def __predict_classifier(self, p_title,p_description, p_keyword):
