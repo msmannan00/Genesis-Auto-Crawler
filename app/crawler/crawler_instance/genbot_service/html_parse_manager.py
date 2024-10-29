@@ -25,7 +25,7 @@ class html_parse_manager(HTMLParser, ABC):
         super().__init__()
         self.m_html = p_html
         self.request_model = p_request_model
-        self.m_base_url = p_request_model.m_url
+        self.m_base_url = helper_method.get_base_url(p_request_model.m_url)
         self.m_soup = None
 
         self.m_title = STRINGS.S_EMPTY
