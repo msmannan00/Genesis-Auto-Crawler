@@ -1,21 +1,16 @@
 # Local Imports
-from crawler.crawler_services.crawler_services.topic_manager.topic_classifier_enums import TOPIC_CLASSFIER_MODEL, TOPIC_CLASSFIER_COMMANDS
-from crawler.crawler_services.crawler_services.topic_manager.topic_classifier_model import topic_classifier_model
-from crawler.crawler_shared_directory.request_manager.request_handler import request_handler
+from docker.topic_manager.topic_classifier_enums import TOPIC_CLASSFIER_MODEL, TOPIC_CLASSFIER_COMMANDS
+from docker.topic_manager.topic_classifier_model import topic_classifier_model
 
+class topic_classifier_controller:
 
-class topic_classifier_controller(request_handler):
-
-    __m_classifier_trainer = None
     __m_classifier = None
-
-    # Initializations
 
     def __init__(self):
         self.__m_classifier = topic_classifier_model()
 
-    def __predict_classifier(self, p_title,p_description, p_keyword):
-        return self.__m_classifier.invoke_trigger(TOPIC_CLASSFIER_MODEL.S_PREDICT_CLASSIFIER, [p_title,p_description, p_keyword])
+    def __predict_classifier(self, p_title, p_description, p_keyword):
+        return self.__m_classifier.invoke_trigger(TOPIC_CLASSFIER_MODEL.S_PREDICT_CLASSIFIER, [p_title, p_description, p_keyword])
 
     @classmethod
     def destroy_instance(cls):

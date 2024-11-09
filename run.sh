@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PROJECT_NAME="toxic_model_project"
+PROJECT_NAME="trusted-crawler"
 URL="https://drive.usercontent.google.com/download?id=1LTI94WsJbf8PheaMb7269Vxm5ZKtbHwb&export=download&authuser=0&confirm=t&uuid=1163171e-ce7c-4a98-9a46-2a3ce2a91f48&at=AO7h07dQiPcuFN56QrmDruowdk0P%3A1727101003781"
 DEST_DIR="app/raw/toxic_model"
 DEST_FILE="$DEST_DIR/toxic-model.zip"
@@ -70,17 +70,7 @@ reset_celery() {
     while true; do
       docker stop trusted-crawler-celery
       docker start trusted-crawler-celery
-      docker restart trusted-crawler_tor_instace_1
-      docker restart trusted-crawler_tor_instace_2
-      docker restart trusted-crawler_tor_instace_3
-      docker restart trusted-crawler_tor_instace_4
-      docker restart trusted-crawler_tor_instace_5
-      docker restart trusted-crawler_tor_instace_6
-      docker restart trusted-crawler_tor_instace_7
-      docker restart trusted-crawler_tor_instace_8
-      docker restart trusted-crawler_tor_instace_9
-      docker restart trusted-crawler_tor_instace_10
-      sleep 7200
+      sleep 86400
     done
 }
 
@@ -110,6 +100,7 @@ else
     clean_docker
     disconnect_and_remove_networks
     download_and_extract_model
+    docker compose down
     docker compose -p $PROJECT_NAME up -d
     # reset_celery
     echo "crawler service started"

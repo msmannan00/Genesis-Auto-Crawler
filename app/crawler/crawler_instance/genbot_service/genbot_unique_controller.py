@@ -22,11 +22,6 @@ import sys
 
 class genbot_unique_controller(request_handler):
 
-  hashseed = os.getenv('PYTHONHASHSEED')
-  if not hashseed:
-    os.environ['PYTHONHASHSEED'] = '0'
-    os.execv(sys.executable, [sys.executable] + sys.argv)
-
   def __init__(self):
     self.__task_id = -1
     self.m_url_duplication_handler = duplication_handler()

@@ -54,7 +54,7 @@ class webRequestManager:
       secret_token = crypto.generate_secret_token()
 
       headers = {
-        'pSecretToken': f'Bearer {secret_token}',
+        'pSecretToken': f'{secret_token}',
         'Content-Type': 'application/json'
       }
 

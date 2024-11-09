@@ -1,5 +1,6 @@
 # Local Imports
 import pymongo
+from pymongo import UpdateOne
 
 from crawler.constants.strings import MANAGE_MESSAGES
 from crawler.crawler_services.crawler_services.mongo_manager.mongo_enums import MONGO_CRUD, MONGODB_KEYS, MONGO_CONNECTIONS, MONGODB_PROPERTIES
@@ -69,6 +70,22 @@ class mongo_controller(request_handler):
       log.g().e(MANAGE_MESSAGES.S_READ_FAILURE + " : " + str(ex))
       return str(ex)
 
+  def __update_bulk(self, p_data, upsert=True):
+    operations = [
+      UpdateOne(
+        data[MONGODB_KEYS.S_FILTER],
+        data[MONGODB_KEYS.S_VALUE],
+        upsert=upsert
+      )
+      for data in p_data
+    ]
+    try:
+      result = self.__m_connection[p_data[0][MONGODB_KEYS.S_DOCUMENT]].bulk_write(operations)
+      return True, f"{result.upserted_count} documents inserted, {result.modified_count} updated."
+    except Exception as ex:
+      log.g().e(MANAGE_MESSAGES.S_UPDATE_FAILURE + " : " + str(ex))
+      return False, str(ex)
+
   def __update(self, p_data, upsert=True):
     try:
       self.__m_connection[p_data[MONGODB_KEYS.S_DOCUMENT]].update_many(p_data[MONGODB_KEYS.S_FILTER], p_data[MONGODB_KEYS.S_VALUE], upsert=upsert)
@@ -104,3 +121,5 @@ class mongo_controller(request_handler):
       return self.__delete(m_request)
     elif p_commands == MONGO_CRUD.S_RESET:
       return self.__reset(m_request)
+    elif p_commands == MONGO_CRUD.S_UPDATE_BULK:
+      return self.__update_bulk(m_request)

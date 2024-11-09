@@ -1,0 +1,48 @@
+# Use an official Python runtime as a parent image
+FROM python:3.11-slim AS base
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    NLTK_DATA=/root/nltk_data
+
+# Install system dependencies for building Python packages
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    gcc \
+    g++ \
+    libblas-dev \
+    liblapack-dev \
+    gfortran \
+    --no-install-recommends && rm -rf /var/lib/apt/lists/*
+
+# Upgrade pip
+RUN python3 -m ensurepip && pip install --upgrade pip
+
+# Create a virtual environment for dependencies to isolate installations
+RUN python -m venv /opt/venv
+
+# Install Celery and Flower globally to avoid reinstalling frequently
+RUN /opt/venv/bin/pip install celery flower
+
+# Copy requirements file for dependency caching
+COPY requirements.txt /tmp/requirements.txt
+
+# Install dependencies in the virtual environment
+RUN /opt/venv/bin/pip install --no-cache-dir -r /tmp/requirements.txt
+
+# Install spaCy model to avoid repeated download
+RUN /opt/venv/bin/python -m spacy download en_core_web_sm
+
+# Copy nltk_data folder for NLTK
+COPY app/libs/nltk_data /root/nltk_data
+
+# Set path to use the virtual environment
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Copy application code into the container
+COPY app /app
+WORKDIR /app
+
+# Command to run the application (customize as needed)
+CMD ["python", "manage.py", "runserver"]  # Replace with your actual entry point

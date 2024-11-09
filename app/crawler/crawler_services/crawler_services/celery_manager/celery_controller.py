@@ -1,3 +1,4 @@
+import gc
 import warnings
 from celery import Celery
 import subprocess

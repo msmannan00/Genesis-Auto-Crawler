@@ -13,10 +13,10 @@ ControlPort 0.0.0.0:9159
 ControlSocket unix:/tor/control.socket WorldWritable RelaxDirModeCheck
 HashedControlPassword 16:DC634E657103B66260248BDF4C18EB7B417FADCC3F037ED30B1A905C41
 CookieAuthentication 1
-ORPort 0  # Disable relaying
+ORPort 0
 
-SocksTimeout 10
-CircuitBuildTimeout 15
-MaxCircuitDirtiness 30
-NewCircuitPeriod 3600
-KeepalivePeriod 30
+SocksTimeout 30
+CircuitBuildTimeout 60
+MaxCircuitDirtiness 150
+NewCircuitPeriod 300
+KeepalivePeriod 5

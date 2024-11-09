@@ -1,8 +1,8 @@
 import pathlib
 import re
+from difflib import SequenceMatcher
+
 import validators
-import phonenumbers
-import spacy
 from urllib.parse import urljoin, urlparse
 from abc import ABC
 from html.parser import HTMLParser
@@ -11,13 +11,12 @@ from thefuzz import fuzz
 from crawler.constants.constant import CRAWL_SETTINGS_CONSTANTS
 from crawler.constants.strings import STRINGS
 from crawler.crawler_instance.genbot_service.genbot_enums import PARSE_TAGS
+from crawler.crawler_instance.genbot_service.shared_data_controller import shared_data_controller
 from crawler.crawler_instance.local_shared_model.index_model import index_model_init
-from crawler.crawler_services.crawler_services.topic_manager.topic_classifier_controller import topic_classifier_controller
-from crawler.crawler_services.crawler_services.topic_manager.topic_classifier_enums import TOPIC_CLASSFIER_COMMANDS
 from crawler.crawler_services.helper_services.helper_method import helper_method
 from crawler.crawler_services.helper_services.spell_check_handler import spell_checker_handler
+from crawler.crawler_shared_directory.log_manager.log_controller import log
 
-nlp_core = spacy.load("en_core_web_sm")
 
 class html_parse_manager(HTMLParser, ABC):
 
@@ -185,11 +184,14 @@ class html_parse_manager(HTMLParser, ABC):
             self.m_title = p_data
         elif self.m_rec == PARSE_TAGS.S_PARAGRAPH or self.m_rec == PARSE_TAGS.S_BR:
             self.m_current_section += " " + p_data.strip()
+            self.__add_important_description(p_data.strip(), False)
         elif self.m_rec == PARSE_TAGS.S_SPAN and p_data.count(' ') > 5:
             self.m_current_section += " " + p_data.strip()
+            self.__add_important_description(p_data.strip(), False)
         elif self.m_rec == PARSE_TAGS.S_DIV:
             if p_data.count(' ') > 5:
                 self.m_current_section += " " + p_data.strip()
+                self.__add_important_description(p_data.strip(), False)
 
     def __save_section(self):
         section = self.m_current_section.strip()
@@ -199,36 +201,14 @@ class html_parse_manager(HTMLParser, ABC):
         self.m_current_section = ""
 
     def __extract_names_places_phones_emails(self, text: str):
-        text = text.lower().replace('\n', ' ').replace('\t', ' ').replace('\r', ' ').replace(' ', ' ')
-        names = set()
-        phone_numbers = set()
         emails = set()
         email_matches = re.findall(r'[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+', text)
         emails.update(email_matches)
 
-        doc = nlp_core(text)
-        for ent in doc.ents:
-            if ent.label_ in {'PERSON', 'GPE', 'ORG'}:
-                entity_text = ent.text.strip()
-                if entity_text.replace(" ", "").isalpha():
-                    if len(entity_text.split()) > 3:
-                        for token in ent:
-                            if token.pos_ == 'PROPN' and not helper_method.is_stop_word(token):
-                                names.add(token.text)
-                    else:
-                        if all(not helper_method.is_stop_word(token) for token in ent):
-                            names.add(entity_text)
-
-        phone_matches = re.findall(r'\+?\d{1,3}[-.\s]?\(?\d{1,4}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}', text)
-
-        for phone in phone_matches:
-            phone = re.sub(r'[^\d+]', '', phone)
-            try:
-                phone_obj = phonenumbers.parse(phone, None)
-                if phonenumbers.is_valid_number(phone_obj):
-                    phone_numbers.add(phonenumbers.format_number(phone_obj, phonenumbers.PhoneNumberFormat.E164))
-            except phonenumbers.NumberParseException:
-                continue
+        result = shared_data_controller.get_instance().trigger_nlp_classifier(text)
+        names = result.get("names", [])
+        phone_numbers = result.get("phone_numbers", [])
+        emails = result.get("emails", [])
 
         return list(names), list(phone_numbers), list(emails)
 
@@ -237,26 +217,37 @@ class html_parse_manager(HTMLParser, ABC):
 
     def __add_important_description(self, p_data, extended_only):
         p_data = " ".join(p_data.split())
-        if (p_data.__contains__("java") and p_data.__contains__("script")) or p_data.__contains__("cookies"):
+        if len(p_data)<4:
             return
 
-        if (p_data.count(' ') > 2 or (self.m_paragraph_count > 0 and len(p_data) > 0 and p_data != " ")) and p_data not in self.m_important_content:
+        irrelevant_terms = {"java", "script", "cookies", "accept", "disable", "enable"}
+        common_phrases = ["click here", "read more", "privacy policy", "terms of service", "learn more"]
+
+        for phrase in common_phrases:
+            if phrase in p_data.lower():
+                irrelevant_terms.add(phrase)
+
+        if any(term in p_data.lower() for term in irrelevant_terms):
+            return
+
+        if p_data.count(' ') > 2 and not any(SequenceMatcher(None, existing.lower(), p_data.lower()).ratio() > 0.85
+                                             for existing in self.m_important_content_raw):
             self.m_important_content_raw.append(p_data)
             self.m_parsed_paragraph_count += 1
-            p_data = re.sub(r'[^A-Za-z0-9 ,;"\]\[/.+-;!\'@#$%^&*_+=]', '', p_data)
-            p_data = re.sub(' +', ' ', p_data)
-            p_data = re.sub(r'^\W*', '', p_data)
 
-            if p_data.lower() in self.m_important_content.lower():
-                return
+            p_data = re.sub(r'[^A-Za-z0-9 ,;"\]\[/.+-;!\'@#$%^&*_+=]', '', p_data)
+            p_data = re.sub(' +', ' ', p_data).strip()
 
             if not extended_only:
                 try:
-                    self.m_important_content = self.m_important_content + " " + spell_checker_handler().clean_paragraph(p_data.lower())
-                except Exception:
-                    pass
-                if len(self.m_important_content) > 250:
-                    self.m_parsed_paragraph_count = 9
+                    cleaned_paragraph = spell_checker_handler().clean_paragraph(p_data.lower())
+                    self.m_important_content += " " + cleaned_paragraph
+                except Exception as e:
+                    log.g().e(f"Error in spell checker: {str(e)}")
+
+            max_length = 2000 if len(self.m_title) < 50 or len(self.m_meta_description) < 50 else 500
+            if len(self.m_important_content) > max_length:
+                self.m_parsed_paragraph_count = 9
 
     def __clean_text(self, p_text):
         m_text = p_text.lower()
@@ -295,9 +286,10 @@ class html_parse_manager(HTMLParser, ABC):
         return self.__clean_text(helper_method.strip_special_character(self.m_title).strip())
 
     def __get_meta_description(self):
-        meta_tag = self.m_soup.find("meta", {"name": "description"})
-        if meta_tag and meta_tag.get("content"):
-            return self.__clean_text(meta_tag.get("content"))
+        if self.m_soup is not None:
+            meta_tag = self.m_soup.find("meta", {"name": "description"})
+            if meta_tag and meta_tag.get("content"):
+                return self.__clean_text(meta_tag.get("content"))
         return ""
 
     def __get_important_content(self):
@@ -323,13 +315,13 @@ class html_parse_manager(HTMLParser, ABC):
     def __get_content_type(self):
         try:
             if len(self.m_content) > 0:
-                self.m_content_type = topic_classifier_controller().invoke_trigger(TOPIC_CLASSFIER_COMMANDS.S_PREDICT_CLASSIFIER, [self.m_title, self.m_important_content, self.m_content])
+                self.m_content_type = shared_data_controller.get_instance().trigger_topic_classifier(self.m_title, self.m_important_content, self.m_content)
                 if self.m_content_type is None:
-                   return CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL
+                   return [CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL]
                 return self.m_content_type
-            return CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL
+            return [CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL]
         except Exception as ex:
-            return CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL
+            return [CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL]
 
     def __get_static_file(self):
         return self.m_sub_url[0:10], self.m_image_url, self.m_doc_url, self.m_video_url, self.m_archive_url
@@ -374,7 +366,8 @@ class html_parse_manager(HTMLParser, ABC):
                 m_archive_url=m_archive_url,
                 m_phone_numbers=m_phone_numbers,
                 m_clearnet_links=m_clearnet_links)
-        except Exception:
+        except Exception as ex:
+            log.g().e(str(ex) + " : " + str(self.m_base_url))
             return None
         finally:
             if self.m_soup:

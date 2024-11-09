@@ -31,6 +31,7 @@ class MONGO_CRUD(enum.Enum):
   S_DELETE = '4'
   S_RESET = '5'
   S_COUNT = '6'
+  S_UPDATE_BULK = '7'
 
 
 class MONGODB_KEYS:

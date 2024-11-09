@@ -2,9 +2,6 @@
 import gc
 import json
 from asyncio import sleep
-import os
-import sys
-
 from crawler.constants.strings import MANAGE_MESSAGES
 from crawler.crawler_instance.genbot_service.parse_controller import parse_controller
 from crawler.crawler_instance.local_shared_model.url_model import url_model, url_model_init
@@ -23,11 +20,6 @@ from crawler.crawler_services.helper_services.helper_method import helper_method
 
 
 class genbot_controller(request_handler):
-
-  hashseed = os.getenv('PYTHONHASHSEED')
-  if not hashseed:
-    os.environ['PYTHONHASHSEED'] = '0'
-    os.execv(sys.executable, [sys.executable] + sys.argv)
 
   def __init__(self):
     self.__task_id = None
@@ -56,22 +48,25 @@ class genbot_controller(request_handler):
         m_parsed_model = self.__m_html_parser.on_parse_html(m_raw_html, p_request_model)
         m_leak_data_model, m_sub_url, parser_status = self.__m_html_parser.on_parse_leaks(m_raw_html, m_redirected_url)
 
-        if not parser_status:
-          m_sub_url = m_parsed_model.m_sub_url
+        if m_parsed_model is not None:
+          if not parser_status:
+            m_sub_url = m_parsed_model.m_sub_url
 
-        if helper_method.get_host_name(m_redirected_url).__eq__(helper_method.get_host_name(p_request_model.m_url)) and self.m_url_duplication_handler.validate_duplicate(m_redirected_url) is False:
+          if helper_method.get_host_name(m_redirected_url).__eq__(helper_method.get_host_name(p_request_model.m_url)) and self.m_url_duplication_handler.validate_duplicate(m_redirected_url) is False:
 
-          m_paresed_request_data = {"m_generic_model":json.dumps(m_parsed_model.model_dump()),  "m_leak_data_model":json.dumps(m_leak_data_model.model_dump())}
-          self.__elastic_controller_instance.invoke_trigger(ELASTIC_CRUD_COMMANDS.S_INDEX, [ELASTIC_REQUEST_COMMANDS.S_INDEX, json.dumps(m_paresed_request_data), ELASTIC_CONNECTIONS.S_CRAWL_INDEX])
+            m_paresed_request_data = {"m_generic_model":json.dumps(m_parsed_model.model_dump()),  "m_leak_data_model":json.dumps(m_leak_data_model.model_dump())}
+            self.__elastic_controller_instance.invoke_trigger(ELASTIC_CRUD_COMMANDS.S_INDEX, [ELASTIC_REQUEST_COMMANDS.S_INDEX, json.dumps(m_paresed_request_data), ELASTIC_CONNECTIONS.S_CRAWL_INDEX])
 
-          log.g().s(MANAGE_MESSAGES.S_LOCAL_URL_PARSED + " : " + str(self.__task_id) + " : " + str(self.__m_tor_id) + " : " + m_redirected_url)
-          self.m_parsed_url.append(m_redirected_url)
+            log.g().s(MANAGE_MESSAGES.S_LOCAL_URL_PARSED + " : " + str(self.__task_id) + " : " + str(self.__m_tor_id) + " : " + m_redirected_url)
+            self.m_parsed_url.append(m_redirected_url)
 
-          return m_parsed_model, m_sub_url
+            return m_parsed_model, m_sub_url
+          else:
+            return None, None
         else:
           return None, None
       else:
-        log.g().w(MANAGE_MESSAGES.S_FAILED_URL_ERROR + " : " + str(self.__task_id) + " : " + str(self.__m_tor_id) + " : " +  p_request_model.m_url + " : " + str(m_raw_html))
+        log.g().w(MANAGE_MESSAGES.S_FAILED_URL_ERROR + " : " + str(self.__task_id) + " : " + str(self.__m_tor_id) + " : " +  p_request_model.m_url)
         return None, None
     except Exception as ex:
       log.g().e(MANAGE_MESSAGES.S_LOAD_URL_ERROR + " : " + str(self.__task_id) + " : " + str(self.__m_tor_id) + " : " + str(ex))
@@ -94,7 +89,6 @@ class genbot_controller(request_handler):
             _ = self.m_unparsed_url.pop(0)
           else:
             m_failure_count += 1
-            sleep(5)
           continue
 
       if m_parsed_model is not None and item.m_depth < CRAWL_SETTINGS_CONSTANTS.S_MAX_ALLOWED_DEPTH:

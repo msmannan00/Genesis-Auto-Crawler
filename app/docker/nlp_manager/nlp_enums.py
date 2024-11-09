@@ -1,0 +1,4 @@
+
+class NLP_REQUEST_COMMANDS:
+  S_INIT = 1
+  S_PARSE = 2

@@ -11,3 +11,10 @@ app/logs/*
 mongo-data/*
 app/raw/toxic_model/*
 static/trustly/.well-known/model/toxic-model.zip
+app/docker/raw/toxic_model/toxic-model.zip
+app/docker/raw/toxic_model/saved_model/vocab.txt
+app/docker/raw/toxic_model/saved_model/tokenizer_config.json
+app/docker/raw/toxic_model/saved_model/tokenizer.json
+app/docker/raw/toxic_model/saved_model/special_tokens_map.json
+app/docker/raw/toxic_model/saved_model/model.safetensors
+app/docker/raw/toxic_model/saved_model/config.json

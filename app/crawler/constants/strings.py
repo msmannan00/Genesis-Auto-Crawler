@@ -40,6 +40,7 @@ class MANAGE_MESSAGES:
   S_LOW_YIELD_URL = "[16] Low yield URL detected"
   S_REINITIALIZING_CRAWLABLE_URL = "[17] Reinitializing crawlable URL"
   S_INSTALLED_URL = "[18] URL installed successfully"
+  S_INSTALLED_STARTED = "[18] URL installed started"
   S_LOCAL_URL_PARSED = "[19] Local URL parsed successfully"
   S_UNIQUE_URL_CACHE_LOAD_FAILURE = "[20] Failed to load unique URL cache"
   S_ELASTIC_ERROR = "[21] Error executing elastic commands"
@@ -72,3 +73,4 @@ class MANAGE_MESSAGES:
   S_UNIQUE_PARSING_URL_FINISHED = "[48] Unique URL parsing URL finished"
   S_UNIQUE_PARSING_PENDING = "[46] Unique parsing pending"
   S_UNIQUE_PARSING_COMPLETE = "[47] Unique parsing complete"
+  S_INCLUDES_STARTING = "[48] Application includes are initializing"

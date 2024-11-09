@@ -2,8 +2,8 @@
 FROM python:3.11-slim
 
 # Set environment variables
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
 
 # Install system dependencies for building Python packages
 RUN apt-get update && apt-get install -y \
@@ -15,23 +15,30 @@ RUN apt-get update && apt-get install -y \
     gfortran \
     --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
-# Upgrade pip and install Celery and Flower
+RUN apt-get update && apt-get install -y curl iputils-ping --no-install-recommends && rm -rf /var/lib/apt/lists/*
+
+# Upgrade pip
 RUN python3 -m ensurepip && pip install --upgrade pip
 
-# Install Celery and Flower
-RUN pip install celery flower
-
-# Copy the requirements file and install dependencies
+# Copy the requirements file first to leverage Docker's caching
 COPY requirements.txt /tmp/requirements.txt
-RUN pip install -r /tmp/requirements.txt
+
+# Install Python dependencies, cached based on requirements.txt
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
+
+# Download the spaCy model for English
 RUN python3 -m spacy download en_core_web_sm
 
-# Copy the application code into the container
-COPY app /app
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy nltk_data folder to the Ubuntu home directory
-COPY app/libs/nltk_data /root/nltk_data
+# Copy only the necessary application files to avoid cache busting
+COPY app/docker /app/docker
+RUN mv /app/docker/api.py /app/api.py
+COPY app/raw /app/raw
 
-# Set NLTK_DATA environment variable to the appropriate path
-ENV NLTK_DATA=/root/nltk_data
+# Expose the port FastAPI will use
+EXPOSE 8000
+
+# Command to run the FastAPI app
+CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

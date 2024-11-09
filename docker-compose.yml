@@ -1,14 +1,9 @@
 services:
-
-  force-attach:
-    image: bash
-    command: tail -f /dev/null
-
-  api:
+  app:
     container_name: trusted-crawler-main
     build:
       context: ./
-      dockerfile: dockerFiles/api_docker
+      dockerfile: dockerFiles/app_docker
     ports:
       - "8000:8000"
     depends_on:
@@ -39,6 +34,22 @@ services:
         ipv4_address: 172.19.0.2
     entrypoint: [ "bash", "-c", "./start_app.sh start_app" ]
 
+  api:
+    container_name: trusted-crawler-api
+    build:
+      context: ./
+      dockerfile: dockerFiles/api_docker
+    restart: always
+    networks:
+      backend:
+        ipv4_address: 172.19.0.25
+    env_file:
+      - .env
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+
   redis_server:
     container_name: trusted-crawler-redis
     image: redis:7.4.0
@@ -60,8 +71,8 @@ services:
     container_name: trusted-crawler-celery
     build:
       context: .
-      dockerfile: dockerFiles/api_docker
-    command: celery -A crawler.crawler_services.crawler_services.celery_manager worker --loglevel=INFO --concurrency=${CELERY_WORKER_COUNT} --prefetch-multiplier=1 --max-tasks-per-child=1 -Q crawler_queue,unique_crawler_queue
+      dockerfile: dockerFiles/app_docker
+    command: celery -A crawler.crawler_services.crawler_services.celery_manager worker --loglevel=INFO --concurrency=${CELERY_WORKER_COUNT} --prefetch-multiplier=1 --max-tasks-per-child=3 -Q crawler_queue,unique_crawler_queue
     env_file:
       - .env
     depends_on:
@@ -77,28 +88,11 @@ services:
         limits:
           memory: 8G
 
-  celery_beat:
-    container_name: trusted-crawler-celery_beat
-    build:
-      context: .
-      dockerfile: dockerFiles/api_docker
-    command: celery -A crawler.crawler_services.crawler_services.celery_manager purge -f && celery -A crawler.crawler_services.crawler_services.celery_manager beat --loglevel=info --max-tasks-per-child=1
-    depends_on:
-      - redis_server
-    restart: always
-    env_file:
-      - .env
-    volumes:
-      - ./app:/app
-    networks:
-      backend:
-        ipv4_address: 172.19.0.5
-
   flower:
     container_name: trusted-crawler-flower
     build:
       context: .
-      dockerfile: dockerFiles/api_docker
+      dockerfile: dockerFiles/app_docker
     command: celery -A crawler.crawler_services.crawler_services.celery_manager flower --port=5555 --broker=redis://:${REDIS_PASSWORD}@redis_server:6379/0 --basic_auth=${FLOWER_USERNAME}:${FLOWER_PASSWORD}
     env_file:
       - .env
@@ -451,7 +445,6 @@ services:
     networks:
       backend:
         ipv4_address: 172.19.0.19
-
 
 networks:
   backend:

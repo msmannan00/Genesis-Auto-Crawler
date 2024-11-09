@@ -6,20 +6,16 @@ from crawler.constants.app_status import APP_STATUS
 from crawler.constants.constant import CRAWL_SETTINGS_CONSTANTS
 from crawler.constants.strings import MANAGE_MESSAGES
 from crawler.crawler_instance.crawl_controller.crawl_enums import CRAWL_MODEL_COMMANDS
-from crawler.crawler_instance.genbot_service.genbot_controller import genbot_instance
-from crawler.crawler_instance.genbot_service.genbot_unique_controller import prepare_and_fetch_data
+from crawler.crawler_services.helper_services.env_handler import env_handler
 from crawler.crawler_services.helper_services.helper_method import helper_method
 from crawler.crawler_services.web_request_handler import webRequestManager
 from crawler.crawler_instance.tor_controller.tor_controller import tor_controller
 from crawler.crawler_instance.tor_controller.tor_enums import TOR_COMMANDS
-from crawler.crawler_services.crawler_services.celery_manager.celery_enums import CELERY_COMMANDS
 from crawler.crawler_services.crawler_services.mongo_manager.mongo_controller import mongo_controller
 from crawler.crawler_services.crawler_services.mongo_manager.mongo_enums import MONGODB_COMMANDS, MONGO_CRUD
 from crawler.crawler_services.helper_services.scheduler import RepeatedTimer
 from crawler.crawler_shared_directory.log_manager.log_controller import log
 from crawler.crawler_shared_directory.request_manager.request_handler import request_handler
-from crawler.crawler_services.crawler_services.celery_manager.celery_controller import celery_controller
-from crawler.shared_data import celery_shared_data
 
 class crawl_model(request_handler):
 
@@ -53,13 +49,22 @@ class crawl_model(request_handler):
 
   # Start Crawler Manager
   def __install_live_url(self):
+
+    thread_count = env_handler.get_instance().env('CELERY_WORKER_COUNT')
+
     log.g().i(MANAGE_MESSAGES.S_INSTALL_LIVE_URL_STARTED + " : " + CRAWL_SETTINGS_CONSTANTS.S_FEEDER_URL_UNIQUE)
     web_request_manager = webRequestManager()
     m_proxy, m_tor_id = tor_controller.get_instance().invoke_trigger(TOR_COMMANDS.S_PROXY, [])
 
     mongo_response = self.__mongo.invoke_trigger(MONGO_CRUD.S_READ,[MONGODB_COMMANDS.S_GET_CRAWLABLE_URL_DATA, [None], [None]])
+    m_live_url_list = []
+    if mongo_response:
+      for document in mongo_response:
+        if len(document.keys())>0:
+          m_live_url_list.append(document["m_url"])
+          m_live_url_list = m_live_url_list[0: int(thread_count)]
+
     self.__mongo.invoke_trigger(MONGO_CRUD.S_UPDATE,[MONGODB_COMMANDS.S_RESET_CRAWLABLE_URL, [None], [False]])
-    m_live_url_list = list([x['m_url'] for x in mongo_response])
 
     while True:
       try:
@@ -79,18 +84,21 @@ class crawl_model(request_handler):
     m_response_list = m_response_text.splitlines()
     m_updated_url_list = []
 
-    counter = 0
-    for m_server_url in m_response_list:
-      m_url = helper_method.on_clean_url(m_server_url)
-
-      self.__mongo.invoke_trigger(MONGO_CRUD.S_UPDATE, [MONGODB_COMMANDS.S_SET_CRAWLABLE_URL, [m_server_url], [False]])
-      if helper_method.is_uri_validator(m_server_url) and m_url not in m_live_url_list:
-        self.__mongo.invoke_trigger(MONGO_CRUD.S_UPDATE, [MONGODB_COMMANDS.S_INSTALL_CRAWLABLE_URL, [m_url], [True]])
+    log.g().s(MANAGE_MESSAGES.S_INSTALLED_STARTED)
+    install_urls, set_non_crawlable_urls = [], []
+    for m_url in (helper_method.on_clean_url(url) for url in m_response_list):
+      if helper_method.is_uri_validator(m_url) and m_url not in m_live_url_list:
+        install_urls.append(m_url)
         m_updated_url_list.append(m_url)
+      else:
+        set_non_crawlable_urls.append(m_url)
 
-      counter += 1
-      if counter % 500 == 0:
-        log.g().s(MANAGE_MESSAGES.S_INSTALLED_URL + " : " + m_url)
+    if install_urls:
+      self.__mongo.invoke_trigger(MONGO_CRUD.S_UPDATE_BULK, [MONGODB_COMMANDS.S_INSTALL_CRAWLABLE_URL, install_urls, [True] * len(install_urls)])
+    if set_non_crawlable_urls:
+      self.__mongo.invoke_trigger(MONGO_CRUD.S_UPDATE_BULK, [MONGODB_COMMANDS.S_SET_CRAWLABLE_URL, set_non_crawlable_urls, [False] * len(set_non_crawlable_urls)])
+    log.g().s(MANAGE_MESSAGES.S_INSTALLED_URL)
+
 
     self.__mongo.invoke_trigger(MONGO_CRUD.S_DELETE, [MONGODB_COMMANDS.S_REMOVE_DEAD_CRAWLABLE_URL, [list(m_live_url_list)], [None]])
     log.g().i(MANAGE_MESSAGES.S_INSTALL_LIVE_URL_FINISHED + " : " + CRAWL_SETTINGS_CONSTANTS.S_FEEDER_URL_UNIQUE)
@@ -103,6 +111,7 @@ class crawl_model(request_handler):
     self.__start_docker_request(m_list)
 
   def __init_direct_request(self):
+    from crawler.crawler_instance.genbot_service.genbot_controller import genbot_instance
     log.g().i(MANAGE_MESSAGES.S_REINITIALIZING_CRAWLABLE_URL)
 
     while True:
@@ -117,6 +126,10 @@ class crawl_model(request_handler):
     return m_updated_url_list
 
   def __start_docker_request(self, p_fetched_url_list):
+    from crawler.crawler_services.crawler_services.celery_manager.celery_enums import CELERY_COMMANDS
+    from crawler.crawler_services.crawler_services.celery_manager.celery_controller import celery_controller
+    from crawler.shared_data import celery_shared_data
+
     if celery_shared_data.get_instance().get_network_status:
       while len(p_fetched_url_list) > 0:
         self.__celery_vid += 1
@@ -129,6 +142,10 @@ class crawl_model(request_handler):
     RepeatedTimer(CRAWL_SETTINGS_CONSTANTS.S_UPDATE_STATUS_TIMEOUT, self.reinit_list_periodically, False, p_fetched_url_list)
 
   def reinit_list_periodically(self, p_fetched_url_list):
+    from crawler.crawler_services.crawler_services.celery_manager.celery_enums import CELERY_COMMANDS
+    from crawler.crawler_services.crawler_services.celery_manager.celery_controller import celery_controller
+    from crawler.shared_data import celery_shared_data
+
     if celery_shared_data.get_instance().get_network_status:
       if not p_fetched_url_list:
         p_fetched_url_list.extend(self.__reinit_docker_request())
@@ -136,18 +153,9 @@ class crawl_model(request_handler):
         self.__celery_vid += 1
         celery_controller.get_instance().invoke_trigger(CELERY_COMMANDS.S_START_CRAWLER, [p_fetched_url_list.pop(0), self.__celery_vid])
 
-  def reinit_unique_feeders_periodically(self):
-    log.g().i(MANAGE_MESSAGES.S_REINIT_UNIQUE_URL)
-
-    content_list = prepare_and_fetch_data(CRAWL_SETTINGS_CONSTANTS.S_FEEDER_URL)
-    celery_controller.get_instance().invoke_trigger(CELERY_COMMANDS.S_INVOKE_UNIQUE_CRAWLER, content_list)
-
   def __init_crawler(self):
     self.__celery_vid = 100000
     self.init_parsers()
-
-    if CRAWL_SETTINGS_CONSTANTS.S_ALLOW_UNIQUE_FEEDER_UPDATES:
-      RepeatedTimer(CRAWL_SETTINGS_CONSTANTS.S_UPDATE_UNIQUE_FEEDER_TIMEOUT, self.reinit_unique_feeders_periodically,True)
 
     if APP_STATUS.DOCKERIZED_RUN:
      self.__init_docker_request()

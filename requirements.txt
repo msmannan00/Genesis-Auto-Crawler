@@ -47,3 +47,5 @@ psutil
 spacy==3.7.5
 -f https://download.pytorch.org/whl/cpu
 torch==2.4.1
+fastapi
+uvicorn[standard]
