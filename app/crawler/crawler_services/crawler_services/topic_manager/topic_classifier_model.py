@@ -10,7 +10,7 @@ from crawler.crawler_services.helper_services.helper_method import helper_method
 class topic_classifier_model(request_handler):
 
     def __init__(self):
-        self.classifier = pipeline("text-classification", model=RAW_PATH_CONSTANTS.TOXIC_MODEL+"saved_model", device=-1)
+        self.classifier = pipeline("text-classification", model=RAW_PATH_CONSTANTS.MODEL + "saved_model", device=-1)
 
     def __predict_classifier(self, p_title, p_description, p_keyword):
         input_text = p_title + p_description + p_keyword

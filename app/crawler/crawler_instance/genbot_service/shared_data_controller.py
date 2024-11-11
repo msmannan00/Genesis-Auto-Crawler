@@ -1,5 +1,3 @@
-import json
-
 import requests
 from crawler.constants.app_status import APP_STATUS
 from crawler.crawler_shared_directory.log_manager.log_controller import log
@@ -10,6 +8,7 @@ class shared_data_controller:
     topic_classifier_model = None
     nlp_model = None
     api_base_url = "http://api:8000"
+    _cache = {}
 
     def __init__(self):
         if shared_data_controller.__instance is not None:
@@ -38,24 +37,29 @@ class shared_data_controller:
         except Exception as ex:
             log.g().i(ex)
 
-    def trigger_topic_classifier(self, p_title, p_important_content, p_content):
+    def trigger_topic_classifier(self, p_base_url, p_title, p_important_content, p_content):
+        if p_base_url in self._cache:
+            return self._cache[p_base_url]
+
         if APP_STATUS.DOCKERIZED_RUN:
             payload = {"title": p_title, "description": p_important_content, "keyword": p_content}
             result = self._request("topic_classifier/predict", method="POST", payload=payload).get("result")
-            return result
         else:
             from docker.topic_manager.topic_classifier_enums import TOPIC_CLASSFIER_COMMANDS
-            return self.topic_classifier_model.invoke_trigger(TOPIC_CLASSFIER_COMMANDS.S_PREDICT_CLASSIFIER, [p_title, p_important_content, p_content])
+            result = self.topic_classifier_model.invoke_trigger(TOPIC_CLASSFIER_COMMANDS.S_PREDICT_CLASSIFIER, [p_title, p_important_content, p_content])
+
+        self._cache[p_base_url] = result
+        return result
 
     def trigger_nlp_classifier(self, p_text):
         if APP_STATUS.DOCKERIZED_RUN:
             payload = {"text": p_text}
             result = self._request("nlp/parse", method="POST", payload=payload).get("result")
-            return result
         else:
             from docker.nlp_manager.nlp_enums import NLP_REQUEST_COMMANDS
             result = self.nlp_model.invoke_trigger(NLP_REQUEST_COMMANDS.S_PARSE, [p_text])
-            return result
+
+        return result
 
     @staticmethod
     def get_instance():

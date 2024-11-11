@@ -44,8 +44,6 @@ aiohttp==3.10.9
 phonenumbers==8.13.16
 python-Levenshtein==0.26.0
 psutil
-spacy==3.7.5
--f https://download.pytorch.org/whl/cpu
 torch==2.4.1
 fastapi
 uvicorn[standard]

@@ -12,7 +12,7 @@ class TOPIC_CLASSFIER_MODEL(enum.Enum):
 
 class TOPIC_CLASSFIER_TRAINER(enum.Enum):
     S_CLEAN_DATA = 2
-    TOXIC_MODEL:str = "./raw/toxic_model/"
+    TOXIC_MODEL:str = "./raw/model/"
 
 class TOPIC_CLASSFIER_MESSAGES:
     S_CLASSIFIER_NOT_TRAINED = "CLASSIFIER NOT TRAINIED"

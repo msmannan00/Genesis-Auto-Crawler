@@ -9,7 +9,7 @@ class RAW_PATH_CONSTANTS:
   S_PROJECT_PATH = str(Path(__file__).parent.parent.parent)
   LOG_DIRECTORY = os.path.join(os.getcwd(), 'logs')
   UNIQUE_CRAWL_DIRECTORY = os.path.join(os.getcwd()+"/raw", 'unique_host')
-  TOXIC_MODEL = "./raw/toxic_model/"
+  MODEL = "./raw/model/"
 
 
 class NETWORK_MONITOR:

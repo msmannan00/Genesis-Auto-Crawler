@@ -1,39 +1,25 @@
 #!/bin/bash
 
 PROJECT_NAME="trusted-crawler"
-URL="https://drive.usercontent.google.com/download?id=1LTI94WsJbf8PheaMb7269Vxm5ZKtbHwb&export=download&authuser=0&confirm=t&uuid=1163171e-ce7c-4a98-9a46-2a3ce2a91f48&at=AO7h07dQiPcuFN56QrmDruowdk0P%3A1727101003781"
-DEST_DIR="app/raw/toxic_model"
-DEST_FILE="$DEST_DIR/toxic-model.zip"
+URL="https://drive.usercontent.google.com/download?id=13xo-4qqUsQfr3F33A4VpSz6S2k-Hmr0J&export=download&authuser=0&confirm=t&uuid=8611f394-74e3-4627-a38a-97243f909554&at=AENtkXbi_DUr8t4VbB_We6G-S0Hk%3A1731234574948"
+DEST_DIR="app/raw/model"
+DEST_FILE="$DEST_DIR/ml_classifier.zip"
 EXTRACTED_DIR="$DEST_DIR/saved_model"
 ENV_FILE=".env"
 
 get_local_ip() { hostname -I | awk '{print $1}'; }
 
 check_or_set_s_server() {
-    # Ensure the .env file exists
     [ ! -f "$ENV_FILE" ] && echo ".env file does not exist." && exit 1
-
-    # Load the environment variables
     source "$ENV_FILE"
-
-    # Clean any trailing whitespaces or hidden characters in S_SERVER
     S_SERVER=$(echo "$S_SERVER" | tr -d '\r' | xargs)
-
-    # Check if S_SERVER is properly set
     if [ -z "$S_SERVER" ]; then
         echo "Error: S_SERVER is not set or empty in the .env file." >&2
         exit 1
     fi
-
-    # Debugging print to ensure the URL looks correct
-    echo "Checking S_SERVER: '$S_SERVER'"
-
-    # Check if S_SERVER is accessible
     if curl --silent --head --fail --max-time 5 "$S_SERVER" > /dev/null; then
-        # Print the S_SERVER value if accessible
         echo "SUCCESS: $S_SERVER is accessible." >&2
     else
-        # Print a clean error message if not accessible
         echo "Error: $S_SERVER is not accessible." >&2
         exit 1
     fi
@@ -66,6 +52,18 @@ disconnect_and_remove_networks() {
     docker network ls --format '{{.Name}}' | grep -q "toxic_model_project_backend" && docker network rm toxic_model_project_backend
 }
 
+rebuild_api_container() {
+    echo "Stopping and removing any existing trusted-crawler-api container..."
+    docker stop trusted-crawler-api || true
+    docker rm trusted-crawler-api || true
+
+    echo "Rebuilding the trusted-crawler-api container..."
+    docker compose -p $PROJECT_NAME build trusted-crawler-api
+    docker compose -p $PROJECT_NAME up -d trusted-crawler-api
+
+    echo "trusted-crawler-api container rebuilt and started."
+}
+
 reset_celery() {
     while true; do
       docker stop trusted-crawler-celery
@@ -83,9 +81,9 @@ if [ "$1" == "build" ]; then
     clean_docker
     disconnect_and_remove_networks
     download_and_extract_model
+    rebuild_api_container
     docker compose -p $PROJECT_NAME build
     docker compose -p $PROJECT_NAME up -d
-    # reset_celery
     echo "crawler service started"
 elif [ "$1" == "invoke_unique_crawler" ]; then
     echo "operation in development phase"
@@ -100,8 +98,8 @@ else
     clean_docker
     disconnect_and_remove_networks
     download_and_extract_model
+    rebuild_api_container
     docker compose down
     docker compose -p $PROJECT_NAME up -d
-    # reset_celery
     echo "crawler service started"
 fi

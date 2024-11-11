@@ -31,9 +31,6 @@ COPY requirements.txt /tmp/requirements.txt
 # Install dependencies in the virtual environment
 RUN /opt/venv/bin/pip install --no-cache-dir -r /tmp/requirements.txt
 
-# Install spaCy model to avoid repeated download
-RUN /opt/venv/bin/python -m spacy download en_core_web_sm
-
 # Copy nltk_data folder for NLTK
 COPY app/libs/nltk_data /root/nltk_data
 

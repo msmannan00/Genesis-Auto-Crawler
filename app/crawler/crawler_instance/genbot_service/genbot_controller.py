@@ -124,7 +124,7 @@ def genbot_instance(p_url, p_vid, p_proxy, p_tor_id):
     p_request_url = helper_method.on_clean_url(p_url)
     mongo.invoke_trigger(MONGO_CRUD.S_UPDATE, [MONGODB_COMMANDS.S_CLOSE_INDEX_ON_COMPLETE, [p_request_url], [True]])
   except Exception as ex:
-    log.g().e(MANAGE_MESSAGES.S_GENBOT_ERROR + " : " + str(p_vid) + " : " + str(ex))
+    log.g().e(MANAGE_MESSAGES.S_GENBOT_ERROR + " : " + p_url + " : " + str(p_vid) + " : " + str(ex))
   finally:
     mongo.close_connection()
     del m_crawler

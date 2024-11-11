@@ -5,7 +5,7 @@ from docker.topic_manager.topic_classifier_enums import TOPIC_CLASSFIER_MODEL, T
 class topic_classifier_model:
 
     def __init__(self):
-        self.classifier = pipeline("text-classification", model="./raw/toxic_model/saved_model", device=-1)
+        self.classifier = pipeline("text-classification", model="./raw/model/topic_classifier", device=-1)
 
     def __predict_classifier(self, p_title, p_description, p_keyword):
         input_text = p_title + p_description + p_keyword

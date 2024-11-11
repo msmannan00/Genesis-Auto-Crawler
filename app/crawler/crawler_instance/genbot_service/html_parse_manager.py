@@ -315,13 +315,13 @@ class html_parse_manager(HTMLParser, ABC):
     def __get_content_type(self):
         try:
             if len(self.m_content) > 0:
-                self.m_content_type = shared_data_controller.get_instance().trigger_topic_classifier(self.m_title, self.m_important_content, self.m_content)
+                self.m_content_type = shared_data_controller.get_instance().trigger_topic_classifier(self.m_base_url, self.m_title, self.m_important_content, self.m_content)
                 if self.m_content_type is None:
-                   return [CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL]
+                   return CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL
                 return self.m_content_type
-            return [CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL]
+            return CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL
         except Exception as ex:
-            return [CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL]
+            return CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL
 
     def __get_static_file(self):
         return self.m_sub_url[0:10], self.m_image_url, self.m_doc_url, self.m_video_url, self.m_archive_url

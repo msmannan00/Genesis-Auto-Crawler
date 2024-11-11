@@ -26,9 +26,6 @@ COPY requirements.txt /tmp/requirements.txt
 # Install Python dependencies, cached based on requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
-# Download the spaCy model for English
-RUN python3 -m spacy download en_core_web_sm
-
 # Set the working directory inside the container
 WORKDIR /app
 

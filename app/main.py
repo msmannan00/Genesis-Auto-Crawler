@@ -18,7 +18,7 @@ from pathlib import Path
 
 def initialize_local_setting():
   APP_STATUS.DOCKERIZED_RUN = False
-  RAW_PATH_CONSTANTS.TOXIC_MODEL = str(Path(__file__).parent.parent) + "/app/raw/toxic_model/"
+  RAW_PATH_CONSTANTS.MODEL = str(Path(__file__).parent.parent) + "/app/raw/model/"
 
   MONGO_CONNECTIONS.S_MONGO_IP = "localhost"
   MONGO_CONNECTIONS.S_MONGO_USERNAME = ""
