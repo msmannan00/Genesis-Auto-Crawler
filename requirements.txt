@@ -9,7 +9,6 @@ transformers==4.45.1
 simplejson==3.8.0
 elasticsearch==8.15.0
 pymongo==4.8.0
-xxhash==3.4.0
 stem==1.8.0
 aiohttp_socks==0.7.1
 gevent==24.2.1
@@ -40,7 +39,7 @@ pydload==1.0.9
 onnxruntime==1.19.2
 scikit-image==0.22.0
 pydantic==2.9.2
-aiohttp==3.10.9
+aiohttp==3.10.11
 phonenumbers==8.13.16
 python-Levenshtein==0.26.0
 psutil

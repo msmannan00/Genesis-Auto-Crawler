@@ -6,16 +6,16 @@ from crawler.constants.app_status import APP_STATUS
 from crawler.constants.constant import CRAWL_SETTINGS_CONSTANTS
 from crawler.constants.strings import MANAGE_MESSAGES
 from crawler.crawler_instance.crawl_controller.crawl_enums import CRAWL_MODEL_COMMANDS
-from crawler.crawler_services.helper_services.env_handler import env_handler
-from crawler.crawler_services.helper_services.helper_method import helper_method
-from crawler.crawler_services.web_request_handler import webRequestManager
+from crawler.crawler_services.mongo_manager.mongo_controller import mongo_controller
+from crawler.crawler_services.mongo_manager.mongo_enums import MONGO_CRUD, MONGODB_COMMANDS
+from crawler.crawler_services.shared.env_handler import env_handler
+from crawler.crawler_services.shared.helper_method import helper_method
+from crawler.crawler_services.shared.scheduler import RepeatedTimer
+from crawler.crawler_services.shared.web_request_handler import webRequestManager
 from crawler.crawler_instance.tor_controller.tor_controller import tor_controller
 from crawler.crawler_instance.tor_controller.tor_enums import TOR_COMMANDS
-from crawler.crawler_services.crawler_services.mongo_manager.mongo_controller import mongo_controller
-from crawler.crawler_services.crawler_services.mongo_manager.mongo_enums import MONGODB_COMMANDS, MONGO_CRUD
-from crawler.crawler_services.helper_services.scheduler import RepeatedTimer
-from crawler.crawler_shared_directory.log_manager.log_controller import log
-from crawler.crawler_shared_directory.request_manager.request_handler import request_handler
+from crawler.crawler_services.log_manager.log_controller import log
+from crawler.crawler_services.request_manager.request_handler import request_handler
 
 class crawl_model(request_handler):
 
@@ -101,7 +101,7 @@ class crawl_model(request_handler):
 
 
     self.__mongo.invoke_trigger(MONGO_CRUD.S_DELETE, [MONGODB_COMMANDS.S_REMOVE_DEAD_CRAWLABLE_URL, [list(m_live_url_list)], [None]])
-    log.g().i(MANAGE_MESSAGES.S_INSTALL_LIVE_URL_FINISHED + " : " + CRAWL_SETTINGS_CONSTANTS.S_FEEDER_URL_UNIQUE)
+    log.g().i(MANAGE_MESSAGES.S_INSTALL_LIVE_URL_FINISHED)
     return m_live_url_list, m_updated_url_list
 
   def __init_docker_request(self):
@@ -126,8 +126,8 @@ class crawl_model(request_handler):
     return m_updated_url_list
 
   def __start_docker_request(self, p_fetched_url_list):
-    from crawler.crawler_services.crawler_services.celery_manager.celery_enums import CELERY_COMMANDS
-    from crawler.crawler_services.crawler_services.celery_manager.celery_controller import celery_controller
+    from crawler.crawler_services.celery_manager.celery_enums import CELERY_COMMANDS
+    from crawler.crawler_services.celery_manager.celery_controller import celery_controller
     from crawler.shared_data import celery_shared_data
 
     if celery_shared_data.get_instance().get_network_status:
@@ -142,9 +142,9 @@ class crawl_model(request_handler):
     RepeatedTimer(CRAWL_SETTINGS_CONSTANTS.S_UPDATE_STATUS_TIMEOUT, self.reinit_list_periodically, False, p_fetched_url_list)
 
   def reinit_list_periodically(self, p_fetched_url_list):
-    from crawler.crawler_services.crawler_services.celery_manager.celery_enums import CELERY_COMMANDS
-    from crawler.crawler_services.crawler_services.celery_manager.celery_controller import celery_controller
     from crawler.shared_data import celery_shared_data
+    from crawler.crawler_services.celery_manager.celery_controller import celery_controller
+    from crawler.crawler_services.celery_manager.celery_enums import CELERY_COMMANDS
 
     if celery_shared_data.get_instance().get_network_status:
       if not p_fetched_url_list:

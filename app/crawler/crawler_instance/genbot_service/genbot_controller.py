@@ -5,18 +5,17 @@ from asyncio import sleep
 from crawler.constants.strings import MANAGE_MESSAGES
 from crawler.crawler_instance.genbot_service.parse_controller import parse_controller
 from crawler.crawler_instance.local_shared_model.url_model import url_model, url_model_init
-from crawler.crawler_services.crawler_services.elastic_manager.elastic_controller import elastic_controller
-from crawler.crawler_services.crawler_services.elastic_manager.elastic_enums import ELASTIC_CRUD_COMMANDS, ELASTIC_REQUEST_COMMANDS, ELASTIC_CONNECTIONS
-from crawler.crawler_shared_directory.request_manager.request_handler import request_handler
+from crawler.crawler_services.elastic_manager.elastic_controller import elastic_controller
+from crawler.crawler_services.elastic_manager.elastic_enums import ELASTIC_CRUD_COMMANDS, ELASTIC_REQUEST_COMMANDS, ELASTIC_CONNECTIONS
+from crawler.crawler_services.mongo_manager.mongo_controller import mongo_controller
+from crawler.crawler_services.mongo_manager.mongo_enums import MONGO_CRUD, MONGODB_COMMANDS
+from crawler.crawler_services.request_manager.request_handler import request_handler
 from crawler.crawler_instance.genbot_service.genbot_enums import ICRAWL_CONTROLLER_COMMANDS
 from crawler.constants.constant import CRAWL_SETTINGS_CONSTANTS
-from crawler.crawler_services.crawler_services.mongo_manager.mongo_controller import mongo_controller
-from crawler.crawler_services.crawler_services.mongo_manager.mongo_enums import MONGO_CRUD
-from crawler.crawler_services.crawler_services.mongo_manager.mongo_enums import MONGODB_COMMANDS
-from crawler.crawler_services.web_request_handler import webRequestManager
-from crawler.crawler_services.helper_services.duplication_handler import duplication_handler
-from crawler.crawler_shared_directory.log_manager.log_controller import log
-from crawler.crawler_services.helper_services.helper_method import helper_method
+from crawler.crawler_services.shared.duplication_handler import duplication_handler
+from crawler.crawler_services.shared.helper_method import helper_method
+from crawler.crawler_services.shared.web_request_handler import webRequestManager
+from crawler.crawler_services.log_manager.log_controller import log
 
 
 class genbot_controller(request_handler):
@@ -52,7 +51,8 @@ class genbot_controller(request_handler):
           if not parser_status:
             m_sub_url = m_parsed_model.m_sub_url
 
-          if helper_method.get_host_name(m_redirected_url).__eq__(helper_method.get_host_name(p_request_model.m_url)) and self.m_url_duplication_handler.validate_duplicate(m_redirected_url) is False:
+          if helper_method.get_host_name(m_redirected_url).__eq__(
+                  helper_method.get_host_name(p_request_model.m_url)) and self.m_url_duplication_handler.validate_duplicate(m_redirected_url) is False:
 
             m_paresed_request_data = {"m_generic_model":json.dumps(m_parsed_model.model_dump()),  "m_leak_data_model":json.dumps(m_leak_data_model.model_dump())}
             self.__elastic_controller_instance.invoke_trigger(ELASTIC_CRUD_COMMANDS.S_INDEX, [ELASTIC_REQUEST_COMMANDS.S_INDEX, json.dumps(m_paresed_request_data), ELASTIC_CONNECTIONS.S_CRAWL_INDEX])

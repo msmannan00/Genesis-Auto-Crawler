@@ -1,7 +1,7 @@
 from pathlib import Path
 import os
+from crawler.crawler_services.shared.env_handler import env_handler
 
-from crawler.crawler_services.helper_services.env_handler import env_handler
 S_SERVER = env_handler.get_instance().env('S_SERVER')
 
 class RAW_PATH_CONSTANTS:
@@ -65,6 +65,7 @@ class CRAWL_SETTINGS_CONSTANTS:
   S_FEEDER_URL = f"{S_SERVER}/feeder"
   S_FEEDER_URL_UNIQUE = f"{S_SERVER}/feeder/unique"
   S_PARSERS_URL = f"{S_SERVER}/parser"
+  S_SEARCH_SERVER = f"{S_SERVER}"
   S_PARSE_EXTRACTION_DIR = "raw/parsers"
 
   # Total Thread Instances Allowed

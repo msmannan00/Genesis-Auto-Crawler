@@ -1,36 +1,31 @@
 #!/bin/bash
 
 PROJECT_NAME="trusted-crawler"
-URL="https://drive.usercontent.google.com/download?id=13xo-4qqUsQfr3F33A4VpSz6S2k-Hmr0J&export=download&authuser=0&confirm=t&uuid=8611f394-74e3-4627-a38a-97243f909554&at=AENtkXbi_DUr8t4VbB_We6G-S0Hk%3A1731234574948"
-DEST_DIR="app/raw/model"
-DEST_FILE="$DEST_DIR/ml_classifier.zip"
-EXTRACTED_DIR="$DEST_DIR/saved_model"
-ENV_FILE=".env"
-
-get_local_ip() { hostname -I | awk '{print $1}'; }
-
-check_or_set_s_server() {
-    [ ! -f "$ENV_FILE" ] && echo ".env file does not exist." && exit 1
-    source "$ENV_FILE"
-    S_SERVER=$(echo "$S_SERVER" | tr -d '\r' | xargs)
-    if [ -z "$S_SERVER" ]; then
-        echo "Error: S_SERVER is not set or empty in the .env file." >&2
-        exit 1
-    fi
-    if curl --silent --head --fail --max-time 5 "$S_SERVER" > /dev/null; then
-        echo "SUCCESS: $S_SERVER is accessible." >&2
-    else
-        echo "Error: $S_SERVER is not accessible." >&2
-        exit 1
-    fi
-}
-
-mkdir -p $DEST_DIR
 
 download_and_extract_model() {
-    [ -d "$EXTRACTED_DIR" ] && echo "Extracted folder already exists." && return
-    [ ! -f "$DEST_FILE" ] && curl -# -L "$URL" -o "$DEST_FILE"
-    [ -f "$DEST_FILE" ] && unzip -o "$DEST_FILE" -d "$DEST_DIR" && rm "$DEST_FILE"
+    MODEL_URL="https://drive.usercontent.google.com/download?id=13xo-4qqUsQfr3F33A4VpSz6S2k-Hmr0J&export=download&authuser=0&confirm=t&uuid=8611f394-74e3-4627-a38a-97243f909554&at=AENtkXbi_DUr8t4VbB_We6G-S0Hk%3A1731234574948"
+    MODEL_DEST_DIR="app/raw/model"
+    MODEL_DEST_FILE="$MODEL_DEST_DIR/ml_classifier.zip"
+    MODEL_EXTRACTED_DIR="$MODEL_DEST_DIR/saved_model"
+
+    mkdir -p "$MODEL_DEST_DIR"
+
+    if [ -d "$MODEL_EXTRACTED_DIR" ]; then
+        echo "Extracted folder already exists."
+        return
+    fi
+
+    for attempt in 1 2; do
+        [ "$attempt" -eq 2 ] && echo "Retrying download and extraction..." && rm -f "$MODEL_DEST_FILE"
+
+        [ ! -f "$MODEL_DEST_FILE" ] && curl -# -L "$MODEL_URL" -o "$MODEL_DEST_FILE"
+        if unzip -o "$MODEL_DEST_FILE" -d "$MODEL_DEST_DIR"; then
+            echo "Model downloaded and extracted successfully."
+            return
+        fi
+
+        [ "$attempt" -eq 2 ] && echo "Failed to extract model after retrying. Exiting." && exit 1
+    done
 }
 
 clean_docker() {
@@ -39,67 +34,33 @@ clean_docker() {
     docker volume prune -f --filter "label=com.docker.compose.project=$PROJECT_NAME"
     docker network prune -f --filter "label=com.docker.compose.project=$PROJECT_NAME"
     docker image prune -f --filter "label=com.docker.compose.project=$PROJECT_NAME"
-}
+    docker compose -p $PROJECT_NAME exec -T worker celery -A crawler.crawler_services.celery_manager control purge || true
+    docker compose -p $PROJECT_NAME exec -T worker celery -A crawler.crawler_services.celery_manager control revoke --terminate --all || true
+    docker compose -p $PROJECT_NAME exec -T redis redis-cli FLUSHALL || true
 
-disconnect_and_remove_networks() {
     docker network ls --filter "name=${PROJECT_NAME}_" --format '{{.Name}}' | while read -r net_name; do
         containers=$(docker network inspect -f '{{range .Containers}}{{.Name}} {{end}}' "$net_name")
         for container in $containers; do
-            docker network disconnect "$net_name" "$container"
+            docker network disconnect "$net_name" "$container" || true
         done
-        docker network rm "$net_name"
-    done
-    docker network ls --format '{{.Name}}' | grep -q "toxic_model_project_backend" && docker network rm toxic_model_project_backend
-}
-
-rebuild_api_container() {
-    echo "Stopping and removing any existing trusted-crawler-api container..."
-    docker stop trusted-crawler-api || true
-    docker rm trusted-crawler-api || true
-
-    echo "Rebuilding the trusted-crawler-api container..."
-    docker compose -p $PROJECT_NAME build trusted-crawler-api
-    docker compose -p $PROJECT_NAME up -d trusted-crawler-api
-
-    echo "trusted-crawler-api container rebuilt and started."
-}
-
-reset_celery() {
-    while true; do
-      docker stop trusted-crawler-celery
-      docker start trusted-crawler-celery
-      sleep 86400
+        docker network rm "$net_name" || true
     done
 }
 
-if [ "$1" == "build" ]; then
-    docker compose down
-    check_or_set_s_server
-    echo "Are you sure you want to remove all services and build the project? (y/n)"
-    read -r confirm
-    [ "$confirm" != "y" ] && exit 0
+stop_docker() {
+    docker compose stop
     clean_docker
-    disconnect_and_remove_networks
-    download_and_extract_model
-    rebuild_api_container
-    docker compose -p $PROJECT_NAME build
-    docker compose -p $PROJECT_NAME up -d
-    echo "crawler service started"
-elif [ "$1" == "invoke_unique_crawler" ]; then
-    echo "operation in development phase"
-elif [ "$1" == "stop" ]; then
-    clean_docker
-    disconnect_and_remove_networks
-    docker compose down
-    echo "Services stopped successfully."
+}
+
+stop_docker
+if [ "$1" == "stop" ]; then
+    echo "crawler service stopped"
 else
-    docker compose down
-    check_or_set_s_server
-    clean_docker
-    disconnect_and_remove_networks
-    download_and_extract_model
-    rebuild_api_container
-    docker compose down
+    if [ "$1" == "build" ]; then
+        download_and_extract_model
+        docker compose -p $PROJECT_NAME build
+    fi
+
     docker compose -p $PROJECT_NAME up -d
     echo "crawler service started"
 fi

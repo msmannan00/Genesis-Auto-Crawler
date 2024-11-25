@@ -1,7 +1,7 @@
 from crawler.constants.keys import REDIS_KEYS
 from crawler.constants.strings import MANAGE_MESSAGES
-from crawler.crawler_services.crawler_services.redis_manager.redis_controller import redis_controller
-from crawler.crawler_services.crawler_services.redis_manager.redis_enums import REDIS_COMMANDS
+from crawler.crawler_services.redis_manager.redis_controller import redis_controller
+from crawler.crawler_services.redis_manager.redis_enums import REDIS_COMMANDS
 
 
 class celery_shared_data:

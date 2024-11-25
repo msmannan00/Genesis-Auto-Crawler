@@ -11,4 +11,4 @@ app/logs/*
 mongo-data/*
 app/raw/model/*
 static/trustly/.well-known/model/toxic-model.zip
-app/docker/raw/model/*
+app/api/raw/model/*

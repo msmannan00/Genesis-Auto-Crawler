@@ -13,9 +13,9 @@ from crawler.constants.strings import STRINGS
 from crawler.crawler_instance.genbot_service.genbot_enums import PARSE_TAGS
 from crawler.crawler_instance.genbot_service.shared_data_controller import shared_data_controller
 from crawler.crawler_instance.local_shared_model.index_model import index_model_init
-from crawler.crawler_services.helper_services.helper_method import helper_method
-from crawler.crawler_services.helper_services.spell_check_handler import spell_checker_handler
-from crawler.crawler_shared_directory.log_manager.log_controller import log
+from crawler.crawler_services.shared.helper_method import helper_method
+from crawler.crawler_services.shared.spell_check_handler import spell_checker_handler
+from crawler.crawler_services.log_manager.log_controller import log
 
 
 class html_parse_manager(HTMLParser, ABC):
@@ -320,7 +320,7 @@ class html_parse_manager(HTMLParser, ABC):
                    return CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL
                 return self.m_content_type
             return CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL
-        except Exception as ex:
+        except Exception:
             return CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL
 
     def __get_static_file(self):

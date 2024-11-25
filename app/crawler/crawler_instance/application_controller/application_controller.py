@@ -1,20 +1,18 @@
-import warnings
-from abc import ABC
+import time
+from urllib.parse import urlparse
 
+from crawler.constants.constant import CRAWL_SETTINGS_CONSTANTS
 from crawler.constants.strings import MANAGE_MESSAGES
 from crawler.crawler_instance.application_controller.application_enums import APPICATION_COMMANDS
 from crawler.crawler_instance.crawl_controller.crawl_controller import crawl_controller
 from crawler.crawler_instance.crawl_controller.crawl_enums import CRAWL_CONTROLLER_COMMANDS
 from crawler.crawler_instance.tor_controller.tor_controller import tor_controller
-from crawler.crawler_services.helper_services.helper_method import helper_method
-from crawler.crawler_shared_directory.log_manager.log_controller import log
-from crawler.crawler_shared_directory.request_manager.request_handler import request_handler
+from crawler.crawler_services.log_manager.log_controller import log
+from crawler.crawler_services.request_manager.request_handler import request_handler
+from crawler.crawler_services.shared.helper_method import helper_method
 
-warnings.filterwarnings("ignore", category=DeprecationWarning)
 
-import time
-
-class application_controller(request_handler, ABC):
+class application_controller(request_handler):
     __instance = None
     __m_crawl_controller = None
 
@@ -32,12 +30,27 @@ class application_controller(request_handler, ABC):
             self.__tor_controller = tor_controller.get_instance()
             application_controller.__instance = self
 
-    def __initializations(self, p_command):
-        if p_command == APPICATION_COMMANDS.S_START_APPLICATION_DIRECT:
-            mongo_status = helper_method.check_service_status("MongoDB", "localhost", 27017)
-            redis_status = helper_method.check_service_status("Redis", "localhost", 6379)
-            if not mongo_status or not redis_status:
-                exit(0)
+    def __initializations(self, p_command, check_interval=5):
+        parsed_url = urlparse(CRAWL_SETTINGS_CONSTANTS.S_SEARCH_SERVER)
+        while True:
+            services_to_start = []
+            if p_command == APPICATION_COMMANDS.S_START_APPLICATION_DIRECT:
+                mongo_status = helper_method.check_service_status("MongoDB", "localhost", 27017)
+                redis_status = helper_method.check_service_status("Redis", "localhost", 6379)
+                if not mongo_status:
+                    services_to_start.append("MongoDB")
+                if not redis_status:
+                    services_to_start.append("Redis")
+            else:
+                log.g().i(parsed_url.hostname)
+                log.g().i(parsed_url.port)
+                local_server = helper_method.check_service_status("Orion Search", parsed_url.hostname, parsed_url.port)
+                if not local_server:
+                    services_to_start.append("Orion Search")
+
+            if not services_to_start:
+                return
+            time.sleep(check_interval)
 
     def __wait_for_tor_bootstrap(self):
         non_bootstrapped_tor_instances = self.__tor_controller.get_non_bootstrapped_tor_instances()
@@ -55,7 +68,7 @@ class application_controller(request_handler, ABC):
         log.g().i(MANAGE_MESSAGES.S_APPLICATION_STARTING)
         self.__m_crawl_controller.invoke_trigger(CRAWL_CONTROLLER_COMMANDS.S_RUN_CRAWLER)
 
-    def invoke_triggers(self, p_command):
+    def invoke_trigger(self, p_command, p_data=None):
         if p_command == APPICATION_COMMANDS.S_START_APPLICATION_DIRECT:
             return self.__on_start(p_command)
         elif p_command == APPICATION_COMMANDS.S_START_APPLICATION_DOCKERISED:

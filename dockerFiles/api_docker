@@ -30,12 +30,11 @@ RUN pip install --no-cache-dir -r /tmp/requirements.txt
 WORKDIR /app
 
 # Copy only the necessary application files to avoid cache busting
-COPY app/docker /app/docker
-RUN mv /app/docker/api.py /app/api.py
+COPY app/api /app/api
 COPY app/raw /app/raw
 
 # Expose the port FastAPI will use
 EXPOSE 8000
 
 # Command to run the FastAPI app
-CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+CMD ["uvicorn", "api.server:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

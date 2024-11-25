@@ -16,6 +16,8 @@ RUN apt-get update && apt-get install -y \
     gfortran \
     --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update && apt-get install -y curl iputils-ping --no-install-recommends && rm -rf /var/lib/apt/lists/*
+e
 # Upgrade pip
 RUN python3 -m ensurepip && pip install --upgrade pip
 

@@ -1,6 +1,6 @@
 import requests
 from crawler.constants.app_status import APP_STATUS
-from crawler.crawler_shared_directory.log_manager.log_controller import log
+from crawler.crawler_services.log_manager.log_controller import log
 
 
 class shared_data_controller:
@@ -18,8 +18,8 @@ class shared_data_controller:
 
     def init(self):
         if not APP_STATUS.DOCKERIZED_RUN:
-            from docker.nlp_manager.nlp_controller import nlp_controller
-            from docker.topic_manager.topic_classifier_controller import topic_classifier_controller
+            from api.nlp_manager.nlp_controller import nlp_controller
+            from api.topic_manager.topic_classifier_controller import topic_classifier_controller
             self.nlp_model = nlp_controller()
             self.topic_classifier_model = topic_classifier_controller()
 
@@ -45,7 +45,7 @@ class shared_data_controller:
             payload = {"title": p_title, "description": p_important_content, "keyword": p_content}
             result = self._request("topic_classifier/predict", method="POST", payload=payload).get("result")
         else:
-            from docker.topic_manager.topic_classifier_enums import TOPIC_CLASSFIER_COMMANDS
+            from api.topic_manager.topic_classifier_enums import TOPIC_CLASSFIER_COMMANDS
             result = self.topic_classifier_model.invoke_trigger(TOPIC_CLASSFIER_COMMANDS.S_PREDICT_CLASSIFIER, [p_title, p_important_content, p_content])
 
         self._cache[p_base_url] = result
@@ -56,7 +56,7 @@ class shared_data_controller:
             payload = {"text": p_text}
             result = self._request("nlp/parse", method="POST", payload=payload).get("result")
         else:
-            from docker.nlp_manager.nlp_enums import NLP_REQUEST_COMMANDS
+            from api.nlp_manager import NLP_REQUEST_COMMANDS
             result = self.nlp_model.invoke_trigger(NLP_REQUEST_COMMANDS.S_PARSE, [p_text])
 
         return result

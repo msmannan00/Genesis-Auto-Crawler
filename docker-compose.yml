@@ -1,3 +1,4 @@
+name: trusted-crawler
 services:
   app:
     container_name: trusted-crawler-main
@@ -21,7 +22,7 @@ services:
       - tor-extend-10
     restart: always
     volumes:
-      - ./app/:/app
+      - /mnt/c/Workspace/Genesis-Crawler/app:/app
     ulimits:
       nproc: 65535
       nofile:
@@ -33,6 +34,12 @@ services:
       backend:
         ipv4_address: 172.19.0.2
     entrypoint: [ "bash", "-c", "./start_app.sh start_app" ]
+    healthcheck:
+      test: ["CMD-SHELL", "exit 0"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
 
   api:
     container_name: trusted-crawler-api
@@ -45,10 +52,17 @@ services:
         ipv4_address: 172.19.0.25
     env_file:
       - .env
+    volumes:
+      - /mnt/c/Workspace/Genesis-Crawler/app/api:/app/api
     deploy:
       resources:
         limits:
           memory: 4G
+    healthcheck:
+      test: ["CMD-SHELL", "timeout 5 bash -c '</dev/tcp/localhost/8000' || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   redis_server:
     container_name: trusted-crawler-redis
@@ -66,46 +80,11 @@ services:
       resources:
         limits:
           memory: 2G
-
-  celery_worker:
-    container_name: trusted-crawler-celery
-    build:
-      context: .
-      dockerfile: dockerFiles/app_docker
-    command: celery -A crawler.crawler_services.crawler_services.celery_manager worker --loglevel=INFO --concurrency=${CELERY_WORKER_COUNT} --prefetch-multiplier=1 --max-tasks-per-child=3 -Q crawler_queue,unique_crawler_queue
-    env_file:
-      - .env
-    depends_on:
-      - redis_server
-    restart: always
-    volumes:
-      - ./app:/app
-    networks:
-      backend:
-        ipv4_address: 172.19.0.4
-    deploy:
-      resources:
-        limits:
-          memory: 8G
-
-  flower:
-    container_name: trusted-crawler-flower
-    build:
-      context: .
-      dockerfile: dockerFiles/app_docker
-    command: celery -A crawler.crawler_services.crawler_services.celery_manager flower --port=5555 --broker=redis://:${REDIS_PASSWORD}@redis_server:6379/0 --basic_auth=${FLOWER_USERNAME}:${FLOWER_PASSWORD}
-    env_file:
-      - .env
-    depends_on:
-      - redis_server
-    ports:
-      - "5555:5555"
-    restart: always
-    networks:
-      backend:
-        ipv4_address: 172.19.0.6
-    environment:
-      - CELERY_BROKER_URL=redis://:${REDIS_PASSWORD}@redis_server:6379/0
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   mongo:
     image: mongo:latest
@@ -117,7 +96,7 @@ services:
     ports:
       - "27019:27017"
     volumes:
-      - ./mongo-data:/data/db
+      - /mnt/docker/genesis/crawler/mongo:/data/db
     command: >
       bash -c "
       mongod --bind_ip_all --fork --logpath /var/log/mongodb.log &&
@@ -144,6 +123,96 @@ services:
     networks:
       backend:
         ipv4_address: 172.19.0.7
+    healthcheck:
+      test: ["CMD-SHELL", "timeout 5 bash -c '</dev/tcp/localhost/27017' || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  celery_worker:
+    container_name: trusted-crawler-celery
+    build:
+      context: .
+      dockerfile: dockerFiles/app_docker
+    command: celery -A crawler.crawler_services.celery_manager worker --loglevel=DEBUG --concurrency=${CELERY_WORKER_COUNT} --prefetch-multiplier=1 --max-tasks-per-child=3 -Q crawler_queue,unique_crawler_queue
+    env_file:
+      - .env
+    depends_on:
+      - redis_server
+    restart: always
+    volumes:
+      - ./app:/app
+    networks:
+      backend:
+        ipv4_address: 172.19.0.4
+    deploy:
+      resources:
+        limits:
+          memory: 8G
+    healthcheck:
+      test: ["CMD-SHELL", "celery -A crawler.crawler_services.celery_manager inspect ping || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  flower:
+    container_name: trusted-crawler-flower
+    build:
+      context: .
+      dockerfile: dockerFiles/app_docker
+    command: celery -A crawler.crawler_services.celery_manager flower --port=5555 --broker=redis://:${REDIS_PASSWORD}@redis_server:6379/0 --basic_auth=${FLOWER_USERNAME}:${FLOWER_PASSWORD}
+    env_file:
+      - .env
+    depends_on:
+      - redis_server
+    ports:
+      - "5555:5555"
+    restart: always
+    networks:
+      backend:
+        ipv4_address: 172.19.0.6
+    environment:
+      - CELERY_BROKER_URL=redis://:${REDIS_PASSWORD}@redis_server:6379/0
+    healthcheck:
+      test: ["CMD-SHELL", "timeout 5 bash -c '</dev/tcp/localhost/5555' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  traefik:
+    image: traefik:v2.10
+    container_name: trusted-crawler-traefik
+    ports:
+      - "8081:80"
+      - "8443:443"
+    command:
+      - "--entrypoints.web.address=:80"
+      - "--providers.file.directory=/etc/traefik"
+      - "--providers.docker=true"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./dockerFiles/traefik:/etc/traefik
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "exit 0"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  dozzle:
+    container_name: trusted-crawler-dozzle
+    image: amir20/dozzle:latest
+    environment:
+      - DOZZLE_FILTER=label=com.docker.compose.project=trusted-crawler
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dozzle.rule=Host(`dozzle.localhost`)"
+      - "traefik.http.services.dozzle.loadbalancer.server.port=8080"
+      - "traefik.http.routers.dozzle.middlewares=auth@file"
+    restart: unless-stopped
 
   tor-extend-1:
     container_name: trusted-crawler_tor_instace_1
@@ -151,7 +220,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./tor/torrc_1.txt:/etc/tor/torrc:rw
+      - ./dockerFiles/tor/torrc_1.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9152:9152"
@@ -174,7 +243,12 @@ services:
     networks:
       backend:
         ipv4_address: 172.19.0.10
-
+    healthcheck:
+      test: ["CMD-SHELL", "curl --proxy http://localhost:9152 http://example.com || exit 1"]
+      interval: 120s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
 
   tor-extend-2:
     container_name: trusted-crawler_tor_instace_2
@@ -182,7 +256,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./tor/torrc_2.txt:/etc/tor/torrc:rw
+      - ./dockerFiles/tor/torrc_2.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9154:9154"
@@ -205,6 +279,12 @@ services:
     networks:
       backend:
         ipv4_address: 172.19.0.11
+    healthcheck:
+      test: ["CMD-SHELL", "curl --proxy http://localhost:9154 http://example.com || exit 1"]
+      interval: 120s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
 
   tor-extend-3:
     container_name: trusted-crawler_tor_instace_3
@@ -212,7 +292,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./tor/torrc_3.txt:/etc/tor/torrc:rw
+      - ./dockerFiles/tor/torrc_3.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9156:9156"
@@ -235,6 +315,12 @@ services:
     networks:
       backend:
         ipv4_address: 172.19.0.12
+    healthcheck:
+      test: ["CMD-SHELL", "curl --proxy http://localhost:9156 http://example.com || exit 1"]
+      interval: 120s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
 
   tor-extend-4:
     container_name: trusted-crawler_tor_instace_4
@@ -242,7 +328,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./tor/torrc_4.txt:/etc/tor/torrc:rw
+      - ./dockerFiles/tor/torrc_4.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9158:9158"
@@ -265,6 +351,12 @@ services:
     networks:
       backend:
         ipv4_address: 172.19.0.13
+    healthcheck:
+      test: ["CMD-SHELL", "curl --proxy http://localhost:9158 http://example.com || exit 1"]
+      interval: 120s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
 
   tor-extend-5:
     container_name: trusted-crawler_tor_instace_5
@@ -272,7 +364,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./tor/torrc_5.txt:/etc/tor/torrc:rw
+      - ./dockerFiles/tor/torrc_5.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9160:9160"
@@ -295,6 +387,12 @@ services:
     networks:
       backend:
         ipv4_address: 172.19.0.14
+    healthcheck:
+      test: ["CMD-SHELL", "curl --proxy http://localhost:9160 http://example.com || exit 1"]
+      interval: 120s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
 
   tor-extend-6:
     container_name: trusted-crawler_tor_instace_6
@@ -302,7 +400,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./tor/torrc_6.txt:/etc/tor/torrc:rw
+      - ./dockerFiles/tor/torrc_6.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9162:9162"
@@ -325,6 +423,12 @@ services:
     networks:
       backend:
         ipv4_address: 172.19.0.15
+    healthcheck:
+      test: ["CMD-SHELL", "curl --proxy http://localhost:9162 http://example.com || exit 1"]
+      interval: 120s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
 
   tor-extend-7:
     container_name: trusted-crawler_tor_instace_7
@@ -332,7 +436,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./tor/torrc_7.txt:/etc/tor/torrc:rw
+      - ./dockerFiles/tor/torrc_7.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9164:9164"
@@ -355,6 +459,12 @@ services:
     networks:
       backend:
         ipv4_address: 172.19.0.16
+    healthcheck:
+      test: ["CMD-SHELL", "curl --proxy http://localhost:9164 http://example.com || exit 1"]
+      interval: 120s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
 
   tor-extend-8:
     container_name: trusted-crawler_tor_instace_8
@@ -362,7 +472,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./tor/torrc_8.txt:/etc/tor/torrc:rw
+      - ./dockerFiles/tor/torrc_8.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9166:9166"
@@ -385,6 +495,12 @@ services:
     networks:
       backend:
         ipv4_address: 172.19.0.17
+    healthcheck:
+      test: ["CMD-SHELL", "curl --proxy http://localhost:9166 http://example.com || exit 1"]
+      interval: 120s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
 
   tor-extend-9:
     container_name: trusted-crawler_tor_instace_9
@@ -392,7 +508,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./tor/torrc_9.txt:/etc/tor/torrc:rw
+      - ./dockerFiles/tor/torrc_9.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9168:9168"
@@ -415,6 +531,12 @@ services:
     networks:
       backend:
         ipv4_address: 172.19.0.18
+    healthcheck:
+      test: ["CMD-SHELL", "curl --proxy http://localhost:9168 http://example.com || exit 1"]
+      interval: 120s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
 
   tor-extend-10:
     container_name: trusted-crawler_tor_instace_10
@@ -422,7 +544,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./tor/torrc_10.txt:/etc/tor/torrc:rw
+      - ./dockerFiles/tor/torrc_10.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9170:9170"
@@ -445,6 +567,15 @@ services:
     networks:
       backend:
         ipv4_address: 172.19.0.19
+    healthcheck:
+      test: ["CMD-SHELL", "curl --proxy http://localhost:9170 http://example.com || exit 1"]
+      interval: 120s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+
+volumes:
+  grafana-data:
 
 networks:
   backend:

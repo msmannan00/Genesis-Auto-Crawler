@@ -2,9 +2,9 @@ from typing import List, Set, Optional
 
 from crawler.constants.constant import CRAWL_SETTINGS_CONSTANTS
 from crawler.crawler_instance.local_shared_model.leak_data_model import leak_data_model
-from crawler.crawler_services.web_request_handler import webRequestManager
+from crawler.crawler_services.shared.helper_method import helper_method
+from crawler.crawler_services.shared.web_request_handler import webRequestManager
 from crawler.crawler_instance.local_shared_model.index_model import index_model
-from crawler.crawler_services.helper_services.helper_method import helper_method
 
 
 class file_parse_manager:
