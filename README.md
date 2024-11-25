@@ -18,7 +18,7 @@ git clone https://github.com/yourusername/dark-web-monitoring-webcrawler.git
 cd dark-web-monitoring-webcrawler
 ```
 
-### Step 2: Build and Start the Services
+### Step 2: Build and Start the Docker
 ```
 docker-compose up --build
 ```
@@ -35,6 +35,7 @@ You can run the webcrawler in two ways:
 
 #### Direct Execution:
     
+- Copy app/libs/nltk_data folder to appdata in windows or home directory in linux.
 - Navigate to the Genesis-Crawler/app/ directory.
 - Run the webcrawler directly using:
     
