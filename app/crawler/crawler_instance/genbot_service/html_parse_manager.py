@@ -306,22 +306,87 @@ class html_parse_manager(HTMLParser, ABC):
 
         return helper_method.strip_special_character(m_content)
 
-    def __get_validity_score(self, p_important_content):
-        m_rank = (((len(p_important_content) + len(self.m_title)) > 150) or len(self.m_sub_url) >= 3) * 10 + (
-                len(self.m_sub_url) > 0 or self.m_all_url_count > 5) * 5
+    def __get_validity_score(self, p_important_content, m_emails, m_phone_numbers):
+        try:
+            if len(self.m_content) < 250:
+                return 0
 
-        return m_rank
+            if not any([self.m_sub_url, m_emails, m_phone_numbers, self.m_archive_url, self.m_video_url]):
+                return 0
+
+            score = 0
+
+            content_length = len(p_important_content)
+            if content_length > 200:
+                score += 20
+            elif 100 < content_length <= 200:
+                score += 10
+            else:
+                score -= 5
+
+            if 10 < len(self.m_title) <= 100:
+                score += 10
+            else:
+                score -= 5
+
+            if 20 < len(self.m_meta_description) <= 150:
+                score += 10
+            else:
+                score -= 5
+
+            if self.m_image_url:
+                score += min(len(self.m_image_url), 5)
+            if self.m_video_url:
+                score += min(len(self.m_video_url), 5)
+            if self.m_doc_url:
+                score += min(len(self.m_doc_url), 5)
+            if self.m_archive_url:
+                score += min(len(self.m_archive_url), 5)
+
+            sub_url_count = len(self.m_sub_url)
+            if sub_url_count > 3:
+                score += 10
+            elif 1 <= sub_url_count <= 3:
+                score += 5
+            else:
+                score -= 5
+
+            if len(self.m_emails) > 0:
+                score += 5
+            if len(self.m_phone_numbers) > 0:
+                score += 5
+            if len(self.m_sections) > 0:
+                score += min(len(self.m_sections), 5)
+
+            unique_content_ratio = len(set(self.m_important_content_raw)) / max(len(self.m_important_content_raw), 1)
+            if unique_content_ratio > 0.8:
+                score += 10
+            elif unique_content_ratio > 0.5:
+                score += 5
+            else:
+                score -= 5
+
+            if self.m_content_type != CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL:
+                score += 10
+
+            if content_length < 50 or score < 0:
+                score = max(score - 10, 0)
+
+            return max(score, 0)
+        except Exception as e:
+            log.g().e(f"Error calculating validity score: {str(e)}")
+            return 0
 
     def __get_content_type(self):
         try:
             if len(self.m_content) > 0:
                 self.m_content_type = shared_data_controller.get_instance().trigger_topic_classifier(self.m_base_url, self.m_title, self.m_important_content, self.m_content)
                 if self.m_content_type is None:
-                   return CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL
+                   return [CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL]
                 return self.m_content_type
-            return CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL
+            return [CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL]
         except Exception:
-            return CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL
+            return [CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL]
 
     def __get_static_file(self):
         return self.m_sub_url[0:10], self.m_image_url, self.m_doc_url, self.m_video_url, self.m_archive_url
@@ -342,10 +407,10 @@ class html_parse_manager(HTMLParser, ABC):
             m_meta_keywords = self.__get_meta_keywords()
             m_content_type = self.__get_content_type()
             m_content = self.__clean_text(self.__get_content() + " " + m_title + " " + m_meta_description)
-            m_validity_score = self.__get_validity_score(m_important_content)
             m_section = self.__get_sections()
             m_names, m_phone_numbers, m_emails = self.__extract_names_places_phones_emails(self.m_soup.get_text(separator=' '))
             m_clearnet_links = self.m_clearnet_links
+            m_validity_score = self.__get_validity_score(m_important_content, m_emails, m_phone_numbers)
             return index_model_init(
                 m_base_url=self.m_base_url,
                 m_url=self.request_model.m_url,

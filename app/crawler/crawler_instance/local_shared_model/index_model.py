@@ -15,7 +15,7 @@ class index_model(BaseModel):
     m_archive_url: List[str]
     m_validity_score: int
     m_meta_keywords: str
-    m_content_type: str
+    m_content_type: List[str]
     m_section: List[str]
     m_names: List[str]
     m_emails: List[str]
@@ -36,7 +36,7 @@ def index_model_init(
     m_archive_url: List[str],
     m_validity_score: int,
     m_meta_keywords: str,
-    m_content_type: str,
+    m_content_type: List[str],
     m_section: List[str],
     m_names: List[str],
     m_emails: List[str],

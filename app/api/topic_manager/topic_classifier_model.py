@@ -1,11 +1,14 @@
 import gc
-from transformers import pipeline
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+import torch
 from api.topic_manager.topic_classifier_enums import TOPIC_CLASSFIER_MODEL, TOPIC_CATEGORIES
 
 class topic_classifier_model:
 
     def __init__(self):
-        self.classifier = pipeline("text-classification", model="./raw/model/topic_classifier", device=-1)
+        self.local_model_dir = "./raw/model/topic_classifier"
+        self.tokenizer = AutoTokenizer.from_pretrained(self.local_model_dir)
+        self.model = AutoModelForSequenceClassification.from_pretrained(self.local_model_dir)
 
     def __predict_classifier(self, p_title, p_description, p_keyword):
         input_text = p_title + p_description + p_keyword
@@ -13,20 +16,37 @@ class topic_classifier_model:
         if len(input_text) > max_length:
             input_text = input_text[:max_length]
         if not input_text:
-            return TOPIC_CATEGORIES.S_THREAD_CATEGORY_GENERAL
+            return [TOPIC_CATEGORIES.S_THREAD_CATEGORY_GENERAL]
 
-        prediction = self.classifier(input_text)
-        predicted_label = prediction[0]['label']
+        inputs = self.tokenizer(input_text, return_tensors="pt", truncation=True, max_length=max_length)
+        with torch.no_grad():
+            outputs = self.model(**inputs)
 
-        if prediction[0]['score'] > 0.45:
-            return predicted_label
-        else:
-            return TOPIC_CATEGORIES.S_THREAD_CATEGORY_GENERAL
+        logits = outputs.logits.squeeze()  # Remove batch dimension
+        max_score = logits.max().item()
+        threshold = max(0.4 * max_score, 2.0)
+
+        top_k = 3
+        top_k_values, top_k_indices = torch.topk(logits, k=logits.size(0), dim=-1)
+
+        unique_predictions = []
+        for idx, score in zip(top_k_indices.tolist(), top_k_values.tolist()):
+            if len(unique_predictions) < top_k and score >= threshold:
+                label = TOPIC_CATEGORIES.get_label(idx)
+                if label not in unique_predictions:
+                    unique_predictions.append(label)
+            if len(unique_predictions) >= top_k:
+                break
+
+        return unique_predictions
 
     def cleanup(self):
-        if self.classifier:
-            del self.classifier
-            self.classifier = None
+        if self.model:
+            del self.model
+        if self.tokenizer:
+            del self.tokenizer
+        self.tokenizer = None
+        self.model = None
         gc.collect()
 
     def invoke_trigger(self, p_command, p_data=None):

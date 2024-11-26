@@ -51,16 +51,18 @@ class genbot_controller(request_handler):
           if not parser_status:
             m_sub_url = m_parsed_model.m_sub_url
 
-          if helper_method.get_host_name(m_redirected_url).__eq__(
-                  helper_method.get_host_name(p_request_model.m_url)) and self.m_url_duplication_handler.validate_duplicate(m_redirected_url) is False:
+          if helper_method.get_host_name(m_redirected_url).__eq__(helper_method.get_host_name(p_request_model.m_url)) and self.m_url_duplication_handler.validate_duplicate(m_redirected_url) is False:
+            if m_parsed_model.m_validity_score == 0:
+              log.g().i(MANAGE_MESSAGES.S_LOW_YIELD_URL + " : " + str(self.__task_id) + " : " + str(self.__m_tor_id) + " : " + p_request_model.m_url)
+              return None, None
+            else:
+              m_paresed_request_data = {"m_generic_model":json.dumps(m_parsed_model.model_dump()),  "m_leak_data_model":json.dumps(m_leak_data_model.model_dump())}
+              self.__elastic_controller_instance.invoke_trigger(ELASTIC_CRUD_COMMANDS.S_INDEX, [ELASTIC_REQUEST_COMMANDS.S_INDEX, json.dumps(m_paresed_request_data), ELASTIC_CONNECTIONS.S_CRAWL_INDEX])
 
-            m_paresed_request_data = {"m_generic_model":json.dumps(m_parsed_model.model_dump()),  "m_leak_data_model":json.dumps(m_leak_data_model.model_dump())}
-            self.__elastic_controller_instance.invoke_trigger(ELASTIC_CRUD_COMMANDS.S_INDEX, [ELASTIC_REQUEST_COMMANDS.S_INDEX, json.dumps(m_paresed_request_data), ELASTIC_CONNECTIONS.S_CRAWL_INDEX])
+              log.g().s(MANAGE_MESSAGES.S_LOCAL_URL_PARSED + " : " + str(self.__task_id) + " : " + str(self.__m_tor_id) + " : " + m_redirected_url)
+              self.m_parsed_url.append(m_redirected_url)
 
-            log.g().s(MANAGE_MESSAGES.S_LOCAL_URL_PARSED + " : " + str(self.__task_id) + " : " + str(self.__m_tor_id) + " : " + m_redirected_url)
-            self.m_parsed_url.append(m_redirected_url)
-
-            return m_parsed_model, m_sub_url
+              return m_parsed_model, m_sub_url
           else:
             return None, None
         else:
@@ -74,7 +76,7 @@ class genbot_controller(request_handler):
 
   def start_crawler_instance(self, p_request_url, p_task_id):
     p_request_url = helper_method.on_clean_url(p_request_url)
-    self.__task_id = "dirlink_" + str(p_task_id)
+    self.__task_id = ""
     m_host_crawled = False
     m_failure_count = 0
 
@@ -115,6 +117,7 @@ class genbot_controller(request_handler):
 
 
 def genbot_instance(p_url, p_vid, p_proxy, p_tor_id):
+  p_url = "https://facebook.com"
   log.g().i(MANAGE_MESSAGES.S_PARSING_WORKER_STARTED + " : " + p_url)
   m_crawler = genbot_controller()
   m_crawler.invoke_trigger(ICRAWL_CONTROLLER_COMMANDS.S_INIT_CRAWLER_INSTANCE, [p_proxy, p_tor_id])

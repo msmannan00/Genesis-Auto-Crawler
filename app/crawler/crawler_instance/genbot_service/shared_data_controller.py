@@ -56,7 +56,7 @@ class shared_data_controller:
             payload = {"text": p_text}
             result = self._request("nlp/parse", method="POST", payload=payload).get("result")
         else:
-            from api.nlp_manager import NLP_REQUEST_COMMANDS
+            from api.nlp_manager.nlp_enums import NLP_REQUEST_COMMANDS
             result = self.nlp_model.invoke_trigger(NLP_REQUEST_COMMANDS.S_PARSE, [p_text])
 
         return result
