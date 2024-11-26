@@ -4,8 +4,7 @@ import stat
 import sys
 import logging
 import os
-from termcolor import colored
-from threading import Lock
+import threading
 from crawler.constants.constant import RAW_PATH_CONSTANTS
 
 if sys.platform == "win32":
@@ -15,10 +14,10 @@ if sys.platform == "win32":
 class log:
     __server_instance = None
     __file_handler_added = False
-    __lock = Lock()
+    __lock = threading.Lock()
     __last_cleanup_date = None
-    __current_log_file = None  # Track current log file path
-    __current_file_number = 1  # Track current file number
+    __current_log_file = None
+    __current_file_number = 1
 
     def __configure_logs(self):
         with self.__lock:
@@ -65,35 +64,36 @@ class log:
         return "Unknown", "Unknown", 0
 
     def __write_to_file(self, log_message, lines_per_file=10000):
-        try:
-            log_directory = os.path.join(
-                RAW_PATH_CONSTANTS.LOG_DIRECTORY,
-                datetime.datetime.now().strftime("%Y-%m-%d")
-            )
-            if not os.path.exists(log_directory):
-                os.makedirs(log_directory, exist_ok=True)
-                self.__current_file_number = 1  # Reset counter for a new day
-                self.__cleanup_old_logs()  # Cleanup only on new day folder creation
-
-            if self.__current_log_file is None:
-                self.__set_current_log_file(log_directory)
-
-            if self.__get_line_count(self.__current_log_file) >= lines_per_file:
-                self.__current_file_number += 1
-                self.__current_log_file = os.path.join(
-                    log_directory, f"log_{self.__current_file_number}.log"
+        with self.__lock:
+            try:
+                log_directory = os.path.join(
+                    RAW_PATH_CONSTANTS.LOG_DIRECTORY,
+                    datetime.datetime.now().strftime("%Y-%m-%d")
                 )
+                if not os.path.exists(log_directory):
+                    os.makedirs(log_directory, exist_ok=True)
+                    self.__current_file_number = 1
+                    self.__cleanup_old_logs()
 
-            caller_class, caller_file, caller_line = self.get_caller_info()
-            full_log_message = f"{log_message} - {caller_class} ({caller_file}:{caller_line})"
+                if self.__current_log_file is None:
+                    self.__set_current_log_file(log_directory)
 
-            with open(self.__current_log_file, 'a') as log_file:
-                log_file.write(full_log_message + "\n")
+                if self.__get_line_count(self.__current_log_file) >= lines_per_file:
+                    self.__current_file_number += 1
+                    self.__current_log_file = os.path.join(
+                        log_directory, f"log_{self.__current_file_number}.log"
+                    )
 
-            os.chmod(self.__current_log_file, stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
+                caller_class, caller_file, caller_line = self.get_caller_info()
+                full_log_message = f"{log_message} - {caller_class} ({caller_file}:{caller_line})"
 
-        except Exception as e:
-            print(f"Error writing to log: {e}")
+                with open(self.__current_log_file, 'a') as log_file:
+                    log_file.write(full_log_message + "\n")
+
+                os.chmod(self.__current_log_file, stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
+
+            except Exception as e:
+                print(f"Error writing to log: {e}")
 
     def __set_current_log_file(self, log_directory):
         log_files = sorted([f for f in os.listdir(log_directory)
