@@ -2,6 +2,7 @@
 data
 *.pyc
 tor_proxy
+logs/*
 global_raw
 env/*
 .env
