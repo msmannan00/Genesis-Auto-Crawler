@@ -64,9 +64,6 @@ class helper_method:
     memory_in_bytes = process.memory_info().rss  # Resident Set Size: memory currently in use
     memory_in_mb = memory_in_bytes / (1024 ** 2)  # Convert to MB
     log_message = f"{message}: Memory Usage: {memory_in_mb:.2f} MB"
-    log.g().i("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
-    log.g().i(log_message)
-    log.g().i("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
 
   @staticmethod
   def get_host_name(p_url):

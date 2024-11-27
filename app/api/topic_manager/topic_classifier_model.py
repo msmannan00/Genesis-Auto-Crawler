@@ -2,6 +2,11 @@ import gc
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 from api.topic_manager.topic_classifier_enums import TOPIC_CLASSFIER_MODEL, TOPIC_CATEGORIES
+import logging
+
+# Set up logging configuration
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logger = logging.getLogger(__name__)
 
 class topic_classifier_model:
 

@@ -351,9 +351,9 @@ class html_parse_manager(HTMLParser, ABC):
             else:
                 score -= 5
 
-            if len(self.m_emails) > 0:
+            if len(m_emails) > 0:
                 score += 5
-            if len(self.m_phone_numbers) > 0:
+            if len(m_phone_numbers) > 0:
                 score += 5
             if len(self.m_sections) > 0:
                 score += min(len(self.m_sections), 5)
@@ -382,7 +382,9 @@ class html_parse_manager(HTMLParser, ABC):
             if len(self.m_content) > 0:
                 self.m_content_type = shared_data_controller.get_instance().trigger_topic_classifier(self.m_base_url, self.m_title, self.m_important_content, self.m_content)
                 if self.m_content_type is None:
-                   return [CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL]
+                    return [CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL]
+
+                log.g().i(self.m_content_type)
                 return self.m_content_type
             return [CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL]
         except Exception:

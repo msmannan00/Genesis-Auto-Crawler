@@ -3,7 +3,7 @@
 PROJECT_NAME="trusted-crawler"
 
 download_and_extract_model() {
-    MODEL_URL="https://drive.usercontent.google.com/download?id=1o53BOk7KRHEvW7enV5-xeUyL3Zc4JYEy&export=download&authuser=0&confirm=t&uuid=892d0610-1723-4691-b57f-3339b942c3cb&at=AENtkXYJfa6ftstr6FNs_4Sg0mkv:1732615659945"
+    MODEL_URL="https://drive.usercontent.google.com/download?id=1o53BOk7KRHEvW7enV5-xeUyL3Zc4JYEy&export=download&authuser=0&confirm=t&uuid=62cc3df2-0ece-45a3-9f5c-6debbfa5548b&at=AENtkXZJdjHrZGxVOedjx6oSE5tl%3A1732663653099"
     MODEL_DEST_DIR="app/raw/model"
     MODEL_DEST_FILE="$MODEL_DEST_DIR/ml_classifier.zip"
     MODEL_EXTRACTED_DIR="$MODEL_DEST_DIR/saved_model"
