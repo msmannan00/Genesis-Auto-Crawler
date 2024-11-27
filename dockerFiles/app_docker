@@ -42,6 +42,3 @@ ENV PATH="/opt/venv/bin:$PATH"
 # Copy application code into the container
 COPY app /app
 WORKDIR /app
-
-# Command to run the application (customize as needed)
-CMD ["python", "manage.py", "runserver"]  # Replace with your actual entry point

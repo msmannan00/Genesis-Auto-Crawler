@@ -5,8 +5,6 @@ services:
     build:
       context: ./
       dockerfile: dockerFiles/app_docker
-    ports:
-      - "8000:8000"
     depends_on:
       - mongo
       - redis_server
