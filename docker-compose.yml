@@ -201,8 +201,6 @@ services:
   dozzle:
     container_name: trusted-crawler-dozzle
     image: amir20/dozzle:latest
-    environment:
-      - DOZZLE_FILTER=label=com.docker.compose.project=trusted-crawler
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     labels:
