@@ -122,6 +122,7 @@ class crawl_model(request_handler):
         genbot_instance(m_url_node, -1, m_proxy, m_tor_id)
 
   def __reinit_docker_request(self):
+    self.init_parsers()
     m_live_url_list, m_updated_url_list = self.__install_live_url()
     return m_updated_url_list
 

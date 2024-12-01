@@ -28,7 +28,7 @@ class TOPIC_CATEGORIES:
     S_THREAD_CATEGORY_CRYPTOCURRENCY = "cryptocurrency"
     S_THREAD_CATEGORY_FRAUD = "leaks"
     S_THREAD_CATEGORY_ADULT = "adult"
-    S_THREAD_CATEGORY_UNKNOWN = "unknown"
+    S_THREAD_CATEGORY_UNKNOWN = "general"
 
     @staticmethod
     def get_label(idx):
