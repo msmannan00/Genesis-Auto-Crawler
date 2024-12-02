@@ -37,7 +37,6 @@ clean_docker() {
     docker compose -p $PROJECT_NAME exec -T worker celery -A crawler.crawler_services.celery_manager control purge || true
     docker compose -p $PROJECT_NAME exec -T worker celery -A crawler.crawler_services.celery_manager control revoke --terminate --all || true
     docker compose -p $PROJECT_NAME exec -T redis redis-cli FLUSHALL || true
-    docker network prune
 
     docker network ls --filter "name=${PROJECT_NAME}_" --format '{{.Name}}' | while read -r net_name; do
         containers=$(docker network inspect -f '{{range .Containers}}{{.Name}} {{end}}' "$net_name")
@@ -56,6 +55,7 @@ stop_docker() {
 stop_docker
 if [ "$1" == "stop" ]; then
     echo "crawler service stopped"
+    docker network prune
 else
     if [ "$1" == "build" ]; then
         download_and_extract_model
