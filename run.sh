@@ -29,22 +29,12 @@ download_and_extract_model() {
 }
 
 clean_docker() {
-    docker compose -p $PROJECT_NAME down --volumes --remove-orphans
-    docker container prune -f --filter "label=com.docker.compose.project=$PROJECT_NAME"
-    docker volume prune -f --filter "label=com.docker.compose.project=$PROJECT_NAME"
-    docker network prune -f --filter "label=com.docker.compose.project=$PROJECT_NAME"
-    docker image prune -f --filter "label=com.docker.compose.project=$PROJECT_NAME"
+    docker compose -p $PROJECT_NAME down --remove-orphans
+    docker volume prune -f
+
     docker compose -p $PROJECT_NAME exec -T worker celery -A crawler.crawler_services.celery_manager control purge || true
     docker compose -p $PROJECT_NAME exec -T worker celery -A crawler.crawler_services.celery_manager control revoke --terminate --all || true
     docker compose -p $PROJECT_NAME exec -T redis redis-cli FLUSHALL || true
-
-    docker network ls --filter "name=${PROJECT_NAME}_" --format '{{.Name}}' | while read -r net_name; do
-        containers=$(docker network inspect -f '{{range .Containers}}{{.Name}} {{end}}' "$net_name")
-        for container in $containers; do
-            docker network disconnect "$net_name" "$container" || true
-        done
-        docker network rm "$net_name" || true
-    done
 }
 
 stop_docker() {
@@ -55,14 +45,13 @@ stop_docker() {
 stop_docker
 if [ "$1" == "stop" ]; then
     echo "crawler service stopped"
-    docker network prune
 else
     if [ "$1" == "build" ]; then
         download_and_extract_model
         docker compose -p $PROJECT_NAME build
     fi
 
-    docker compose -p $PROJECT_NAME up -d
+    docker compose -p $PROJECT_NAME up
     echo "crawler service started"
 fi
 

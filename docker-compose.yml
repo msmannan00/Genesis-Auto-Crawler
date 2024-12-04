@@ -69,6 +69,8 @@ services:
       driver: none
     command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
     restart: always
+    volumes:
+      - redis:/data
     networks:
       backend:
         ipv4_address: 172.19.0.3
@@ -94,7 +96,7 @@ services:
     ports:
       - "27019:27017"
     volumes:
-      - /mnt/docker/genesis/crawler/mongo:/data/db
+      - redis:/data
     command: >
       bash -c "
       mongod --bind_ip_all --fork --logpath /var/log/mongodb.log &&
@@ -176,39 +178,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-
-  traefik:
-    image: traefik:v2.10
-    container_name: trusted-crawler-traefik
-    ports:
-      - "8081:80"
-      - "8443:443"
-    command:
-      - "--entrypoints.web.address=:80"
-      - "--providers.file.directory=/etc/traefik"
-      - "--providers.docker=true"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./dockerFiles/traefik:/etc/traefik
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "exit 0"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
-
-  dozzle:
-    container_name: trusted-crawler-dozzle
-    image: amir20/dozzle:latest
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.dozzle.rule=Host(`dozzle.localhost`)"
-      - "traefik.http.services.dozzle.loadbalancer.server.port=8080"
-      - "traefik.http.routers.dozzle.middlewares=auth@file"
-    restart: unless-stopped
 
   tor-extend-1:
     container_name: trusted-crawler_tor_instace_1
@@ -572,6 +541,8 @@ services:
 
 volumes:
   grafana-data:
+  redis:
+  mongo:
 
 networks:
   backend:
@@ -580,3 +551,4 @@ networks:
       driver: default
       config:
         - subnet: 172.19.0.0/24
+
