@@ -1,6 +1,34 @@
-# Trustly-Crawler
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/a1f302d35c0f4f8c9293acabc5086512)](https://app.codacy.com/gh/msmannan00/Orion-Search/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
-This repository contains a webcrawler designed for monitoring the dark web. It uses Docker Compose to manage services, including MongoDB, Redis, and multiple Tor containers for enhanced anonymity.
+![homepage](https://github.com/user-attachments/assets/37fcf444-40be-46c9-8bd8-45a22d824141)
+
+# Genesis Crawler
+<table>
+<tr>
+<td>
+<br>
+This repository hosts a powerful web crawler specifically designed for monitoring activities on the dark web. It leverages Docker Compose to seamlessly orchestrate multiple services, including MongoDB for data storage, Redis for caching and task management, and multiple Tor containers to ensure robust anonymity and secure communication. This setup provides a scalable and efficient framework for collecting and analyzing dark web data while prioritizing privacy and security.<br>
+<br>
+</td>
+</tr>
+<br>
+<tr>
+<td>
+<br>
+
+**1. Docker-Based Deployment**: Quick setup and deployment using Docker.
+
+**2. Advanced Search Functionality**: Provides comprehensive search capabilities with various filters and options to refine search results.
+
+**3. Data Visualization**: Generates visual representations of the data, making it easier to analyze search results.
+
+**4. Customizable Search Parsers**: Allows for integrating custom parsers to refine data extraction from specific websites.
+
+**5. Integrated Machine Learning Models**: Incorporates NLP and machine learning models to provide search relevance, content categorization, and detection of specific data patterns.
+<br><br>
+</td>
+</tr>
+</table>
 
 ## Prerequisites
 
