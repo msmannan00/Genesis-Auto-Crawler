@@ -25,6 +25,7 @@ class html_parse_manager(HTMLParser, ABC):
         self.m_html = p_html
         self.request_model = p_request_model
         self.m_base_url = helper_method.get_base_url(p_request_model.m_url)
+        self.m_redirect_url = p_request_model.m_url
         self.m_soup = None
 
         self.m_title = STRINGS.S_EMPTY
@@ -130,19 +131,15 @@ class html_parse_manager(HTMLParser, ABC):
             self.m_rec = PARSE_TAGS.S_TITLE
 
         elif p_tag in ['h1', 'h2', 'h3', 'h4']:
-            self.__save_section()
             self.m_rec = PARSE_TAGS.S_HEADER
 
         elif p_tag == 'span' and self.m_paragraph_count == 0:
-            self.__save_section()
             self.m_rec = PARSE_TAGS.S_SPAN
 
         elif p_tag == 'div':
-            self.__save_section()
             self.m_rec = PARSE_TAGS.S_DIV
 
         elif p_tag == 'li':
-            self.__save_section()
             self.m_rec = PARSE_TAGS.S_PARAGRAPH
 
         elif p_tag == 'br':
@@ -193,13 +190,6 @@ class html_parse_manager(HTMLParser, ABC):
                 self.m_current_section += " " + p_data.strip()
                 self.__add_important_description(p_data.strip(), False)
 
-    def __save_section(self):
-        section = self.m_current_section.strip()
-        section = self.__clean_text(section)
-        if section and section.count(" ") > 20:
-            self.m_sections.append(section)
-        self.m_current_section = ""
-
     def __extract_names_places_phones_emails(self, text: str):
         emails = set()
         email_matches = re.findall(r'[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+', text)
@@ -213,6 +203,10 @@ class html_parse_manager(HTMLParser, ABC):
         return list(names), list(phone_numbers), list(emails)
 
     def __get_sections(self):
+        self.m_sections = self.process_sections()
+        self.m_sections.append(self.m_important_content.strip())
+        self.m_sections.append(self.m_meta_description.strip())
+
         return self.m_sections
 
     def __add_important_description(self, p_data, extended_only):
@@ -308,7 +302,7 @@ class html_parse_manager(HTMLParser, ABC):
 
     def __get_validity_score(self, p_important_content, m_emails, m_phone_numbers):
         try:
-            if len(self.m_content) < 250:
+            if len(self.m_content) < 250 or len(self.m_sections)<4 and len(self.m_sections)<50:
                 return 0
 
             if not any([self.m_sub_url, m_emails, m_phone_numbers, self.m_archive_url, self.m_video_url]):
@@ -398,6 +392,42 @@ class html_parse_manager(HTMLParser, ABC):
 
     def __get_meta_keywords(self):
         return self.__clean_text(self.m_meta_keyword)
+
+    def process_sections(self):
+        html = self.m_html.replace(">", ">~")
+        html = html.replace("<", "~<")
+        soup = BeautifulSoup(html, 'html.parser')
+        sections = []
+
+        allowed_tags = {'br', 'span', 'b', 'strong', 'em'}
+
+        for tag in soup.find_all(['p', 'div']):
+            if tag.name == 'div':
+                has_disallowed_inner_tags = any(
+                    child.name not in allowed_tags and child.name is not None
+                    for child in tag.descendants
+                )
+                if has_disallowed_inner_tags:
+                    continue
+                for allowed_tag in tag.find_all(allowed_tags):
+                    allowed_tag.replace_with(allowed_tag.get_text())
+
+            text = tag.get_text(strip=True)
+            text = re.sub(r'[^a-zA-Z0-9.,@=:/\-!?\'" \n]', '', text)
+            text = re.sub(r'(\.\s*\.)+', '.', text)
+            text = re.sub(r'\s+', ' ', text).strip()
+            text = ' '.join(token for token in text.split() if re.search(r'[a-zA-Z0-9]', token))
+
+            words = text.split()
+            valid_word_count = sum(1 for word in words if re.search(r'[a-zA-Z]', word))
+            if valid_word_count >= 4 and text.lower() not in sections:
+                sections.append(text.lower())
+
+        sections_response = [
+            re.sub(r'[^\w]*$', ' ', section.replace("~", " ")).strip()
+            for section in sections
+        ]
+        return sections_response
 
     def parse_html_files(self):
         self.__generate_html()

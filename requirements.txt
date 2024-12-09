@@ -1,7 +1,6 @@
 numpy==1.26.0
 PySocks==1.7.1
 stopwords==1.0.0
-django==4.2.15
 html-similarity==0.3.3
 jaccard-index==0.0.3
 requests==2.32.0
@@ -13,6 +12,7 @@ stem==1.8.0
 aiohttp_socks==0.7.1
 gevent==24.2.1
 lxml==4.9.3
+grammarbot
 celery==5.3.4
 fernet==1.0.1
 redis==5.1.1
@@ -24,6 +24,7 @@ schedule==1.2.0
 pandas==2.1.1
 scikit-learn==1.5.1
 gensim==4.3.3
+pysbd
 beautifulsoup4==4.12.3
 bs4==0.0.2
 eventlet==0.37.0
