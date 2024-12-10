@@ -1,13 +1,5 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/a1f302d35c0f4f8c9293acabc5086512)](https://app.codacy.com/gh/msmannan00/Orion-Search/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 ![CodeQL Analysis](https://github.com/msmannan00/Orion-Crawler/actions/workflows/github-code-scanning/codeql/badge.svg)
-<p align="left">
-  <img src="https://w7.pngwing.com/pngs/956/695/png-transparent-mongodb-original-wordmark-logo-icon.png" alt="MongoDB" height="30" hspace="10">
-  <img src="https://upload.wikimedia.org/wikipedia/en/6/6b/Redis_Logo.svg" alt="Redis" height="30" hspace="10">
-  <img src="https://docs.celeryproject.org/en/stable/_static/celery_512.png" alt="Celery" height="30" hspace="10">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python" height="30" hspace="10">
-  <img src="https://static1.xdaimages.com/wordpress/wp-content/uploads/2018/09/tor-logo.jpeg" alt="Tor" height="30" hspace="10">
-  <img src="https://doc.traefik.io/traefik/assets/img/traefik.logo.png" alt="Traefik" height="30" hspace="10">
-</p>
 
 ![homepage](https://github.com/user-attachments/assets/37fcf444-40be-46c9-8bd8-45a22d824141)
 
@@ -17,6 +9,17 @@
 <td>
 <br>
 This repository hosts a powerful web crawler specifically designed for monitoring activities on the hidden web. It leverages Docker Compose to seamlessly orchestrate multiple services, including MongoDB for data storage, Redis for caching and task management, and multiple Tor containers to ensure robust anonymity and secure communication. This setup provides a scalable and efficient framework for collecting and analyzing hidden web data while prioritizing privacy and security.<br>
+<br>
+
+<p align="left">
+  <img src="https://w7.pngwing.com/pngs/956/695/png-transparent-mongodb-original-wordmark-logo-icon.png" alt="MongoDB" height="30" hspace="10">
+  <img src="https://upload.wikimedia.org/wikipedia/en/6/6b/Redis_Logo.svg" alt="Redis" height="30" hspace="10">
+  <img src="https://docs.celeryproject.org/en/stable/_static/celery_512.png" alt="Celery" height="30" hspace="10">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python" height="30" hspace="10">
+  <img src="https://static1.xdaimages.com/wordpress/wp-content/uploads/2018/09/tor-logo.jpeg" alt="Tor" height="30" hspace="10">
+  <img src="https://doc.traefik.io/traefik/assets/img/traefik.logo.png" alt="Traefik" height="30" hspace="10">
+</p>
+
 <br>
 </td>
 </tr>
