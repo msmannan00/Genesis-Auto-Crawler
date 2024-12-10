@@ -8,7 +8,7 @@
 <tr>
 <td>
 <br>
-This repository hosts a powerful web crawler specifically designed for monitoring activities on the dark web. It leverages Docker Compose to seamlessly orchestrate multiple services, including MongoDB for data storage, Redis for caching and task management, and multiple Tor containers to ensure robust anonymity and secure communication. This setup provides a scalable and efficient framework for collecting and analyzing dark web data while prioritizing privacy and security.<br>
+This repository hosts a powerful web crawler specifically designed for monitoring activities on the hidden web. It leverages Docker Compose to seamlessly orchestrate multiple services, including MongoDB for data storage, Redis for caching and task management, and multiple Tor containers to ensure robust anonymity and secure communication. This setup provides a scalable and efficient framework for collecting and analyzing hidden web data while prioritizing privacy and security.<br>
 <br>
 </td>
 </tr>
@@ -43,8 +43,8 @@ Ensure you have the following installed on your system:
 ### Step 1: Clone Repository
 
 ```
-git clone https://github.com/yourusername/dark-web-monitoring-webcrawler.git
-cd dark-web-monitoring-webcrawler
+git clone https://github.com/yourusername/hidden-web-monitoring-webcrawler.git
+cd hidden-web-monitoring-webcrawler
 ```
 
 ### Step 2: Build and Start the Docker
