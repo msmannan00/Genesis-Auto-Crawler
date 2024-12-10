@@ -1,6 +1,30 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/a1f302d35c0f4f8c9293acabc5086512)](https://app.codacy.com/gh/msmannan00/Orion-Search/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 ![CodeQL Analysis](https://github.com/msmannan00/Orion-Crawler/actions/workflows/github-code-scanning/codeql/badge.svg)
 
+### MongoDB
+<img src="https://raw.githubusercontent.com/mongodb/mongo/master/docs/logo/MongoDB_Logo_FullColor.png" alt="MongoDB" width="200"/>
+
+### Redis
+<img src="https://upload.wikimedia.org/wikipedia/en/thumb/6/6b/Redis_Logo.svg/1280px-Redis_Logo.svg.png" alt="Redis" width="200"/>
+
+### Celery
+<img src="https://docs.celeryproject.org/en/stable/_static/celery_512.png" alt="Celery" width="200"/>
+
+### Python
+<img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python" width="200"/>
+
+### Tor
+<img src="https://upload.wikimedia.org/wikipedia/commons/3/39/Tor-logo-2011-flat.svg" alt="Tor" width="200"/>
+
+### Traefik
+<img src="https://doc.traefik.io/traefik/assets/img/traefik.logo.png" alt="Traefik" width="200"/>
+
+### Dozzle
+<img src="https://raw.githubusercontent.com/amir20/dozzle/main/docs/dozzle.svg" alt="Dozzle" width="200"/>
+
+### Flower API
+<img src="https://flower.readthedocs.io/en/latest/_images/flower-logo.png" alt="Flower API" width="200"/>
+
 ![homepage](https://github.com/user-attachments/assets/37fcf444-40be-46c9-8bd8-45a22d824141)
 
 # Orion Crawler
