@@ -1,9 +1,9 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/a1f302d35c0f4f8c9293acabc5086512)](https://app.codacy.com/gh/msmannan00/Orion-Search/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
-![CodeQL Analysis](https://github.com/msmannan00/Genesis-Crawler/actions/workflows/github-code-scanning/codeql/badge.svg)
+![CodeQL Analysis](https://github.com/msmannan00/Orion-Crawler/actions/workflows/github-code-scanning/codeql/badge.svg)
 
 ![homepage](https://github.com/user-attachments/assets/37fcf444-40be-46c9-8bd8-45a22d824141)
 
-# Genesis Crawler
+# Orion Crawler
 <table>
 <tr>
 <td>
@@ -65,7 +65,7 @@ You can run the webcrawler in two ways:
 #### Direct Execution:
     
 - Copy app/libs/nltk_data folder to appdata in windows or home directory in linux.
-- Navigate to the Genesis-Crawler/app/ directory.
+- Navigate to the Orion-Crawler/app/ directory.
 - Run the webcrawler directly using:
     
 ```
