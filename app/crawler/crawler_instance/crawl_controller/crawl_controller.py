@@ -23,13 +23,15 @@ class crawl_controller(request_handler):
   def __init__(self):
     self.__m_crawl_model = crawl_model()
 
-  def __update_crawler_status(self):
+  @staticmethod
+  def __update_crawler_status():
     try:
       requests.get(CRAWL_SETTINGS_CONSTANTS.S_UPDATE_STATUS_URL, timeout=100)
     except Exception:
       pass
 
-  def __update_internet_status(self):
+  @staticmethod
+  def __update_internet_status():
     url = NETWORK_MONITOR.S_PING_URL
     timeout = 5
     try:
@@ -49,6 +51,6 @@ class crawl_controller(request_handler):
 
     self.__m_crawl_model.invoke_trigger(CRAWL_MODEL_COMMANDS.S_INIT)
 
-  def invoke_trigger(self, p_command):
+  def invoke_trigger(self, p_command, p_data=None):
     if p_command == CRAWL_CONTROLLER_COMMANDS.S_RUN_CRAWLER:
       self.__on_start()
