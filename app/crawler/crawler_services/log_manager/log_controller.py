@@ -21,7 +21,7 @@ class log:
 
     def __configure_logs(self):
         with self.__lock:
-            self.__server_instance = logging.getLogger('genesis_logs')
+            self.__server_instance = logging.getLogger('orion_logs')
 
             if not self.__server_instance.hasHandlers():
                 self.__server_instance.setLevel(logging.INFO)

@@ -87,7 +87,7 @@ class helper_method:
   @staticmethod
   def get_service_ip():
     try:
-      service_name = os.getenv('SEARCH_SERVICE', 'genesis-search-web')
+      service_name = os.getenv('SEARCH_SERVICE', 'orion-search-web')
       service_ip = socket.gethostbyname(service_name)
       return f"http://{service_ip}:8080"
     except socket.error as e:
