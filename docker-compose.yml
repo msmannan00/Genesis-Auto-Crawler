@@ -7,6 +7,7 @@ services:
       dockerfile: dockerFiles/app_docker
     depends_on:
       - mongo
+      - i2p-instance
       - redis_server
       - tor-extend-1
       - tor-extend-2
@@ -185,7 +186,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./dockerFiles/tor/torrc_1.txt:/etc/tor/torrc:rw
+      - ./config/tor/torrc_1.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9152:9152"
@@ -221,7 +222,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./dockerFiles/tor/torrc_2.txt:/etc/tor/torrc:rw
+      - ./config/tor/torrc_2.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9154:9154"
@@ -257,7 +258,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./dockerFiles/tor/torrc_3.txt:/etc/tor/torrc:rw
+      - ./config/tor/torrc_3.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9156:9156"
@@ -293,7 +294,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./dockerFiles/tor/torrc_4.txt:/etc/tor/torrc:rw
+      - ./config/tor/torrc_4.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9158:9158"
@@ -329,7 +330,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./dockerFiles/tor/torrc_5.txt:/etc/tor/torrc:rw
+      - ./config/tor/torrc_5.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9160:9160"
@@ -365,7 +366,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./dockerFiles/tor/torrc_6.txt:/etc/tor/torrc:rw
+      - ./config/tor/torrc_6.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9162:9162"
@@ -401,7 +402,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./dockerFiles/tor/torrc_7.txt:/etc/tor/torrc:rw
+      - ./config/tor/torrc_7.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9164:9164"
@@ -437,7 +438,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./dockerFiles/tor/torrc_8.txt:/etc/tor/torrc:rw
+      - ./config/tor/torrc_8.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9166:9166"
@@ -473,7 +474,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./dockerFiles/tor/torrc_9.txt:/etc/tor/torrc:rw
+      - ./config/tor/torrc_9.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9168:9168"
@@ -509,7 +510,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./dockerFiles/tor/torrc_10.txt:/etc/tor/torrc:rw
+      - ./config/tor/torrc_10.txt:/etc/tor/torrc:rw
 
     ports:
       - "0.0.0.0:9170:9170"
@@ -535,6 +536,36 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "curl --proxy http://localhost:9170 http://example.com || exit 1"]
       interval: 120s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+
+  i2p-instance:
+    container_name: trusted-crawler-i2p
+    image: geti2p/i2p:latest
+    restart: unless-stopped
+    ports:
+      - "7657:7657"
+      - "4444:4444"
+      - "4445:4445"
+      - "6668:6668"
+      - "7654:7654"
+      - "7656:7656"
+      - "12345:12345"
+      - "12345:12345/udp"
+    volumes:
+      - ./config/i2p:/i2p/.i2p
+    environment:
+      - I2P_LANG=en
+      - CONSOLE_AUTH=true
+      - CONSOLE_USER=${I2P_USERNAcME}
+      - CONSOLE_PASSWORD=${I2P_PASSWORD}
+    networks:
+      backend:
+        ipv4_address: 172.19.0.20
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:7657 || exit 1"]
+      interval: 30s
       timeout: 10s
       retries: 3
       start_period: 5s

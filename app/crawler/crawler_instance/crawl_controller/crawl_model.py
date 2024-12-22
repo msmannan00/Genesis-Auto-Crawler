@@ -4,19 +4,23 @@ from time import sleep
 
 from crawler.constants.app_status import APP_STATUS
 from crawler.constants.constant import CRAWL_SETTINGS_CONSTANTS
+from crawler.constants.enums import network_type
 from crawler.constants.strings import MANAGE_MESSAGES
 from crawler.crawler_instance.crawl_controller.crawl_enums import CRAWL_MODEL_COMMANDS
+from crawler.crawler_instance.proxies.i2p_controller.i2p_controller import i2p_controller
+from crawler.crawler_instance.proxies.i2p_controller.i2p_enums import I2P_COMMANDS
+from crawler.crawler_instance.proxies.shared_proxy_methods import shared_proxy_methods
+from crawler.crawler_instance.proxies.tor_controller.tor_controller import tor_controller
 from crawler.crawler_services.mongo_manager.mongo_controller import mongo_controller
 from crawler.crawler_services.mongo_manager.mongo_enums import MONGO_CRUD, MONGODB_COMMANDS
 from crawler.crawler_services.shared.env_handler import env_handler
 from crawler.crawler_services.shared.helper_method import helper_method
 from crawler.crawler_services.shared.scheduler import RepeatedTimer
 from crawler.crawler_services.shared.web_request_handler import webRequestManager
-from crawler.crawler_instance.tor_controller.tor_controller import tor_controller
-from crawler.crawler_instance.tor_controller.tor_enums import TOR_COMMANDS
+from crawler.crawler_instance.proxies.tor_controller.tor_enums import TOR_COMMANDS
 from crawler.crawler_services.log_manager.log_controller import log
 from crawler.crawler_services.request_manager.request_handler import request_handler
-
+import random
 class crawl_model(request_handler):
 
   def __init__(self):
@@ -24,7 +28,8 @@ class crawl_model(request_handler):
     self.__mongo = mongo_controller()
 
 
-  def init_parsers(self):
+  @staticmethod
+  def init_parsers():
     log.g().s(MANAGE_MESSAGES.S_PARSER_LOAD_STARTED)
     zip_path = "data.zip"
     extract_dir = os.path.join(os.getcwd(), CRAWL_SETTINGS_CONSTANTS.S_PARSE_EXTRACTION_DIR)
@@ -58,11 +63,15 @@ class crawl_model(request_handler):
 
     mongo_response = self.__mongo.invoke_trigger(MONGO_CRUD.S_READ,[MONGODB_COMMANDS.S_GET_CRAWLABLE_URL_DATA, [None], [None]])
     m_live_url_list = []
-    if mongo_response:
+    if shared_proxy_methods.get_onion_status() and mongo_response:
       for document in mongo_response:
         if len(document.keys())>0:
           m_live_url_list.append(document["m_url"])
           m_live_url_list = m_live_url_list[0: int(thread_count)]
+
+    if shared_proxy_methods.get_i2p_status():
+      i2p_urls = i2p_controller.get_instance().invoke_trigger(I2P_COMMANDS.S_FETCH)
+      m_live_url_list.extend(i2p_urls)
 
     self.__mongo.invoke_trigger(MONGO_CRUD.S_UPDATE,[MONGODB_COMMANDS.S_RESET_CRAWLABLE_URL, [None], [False]])
 
@@ -102,6 +111,7 @@ class crawl_model(request_handler):
 
     self.__mongo.invoke_trigger(MONGO_CRUD.S_DELETE, [MONGODB_COMMANDS.S_REMOVE_DEAD_CRAWLABLE_URL, [list(m_live_url_list)], [None]])
     log.g().i(MANAGE_MESSAGES.S_INSTALL_LIVE_URL_FINISHED)
+
     return m_live_url_list, m_updated_url_list
 
   def __init_docker_request(self):
@@ -117,9 +127,12 @@ class crawl_model(request_handler):
     while True:
       m_live_url_list, p_fetched_url_list = self.__install_live_url()
       m_request_list = list(m_live_url_list) + p_fetched_url_list
+      random.shuffle(m_request_list)
+
       for m_url_node in m_request_list:
-        m_proxy, m_tor_id = tor_controller.get_instance().invoke_trigger(TOR_COMMANDS.S_PROXY, [])
-        genbot_instance(m_url_node, -1, m_proxy, m_tor_id)
+        if helper_method.get_network_type(m_url_node) == network_type.I2P and shared_proxy_methods.get_i2p_status() or helper_method.get_network_type(m_url_node) == network_type.ONION and shared_proxy_methods.get_onion_status():
+          m_proxy, m_tor_id = shared_proxy_methods.get_proxy(m_url_node)
+          genbot_instance(m_url_node, -1, m_proxy, m_tor_id)
 
   def __reinit_docker_request(self):
     self.init_parsers()
@@ -132,10 +145,12 @@ class crawl_model(request_handler):
     from crawler.shared_data import celery_shared_data
 
     if celery_shared_data.get_instance().get_network_status:
+      random.shuffle(p_fetched_url_list)
       while len(p_fetched_url_list) > 0:
         self.__celery_vid += 1
         try:
-          celery_controller.get_instance().invoke_trigger(CELERY_COMMANDS.S_START_CRAWLER, [p_fetched_url_list.pop(0), self.__celery_vid])
+          m_url_node = p_fetched_url_list.pop(0)
+          celery_controller.get_instance().invoke_trigger(CELERY_COMMANDS.S_START_CRAWLER, [m_url_node, self.__celery_vid])
         except Exception as ex:
           print(ex, flush=True)
           pass
@@ -150,9 +165,11 @@ class crawl_model(request_handler):
     if celery_shared_data.get_instance().get_network_status:
       if not p_fetched_url_list:
         p_fetched_url_list.extend(self.__reinit_docker_request())
+      random.shuffle(p_fetched_url_list)
       while len(p_fetched_url_list) > 0:
         self.__celery_vid += 1
-        celery_controller.get_instance().invoke_trigger(CELERY_COMMANDS.S_START_CRAWLER, [p_fetched_url_list.pop(0), self.__celery_vid])
+        m_url_node = p_fetched_url_list.pop(0)
+        celery_controller.get_instance().invoke_trigger(CELERY_COMMANDS.S_START_CRAWLER, [m_url_node, self.__celery_vid])
 
   def __init_crawler(self):
     self.__celery_vid = 100000

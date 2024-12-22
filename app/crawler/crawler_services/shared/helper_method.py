@@ -8,6 +8,7 @@ import psutil
 from gensim.parsing.preprocessing import STOPWORDS
 import socket
 
+from crawler.constants.enums import network_type
 from crawler.constants.strings import MANAGE_MESSAGES
 from crawler.crawler_services.log_manager.log_controller import log
 
@@ -44,8 +45,23 @@ class helper_method:
       parsed_url.query,
       parsed_url.fragment
     ))
-
     return cleaned_url
+
+  @staticmethod
+  def get_network_type(url:str):
+    try:
+      if not url.startswith("http"):
+        url = "http://" + url
+      parsed_url = urlparse(url)
+      if not parsed_url.scheme or not parsed_url.netloc:
+        return network_type.INVALID
+      if re.search(r"\.onion$", parsed_url.netloc, re.IGNORECASE):
+        return network_type.ONION
+      if re.search(r"\.i2p$", parsed_url.netloc, re.IGNORECASE):
+        return network_type.I2P
+      return network_type.CLEARNET
+    except Exception:
+      return network_type.INVALID
 
   @staticmethod
   def clear_hosts_file(file_path):

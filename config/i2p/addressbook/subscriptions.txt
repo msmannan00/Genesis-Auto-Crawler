@@ -1,0 +1,5 @@
+http://i2p-projekt.i2p/hosts.txt
+http://inr.i2p/hosts.txt
+http://notbob.i2p/hosts.txt
+http://skank.i2p/hosts.txt
+http://stats.i2p/hosts.txt

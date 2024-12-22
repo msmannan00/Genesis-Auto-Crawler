@@ -41,4 +41,5 @@ ENV PATH="/opt/venv/bin:$PATH"
 
 # Copy application code into the container
 COPY app /app
+COPY config /app
 WORKDIR /app

@@ -446,6 +446,7 @@ class html_parse_manager(HTMLParser, ABC):
             return index_model_init(
                 m_base_url=self.m_base_url,
                 m_url=self.request_model.m_url,
+                m_network=self.request_model.m_network,
                 m_title=m_title,
                 m_meta_description=m_meta_description,
                 m_content=m_content,

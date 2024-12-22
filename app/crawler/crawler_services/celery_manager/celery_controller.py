@@ -6,12 +6,14 @@ import sys
 import os
 import signal
 import socket
-from crawler.crawler_instance.tor_controller.tor_controller import tor_controller
-from crawler.crawler_instance.tor_controller.tor_enums import TOR_COMMANDS
+
+from crawler.constants.enums import network_type
+from crawler.crawler_instance.proxies.shared_proxy_methods import shared_proxy_methods
+from crawler.crawler_services.log_manager.log_controller import log
 from crawler.crawler_services.redis_manager.redis_controller import redis_controller
 from crawler.crawler_services.celery_manager.celery_enums import CELERY_CONNECTIONS, CELERY_COMMANDS
 from crawler.crawler_instance.genbot_service.genbot_controller import genbot_instance
-
+from crawler.crawler_services.shared.helper_method import helper_method
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
@@ -56,7 +58,8 @@ class celery_controller:
     except Exception:
       pass
 
-  def __stop_all_workers(self):
+  @staticmethod
+  def __stop_all_workers():
     try:
       output = subprocess.check_output(['pgrep', '-f', 'celery'])
       pids = output.decode().strip().split("\n")
@@ -67,9 +70,11 @@ class celery_controller:
     except Exception:
       pass
 
-  def __run_crawler(self, url, virtual_id):
-    m_proxy, m_tor_id = tor_controller.get_instance().invoke_trigger(TOR_COMMANDS.S_PROXY, [])
-    start_crawler.delay(url, virtual_id, m_proxy, m_tor_id)
+  @staticmethod
+  def __run_crawler(url, virtual_id):
+    m_proxy, m_tor_id = shared_proxy_methods.get_proxy(url)
+    if helper_method.get_network_type(url) == network_type.I2P and shared_proxy_methods.get_i2p_status() or helper_method.get_network_type(url) == network_type.ONION and shared_proxy_methods.get_onion_status():
+      start_crawler.delay(url, virtual_id, m_proxy, m_tor_id)
 
   def invoke_trigger(self, p_commands, p_data=None):
     if p_commands == CELERY_COMMANDS.S_START_CRAWLER:

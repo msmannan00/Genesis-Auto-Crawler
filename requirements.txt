@@ -47,3 +47,7 @@ psutil
 torch==2.4.1
 fastapi
 uvicorn[standard]
+selenium
+webdriver_manager
+undetected-chromedriver
+playwright

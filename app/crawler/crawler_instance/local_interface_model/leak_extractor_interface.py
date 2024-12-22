@@ -10,16 +10,6 @@ class leak_extractor_interface(ABC):
         pass
 
     @abstractmethod
-    def extract_cards(self, url:str) -> List[card_extraction_model]:
-        """Extract card data from the HTML content and return a list of card_extraction_model objects."""
-        pass
-
-    @abstractmethod
-    def extract_sub_links(self) -> Set[str]:
-        """Extract sub-links from the HTML content and return a set of strings."""
-        pass
-
-    @abstractmethod
     def contact_page(self) -> str:
         """Return the contact page URL as a string."""
         pass

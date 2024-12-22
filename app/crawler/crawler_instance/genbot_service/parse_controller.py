@@ -33,8 +33,8 @@ class parse_controller:
         else:
             return m_parsed_model
 
-    def on_parse_leaks(self, p_html: str, m_url: str) -> tuple[None, bool, bool] | tuple[leak_data_model, Set[str], bool]:
-        data_model, m_sub_url = self.__on_leak_parser_invoke(p_html, m_url)
+    def on_parse_leaks(self, p_html: str, p_request_model: url_model) -> tuple[None, bool, bool] | tuple[leak_data_model, Set[str], bool]:
+        data_model, m_sub_url = self.__on_leak_parser_invoke(p_html, p_request_model)
         if data_model is not None:
             parsed_data, m_sub_url = self._get_file_parse_manager().parse_leak_files(data_model), m_sub_url
             return parsed_data, m_sub_url, True
@@ -44,14 +44,23 @@ class parse_controller:
                 contact_link="",
                 base_url="",
             )
-            return data_model, m_sub_url, False
+            return data_model, m_sub_url, len(m_sub_url)>0
 
-    def __on_html_parser_invoke(self, p_html: str, p_request_model: url_model) -> index_model:
+    @staticmethod
+    def __on_html_parser_invoke(p_html: str, p_request_model: url_model) -> index_model:
         return html_parse_manager(p_html, p_request_model).parse_html_files()
 
-    def __on_leak_parser_invoke(self, p_html, p_data_url: str) -> tuple[Optional[Any], Set[str]]:
+    def __on_leak_parser_invoke(self, p_html, p_request_model: url_model) -> tuple[Optional[Any], Set[str]]:
+        if self.leak_extractor_instance is not None:
+            data_model, m_sub_url = self.leak_extractor_instance.parse_leak_data(p_html, p_request_model.m_url)
+            data_model.m_network = p_request_model.m_url
+            return self.post_leak_model_instance.process(data_model, m_sub_url)
+        else:
+            return None, set()
+
+    def on_init_leak_parser(self, p_data_url):
         if not self.leak_extractor_instance:
-            class_name = helper_method.get_host_name(p_data_url)
+            class_name = "_"+helper_method.get_host_name(p_data_url)
             try:
                 module_path = f"raw.parsers.{class_name}"
 
@@ -66,8 +75,5 @@ class parse_controller:
 
                 self.leak_extractor_instance = self.module_cache[class_name]
 
-            except Exception:
-                return None, set()
-
-        data_model, m_sub_url = self.leak_extractor_instance.parse_leak_data(p_html, p_data_url)
-        return self.post_leak_model_instance.process(data_model, m_sub_url)
+            except Exception as ex:
+                pass

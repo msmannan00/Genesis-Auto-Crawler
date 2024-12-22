@@ -1,0 +1,267 @@
+body {
+    margin: 25px 10%;
+    text-align: justify;
+    color: #2E2E2E;
+    background: #DFDFDF;
+    background-size: 120px 120px;
+}
+
+body, h1, h2, h3, h4, p, ul, ol, li, dl, dt, dd, div, td, th, address, blockquote {
+    font-family: "Droid Sans", "Noto Sans", Ubuntu, 'Segoe UI', 'Bitstream Vera Sans', Verdana, Helvetica, sans-serif;
+}
+
+h1 {
+    font-size: 23pt;
+    margin: 5px 0 20px;
+    padding: 20px 0 5px 48px;
+    white-space: nowrap;
+    letter-spacing: .05em;
+
+
+    background-repeat: no-repeat;
+    background-position: left 5px bottom 5px;
+
+}
+
+h2 {
+    font-size: 12pt;
+    font-variant: small-caps;
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: #2E2E2E;
+    border: 2px solid #363A68;
+    border-radius: 5px;
+
+
+
+
+
+    background-size: auto 112%, 100% 100%;
+
+}
+
+h3 {
+    font-size: 11pt;
+}
+
+h4 {
+    font-size: 10pt;
+    padding: 4px 10px;
+    letter-spacing: .09em;
+    text-transform: capitalize;
+    border: 1px solid #5f3423;
+    border-radius: 2px;
+    background: ##F2F2F2;
+
+    background-size: auto 112%, 100% 100%;
+
+    vertical-align: middle;
+}
+
+h5 {
+    font-size: 10pt;
+}
+
+p, ul, ol, li, dl, dt, dd, div, td, th, address, blockquote {
+    font-size: 10pt;
+}
+
+a.footref {
+    font-size: 70%;
+}
+
+a:link {
+    text-decoration: none;
+    outline: none;
+    color: #ED8936;
+}
+
+a:visited {
+    text-decoration: none;
+    color: #ED8936;
+}
+
+a:active {
+    text-decoration: none;
+    color: #f90;
+}
+
+a:hover, a:focus {
+    text-decoration: none;
+    color: #FBD38D;
+}
+
+a:focus {
+     text-decoration: underline;
+}
+
+a.nonexistent {
+    text-decoration: underline;
+    color: #ffffe0;
+}
+
+a.nonexistent:visited {
+    text-decoration: none;
+    color: #ffffe0;
+}
+
+a {
+    font-size: 10pt;
+    font-weight: bold;
+}
+
+dl.contents {
+    margin-top: 0;
+}
+
+dt.contents {
+    margin-bottom: 0;
+}
+
+em {
+    font-style: italic;
+}
+
+li, dt {
+    margin: 8px 0;
+    padding-right: 25px;
+    list-style: square;
+}
+
+p {
+     padding: 0 10px;
+}
+
+p, ul {
+     line-height: 130%;
+}
+
+p.verse {
+    margin-left: 8.7%;
+    white-space: pre;
+}
+
+pre {
+    font-family: monospace;
+    margin-left: 8.7%;
+    white-space: pre;
+}
+
+strong {
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+}
+
+td {
+    overflow: hidden;
+    vertical-align: top;
+    border: 0 solid #000;
+}
+
+ul {
+    margin: 10px 0;
+    list-style-type: square;
+}
+
+hr {
+    height: 1px;
+    margin: 5px 0;
+
+}
+
+div.langbar {
+    font-size: 8.5pt;
+    text-align: right;
+    display: block;
+    width: auto;
+    padding: 5px 10px 5px 5px;
+    float: right;
+    margin: -6px -26px 0 0;
+
+}
+
+div.langbar a {
+    font-size: 8.5pt;
+    outline: none;
+}
+
+div.langbar img {
+    padding: 3px 5px 0;
+
+    border: 0;
+}
+
+div.langbar img:hover, .langbar a:focus img {
+    opacity: 1 !important;
+}
+
+div.langbar img:last-child {
+    padding-right: 0;
+}
+
+div.sidenav {
+    float: right;
+    width: 200px;
+    border: 1px solid #F2F2F2;
+}
+
+div.main {
+    font-size: 10pt;
+    min-width: 570px;
+    padding: 5px 25px 10px 25px;
+
+    background: #F2F2F2;
+
+}
+
+div.footnote {
+    font-size: 8pt;
+    font-style: italic;
+    text-align: right;
+}
+
+div.notify {
+    margin: 15px 0 15px 0;
+    padding: 10px;
+
+    background: #F2F2F2;
+
+}
+
+code {
+    font-family: "Droid Sans Mono", "Noto Mono", "Lucida Console", "DejaVu Sans Mono", monospace;
+    font-weight: bold;
+    color: #38ADC2;
+}
+
+#navbar {
+     border: 1px solid #7f462f;
+     border-left: none;
+     border-right: none;
+     margin: -6px -22px 0;
+     border-radius: 2px 2px 0 0;
+     text-align: center;
+}
+
+#navbar a {
+     border: 1px solid #38ADC2;
+     display: inline-block;
+     padding: 8px 10px;
+     margin: -1px;
+     background: #000;
+     text-decoration: none;
+     outline: none;
+}
+
+/* responsive layout */
+
+@media screen and (max-width: 1000px) {
+body {
+     margin: 10px !important;
+}
+}

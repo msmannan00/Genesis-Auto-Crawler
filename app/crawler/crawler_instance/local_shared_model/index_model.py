@@ -4,6 +4,7 @@ from typing import List
 class index_model(BaseModel):
     m_base_url: str
     m_url: str
+    m_network: str
     m_title: str
     m_meta_description: str
     m_content: str
@@ -25,6 +26,7 @@ class index_model(BaseModel):
 def index_model_init(
     m_base_url: str,
     m_url: str,
+    m_network: str,
     m_title: str,
     m_meta_description: str,
     m_content: str,
@@ -46,6 +48,7 @@ def index_model_init(
     return index_model(
         m_base_url=m_base_url,
         m_url=m_url,
+        m_network=m_network,
         m_title=m_title,
         m_meta_description=m_meta_description,
         m_content=m_content,
