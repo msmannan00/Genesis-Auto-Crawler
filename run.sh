@@ -26,11 +26,11 @@ download_and_extract_model() {
 
         [ "$attempt" -eq 2 ] && echo "Failed to extract model after retrying. Exiting." && exit 1
     done
+
 }
 
 clean_docker() {
     docker compose -p $PROJECT_NAME down --remove-orphans
-    docker volume prune -f
 
     docker compose -p $PROJECT_NAME exec -T worker celery -A crawler.crawler_services.celery_manager control purge || true
     docker compose -p $PROJECT_NAME exec -T worker celery -A crawler.crawler_services.celery_manager control revoke --terminate --all || true

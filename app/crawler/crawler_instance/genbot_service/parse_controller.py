@@ -62,7 +62,7 @@ class parse_controller:
         if not self.leak_extractor_instance:
             class_name = "_"+helper_method.get_host_name(p_data_url)
             try:
-                module_path = f"raw.parsers.{class_name}"
+                module_path = f"raw.parsers.local.{class_name}"
 
                 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
                 if parent_dir not in sys.path:

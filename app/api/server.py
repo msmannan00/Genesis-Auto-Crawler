@@ -1,20 +1,27 @@
-from fastapi import FastAPI
+import json
+from typing import Optional, Dict
+
+from fastapi import FastAPI, Query
 from .model.ClassifyRequestModel import ClassifyRequestModel
 from .model.ParseRequestModel import ParseRequestModel
 from .nlp_manager.nlp_controller import nlp_controller
 from .nlp_manager.nlp_enums import NLP_REQUEST_COMMANDS
+from .runtime_parse_manager.runtime_parse_controller import runtime_parse_controller
 from .topic_manager.topic_classifier_controller import topic_classifier_controller
 from .topic_manager.topic_classifier_enums import TOPIC_CLASSFIER_COMMANDS, TOPIC_CATEGORIES
 import asyncio
 import logging
+from fastapi import FastAPI, Query, Request
 
 # Set up logging configuration
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 class APIService:
+
     def __init__(self):
         self.app = FastAPI()
+        self.m_runtime_parser = runtime_parse_controller()
         self.semaphore = asyncio.Semaphore(30)
         try:
             self.nlp_controller_instance = nlp_controller()
@@ -25,11 +32,26 @@ class APIService:
 
         self.app.add_api_route("/nlp/parse", self.nlp_parse, methods=["POST"])
         self.app.add_api_route("/topic_classifier/predict", self.topic_classifier_predict, methods=["POST"])
+        self.app.add_api_route("/runtime/parse", self.runtime_parse, methods=["POST"])
+
+    async def runtime_parse(self, request: Request):
+        payload = await request.json()
+        query: Dict[str, str] = payload.get("query", {})
+
+        print("Received payload:", payload, flush=True)
+        print("Parsed query:", query, flush=True)
+
+        if not query or all(value == "" for value in query.values()):
+            return {"error": "No valid query parameters provided or all values are empty"}
+
+        async with self.semaphore:
+            response = await self.m_runtime_parser.get_email_username(query)
+
+        return response
 
     async def process_request(self, request, command, controller, default_result, timeout=15):
         async with self.semaphore:
             try:
-                # Use asyncio.to_thread to run the synchronous controller in an async way
                 result = await asyncio.wait_for(
                     asyncio.to_thread(controller, command, request),
                     timeout=timeout

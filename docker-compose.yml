@@ -30,8 +30,7 @@ services:
     env_file:
       - .env
     networks:
-      backend:
-        ipv4_address: 172.19.0.2
+      - backend
     entrypoint: [ "bash", "-c", "./start_app.sh start_app" ]
     healthcheck:
       test: ["CMD-SHELL", "exit 0"]
@@ -47,12 +46,12 @@ services:
       dockerfile: dockerFiles/api_docker
     restart: always
     networks:
-      backend:
-        ipv4_address: 172.19.0.25
+      - backend
+      - shared_bridge
     env_file:
       - .env
     volumes:
-      - /mnt/c/Workspace/Genesis-Crawler/app/api:/app/api
+      - /mnt/c/Workspace/Genesis-Crawler/app/api:/app/api:cached
     deploy:
       resources:
         limits:
@@ -73,8 +72,7 @@ services:
     volumes:
       - redis:/data
     networks:
-      backend:
-        ipv4_address: 172.19.0.3
+      - backend
     env_file:
       - .env
     deploy:
@@ -122,8 +120,7 @@ services:
         limits:
           memory: 5G
     networks:
-      backend:
-        ipv4_address: 172.19.0.7
+      - backend
     healthcheck:
       test: ["CMD-SHELL", "timeout 5 bash -c '</dev/tcp/localhost/27017' || exit 1"]
       interval: 30s
@@ -144,8 +141,7 @@ services:
     volumes:
       - ./app:/app
     networks:
-      backend:
-        ipv4_address: 172.19.0.4
+      - backend
     deploy:
       resources:
         limits:
@@ -170,8 +166,7 @@ services:
       - "5555:5555"
     restart: always
     networks:
-      backend:
-        ipv4_address: 172.19.0.6
+      - backend
     environment:
       - CELERY_BROKER_URL=redis://:${REDIS_PASSWORD}@redis_server:6379/0
     healthcheck:
@@ -558,7 +553,7 @@ services:
     environment:
       - I2P_LANG=en
       - CONSOLE_AUTH=true
-      - CONSOLE_USER=${I2P_USERNAcME}
+      - CONSOLE_USER=${I2P_USERNAME}
       - CONSOLE_PASSWORD=${I2P_PASSWORD}
     networks:
       backend:
@@ -576,10 +571,11 @@ volumes:
   mongo:
 
 networks:
+  shared_bridge:
+    external: true
   backend:
     driver: bridge
     ipam:
       driver: default
       config:
         - subnet: 172.19.0.0/24
-
