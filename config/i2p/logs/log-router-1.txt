@@ -1,1 +1,18 @@
-Dec 27, 2024, 12:18:12 AM WARN  [Addressbook ] .naming.BlockfileNamingService: The hosts database was not closed cleanly or is still open by another process
+Dec 27, 2024, 9:24:28 PM WARN  [Addressbook ] .naming.BlockfileNamingService: The hosts database was not closed cleanly or is still open by another process
+Dec 27, 2024, 9:30:07 PM ERROR [ HTTPS Proxy] .i2ptunnel.I2PTunnelClientBase: Unable to build tunnels for the client, retrying in 20 seconds
+net.i2p.client.I2PSessionException: [shared clients #50660(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.startRunning(I2PTunnelClientBase.java:555)
+	at net.i2p.i2ptunnel.I2PTunnelConnectClient.startRunning(I2PTunnelConnectClient.java:127)
+	at net.i2p.i2ptunnel.I2PTunnel.runConnectClient(I2PTunnel.java:1085)
+	at net.i2p.i2ptunnel.TunnelController.startConnectClient(TunnelController.java:530)
+	at net.i2p.i2ptunnel.TunnelController.doStartTunnel(TunnelController.java:480)
+	at net.i2p.i2ptunnel.TunnelController.startTunnel(TunnelController.java:429)
+	at net.i2p.i2ptunnel.TunnelController$1.run(TunnelController.java:409)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+	at net.i2p.util.I2PThread.run(I2PThread.java:103)
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 11 more

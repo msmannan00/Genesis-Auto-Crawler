@@ -826,3 +826,4 @@ Dec 26, 2024, 9:48 PM -- New address goddess-peach.i2p added to address book. Fr
 Dec 26, 2024, 9:48 PM -- New address kn-homecorner.i2p added to address book. From: http://notbob.i2p/hosts.txt
 Dec 26, 2024, 9:48 PM -- New address kycklingar.i2p added to address book. From: http://notbob.i2p/hosts.txt
 Dec 26, 2024, 9:48 PM -- New address searxngcd.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Dec 27, 2024, 10:35 AM -- Bad hostname proxy.i2p. From: http://notbob.i2p/hosts.txt

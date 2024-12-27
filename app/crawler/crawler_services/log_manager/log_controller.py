@@ -109,9 +109,13 @@ class log:
 
     def __get_line_count(self, file_path):
         try:
-            with open(file_path, 'r') as f:
-                return sum(1 for _ in f)
+            with open(file_path, 'r', encoding='utf-8') as f:
+                line_count = sum(1 for _ in f)
+                return line_count
         except FileNotFoundError:
+            return 0
+        except UnicodeDecodeError as e:
+            print(f"Error reading file due to encoding issue: {e}")
             return 0
 
     def __cleanup_old_logs(self, retention_days=30):

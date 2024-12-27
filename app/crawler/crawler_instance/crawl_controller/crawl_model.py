@@ -172,12 +172,13 @@ class crawl_model(request_handler):
 
   def __init_crawler(self):
     self.__celery_vid = 100000
-    self.init_parsers()
 
-    if APP_STATUS.DOCKERIZED_RUN:
-     self.__init_docker_request()
-    else:
-     self.__init_direct_request()
+    if shared_proxy_methods.get_onion_status() or shared_proxy_methods.get_i2p_status():
+      self.init_parsers()
+      if APP_STATUS.DOCKERIZED_RUN:
+       self.__init_docker_request()
+      else:
+       self.__init_direct_request()
 
   def invoke_trigger(self, p_command, p_data=None):
     if p_command == CRAWL_MODEL_COMMANDS.S_INIT:
