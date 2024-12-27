@@ -41,10 +41,13 @@ class _breachdbsztfykg2fdaq2gnqnxfsbj5d35byz3yzj73hazydk4vq72qd(collector_interf
         collector_model = collector_data_model(base_url=p_data_url, content_type=["email", "username"])
 
         try:
+            print("1:::::::::::::::::::::::::::::::::::", flush=True)
             page = await context.new_page()
             await page.goto(p_data_url)
+            print("2:::::::::::::::::::::::::::::::::::", flush=True)
             page_content = await page.content()
             if "This site can’t be reached" in page_content or "ERR_" in page_content:
+                print("3:::::::::::::::::::::::::::::::::::", flush=True)
                 return collector_model
 
             try:
@@ -82,12 +85,14 @@ class _breachdbsztfykg2fdaq2gnqnxfsbj5d35byz3yzj73hazydk4vq72qd(collector_interf
                                 m_name=username if search_type == "Username" else ""
                             ))
                     except Exception as ex:
+                        print("4:::::::::::::::::::::::::::::::::::", flush=True)
 
                         continue
 
                 collector_model.cards_data = cards
 
             except Exception as ex:
+                print("5:::::::::::::::::::::::::::::::::::", flush=True)
                 return collector_model
 
         finally:

@@ -57,23 +57,14 @@ class runtime_parse_controller:
         return collector_data_model(base_url=base_url, content_type=content_type)
 
     async def get_email_username(self, query):
-        url = "http://breachdbsztfykg2fdaq2gnqnxfsbj5d35byz3yzj73hazydk4vq72qd.onion/"
-        email = "msmannan00@gmail.com"
-        username = "msmannan00"
-        query = {"url": url, "email": email, "username": username}
-
         result = []
         for parser in RUNTIME_PARSE_REQUEST_QUERIES.S_USERNAME:
             parse_script = self.on_init_leak_parser(parser)
             driver = await self._initialize_webdriver()
             query["url"] = parse_script.base_url
-            print(":::::::::::::::::::::::::::::::::::", flush=True)
             print(query, flush=True)
-            print(":::::::::::::::::::::::::::::::::::", flush=True)
             response = await parse_script.parse_leak_data(query, driver)
-            print(":::::::::::::::::::::::::::::::::::", flush=True)
             print(response, flush=True)
-            print(":::::::::::::::::::::::::::::::::::", flush=True)
 
             result.append(response.model_dump())
         return json.dumps(result)
