@@ -1,7 +1,6 @@
-import json
-from typing import Optional, Dict
 
-from fastapi import FastAPI, Query
+from typing import Dict
+
 from .model.ClassifyRequestModel import ClassifyRequestModel
 from .model.ParseRequestModel import ParseRequestModel
 from .nlp_manager.nlp_controller import nlp_controller

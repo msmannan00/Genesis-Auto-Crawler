@@ -881,3 +881,219 @@ WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
 INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
 INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
 INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+Dec 28, 2024, 8:01:29 AM CRIT  [NTCP Pumper ] net.i2p.util.Clock            : Large clock shift forward by 8h
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: There may be another router already running. Waiting a while to be sure...
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: No, there wasn't another router already running. Proceeding with startup.
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: There may be another router already running. Waiting a while to be sure...
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: No, there wasn't another router already running. Proceeding with startup.
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: There may be another router already running. Waiting a while to be sure...
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: No, there wasn't another router already running. Proceeding with startup.
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: There may be another router already running. Waiting a while to be sure...
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: No, there wasn't another router already running. Proceeding with startup.
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: There may be another router already running. Waiting a while to be sure...
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: No, there wasn't another router already running. Proceeding with startup.
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: There may be another router already running. Waiting a while to be sure...
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: No, there wasn't another router already running. Proceeding with startup.
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: There may be another router already running. Waiting a while to be sure...
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: No, there wasn't another router already running. Proceeding with startup.
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: There may be another router already running. Waiting a while to be sure...
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: No, there wasn't another router already running. Proceeding with startup.
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: There may be another router already running. Waiting a while to be sure...
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: No, there wasn't another router already running. Proceeding with startup.
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: There may be another router already running. Waiting a while to be sure...
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: No, there wasn't another router already running. Proceeding with startup.
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: There may be another router already running. Waiting a while to be sure...
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: No, there wasn't another router already running. Proceeding with startup.
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: There may be another router already running. Waiting a while to be sure...
+WARN: There may be another router already running. Waiting a while to be sure...
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: No, there wasn't another router already running. Proceeding with startup.
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+Dec 29, 2024, 9:16:40 AM CRIT  [acket pusher] net.i2p.util.Clock            : Large clock shift forward by 8h
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+Warning: Unable to reach any of the NTP servers [0.us.pool.ntp.org, 1.us.pool.ntp.org, 2.us.pool.ntp.org, 0.north-america.pool.ntp.org, 1.north-america.pool.ntp.org, 2.north-america.pool.ntp.org, 0.pool.ntp.org, 1.pool.ntp.org, 2.pool.ntp.org] - network disconnected? Or set time.sntpServerList=myserver1.com,myserver2.com in advanced configuration.
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+Warning: Unable to reach any of the NTP servers [0.us.pool.ntp.org, 1.us.pool.ntp.org, 2.us.pool.ntp.org, 0.north-america.pool.ntp.org, 1.north-america.pool.ntp.org, 2.north-america.pool.ntp.org, 0.pool.ntp.org, 1.pool.ntp.org, 2.pool.ntp.org] - network disconnected? Or set time.sntpServerList=myserver1.com,myserver2.com in advanced configuration.
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: There may be another router already running. Waiting a while to be sure...
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: No, there wasn't another router already running. Proceeding with startup.
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: There may be another router already running. Waiting a while to be sure...
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: No, there wasn't another router already running. Proceeding with startup.
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: There may be another router already running. Waiting a while to be sure...
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: No, there wasn't another router already running. Proceeding with startup.
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: There may be another router already running. Waiting a while to be sure...
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: No, there wasn't another router already running. Proceeding with startup.
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: There may be another router already running. Waiting a while to be sure...
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: No, there wasn't another router already running. Proceeding with startup.
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+Reseed start
+Reseeding from https://i2pseed.creativecowpat.net:8443/i2pseeds.su3?netid=2
+INFO: 77 files extracted to /tmp/i2p-Or9kpCCK.tmp/reseeds-602621967
+Reseed got 77 router infos from https://i2pseed.creativecowpat.net:8443/i2pseeds.su3?netid=2 with 0 errors
+Reseeding from https://reseed.i2pgit.org/i2pseeds.su3?netid=2
+INFO: 77 files extracted to /tmp/i2p-Or9kpCCK.tmp/reseeds-1444343013
+Reseed got 77 router infos from https://reseed.i2pgit.org/i2pseeds.su3?netid=2 with 0 errors
+Reseed successful, fetched 154 router infos
+Dec 30, 2024, 7:01:35 AM CRIT  [NTCP Pumper ] net.i2p.util.Clock            : Large clock shift forward by 8h

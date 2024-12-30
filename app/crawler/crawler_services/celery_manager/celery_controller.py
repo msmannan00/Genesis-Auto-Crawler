@@ -73,7 +73,7 @@ class celery_controller:
   @staticmethod
   def __run_crawler(url, virtual_id):
     m_proxy, m_tor_id = shared_proxy_methods.get_proxy(url)
-    if helper_method.get_network_type(url) == network_type.I2P and shared_proxy_methods.get_i2p_status() or helper_method.get_network_type(url) == network_type.ONION and shared_proxy_methods.get_onion_status():
+    if helper_method.get_network_type(url) == network_type.I2P and shared_proxy_methods.get_i2p_status() or helper_method.get_network_type(url) == network_type.ONION and shared_proxy_methods.get_onion_status() or helper_method.get_network_type(url) == network_type.CLEARNET and shared_proxy_methods.get_onion_status():
       start_crawler.delay(url, virtual_id, m_proxy, m_tor_id)
 
   def invoke_trigger(self, p_commands, p_data=None):

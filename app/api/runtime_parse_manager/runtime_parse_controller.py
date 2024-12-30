@@ -62,9 +62,7 @@ class runtime_parse_controller:
             parse_script = self.on_init_leak_parser(parser)
             driver = await self._initialize_webdriver()
             query["url"] = parse_script.base_url
-            print(query, flush=True)
             response = await parse_script.parse_leak_data(query, driver)
-            print(response, flush=True)
 
             result.append(response.model_dump())
         return json.dumps(result)

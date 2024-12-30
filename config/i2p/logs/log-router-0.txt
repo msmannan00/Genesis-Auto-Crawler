@@ -1,2 +1,1 @@
-Dec 27, 2024, 9:22:56 PM WARN  [Addressbook ] .naming.BlockfileNamingService: The hosts database was not closed cleanly or is still open by another process
-Dec 27, 2024, 9:23:04 PM WARN  [Timestamper ] .router.time.RouterTimestamper: Unable to reach any of the NTP servers [0.us.pool.ntp.org, 1.us.pool.ntp.org, 2.us.pool.ntp.org, 0.north-america.pool.ntp.org, 1.north-america.pool.ntp.org, 2.north-america.pool.ntp.org, 0.pool.ntp.org, 1.pool.ntp.org, 2.pool.ntp.org] - network disconnected? Or set time.sntpServerList=myserver1.com,myserver2.com in advanced configuration.
+Dec 29, 2024, 9:52:44 PM WARN  [Addressbook ] .naming.BlockfileNamingService: The hosts database was not closed cleanly or is still open by another process

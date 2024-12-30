@@ -53,7 +53,7 @@ class parse_controller:
     def __on_leak_parser_invoke(self, p_html, p_request_model: url_model) -> tuple[Optional[Any], Set[str]]:
         if self.leak_extractor_instance is not None:
             data_model, m_sub_url = self.leak_extractor_instance.parse_leak_data(p_html, p_request_model.m_url)
-            data_model.m_network = p_request_model.m_url
+            data_model.m_network = str(helper_method.get_network_type(p_request_model.m_url).value)
             return self.post_leak_model_instance.process(data_model, m_sub_url)
         else:
             return None, set()

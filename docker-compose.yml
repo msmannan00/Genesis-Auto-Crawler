@@ -31,6 +31,7 @@ services:
       - .env
     networks:
       - backend
+      - shared_bridge
     entrypoint: [ "bash", "-c", "./start_app.sh start_app" ]
     healthcheck:
       test: ["CMD-SHELL", "exit 0"]
@@ -142,6 +143,7 @@ services:
       - ./app:/app
     networks:
       - backend
+      - shared_bridge
     deploy:
       resources:
         limits:
