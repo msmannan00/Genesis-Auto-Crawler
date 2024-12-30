@@ -10,7 +10,7 @@ from .topic_manager.topic_classifier_controller import topic_classifier_controll
 from .topic_manager.topic_classifier_enums import TOPIC_CLASSFIER_COMMANDS, TOPIC_CATEGORIES
 import asyncio
 import logging
-from fastapi import FastAPI, Query, Request
+from fastapi import FastAPI, Request, HTTPException
 
 # Set up logging configuration
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -34,19 +34,23 @@ class APIService:
         self.app.add_api_route("/runtime/parse", self.runtime_parse, methods=["POST"])
 
     async def runtime_parse(self, request: Request):
-        payload = await request.json()
-        query: Dict[str, str] = payload.get("query", {})
+        try:
+            payload = await request.json()
+            query: Dict[str, str] = payload.get("query", {})
 
-        print("Received payload:", payload, flush=True)
-        print("Parsed query:", query, flush=True)
+            if not query or all(value == "" for value in query.values()):
+                raise HTTPException(status_code=400, detail="No valid query parameters provided or all values are empty")
 
-        if not query or all(value == "" for value in query.values()):
-            return {"error": "No valid query parameters provided or all values are empty"}
+            async with self.semaphore:
+                response = await self.m_runtime_parser.get_email_username(query)
 
-        async with self.semaphore:
-            response = await self.m_runtime_parser.get_email_username(query)
+            return response
 
-        return response
+        except asyncio.TimeoutError:
+            raise HTTPException(status_code=504, detail="Request timed out while processing")
+        except Exception as ex:
+            logger.error("Exception occurred during runtime parse", exc_info=True)
+            raise HTTPException(status_code=500, detail="An error occurred while processing the request")
 
     async def process_request(self, request, command, controller, default_result, timeout=15):
         async with self.semaphore:
