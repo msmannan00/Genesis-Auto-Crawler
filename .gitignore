@@ -3,6 +3,9 @@ data
 *.pyc
 tor_proxy
 logs/*
+config/i2p/peerProfiles/*
+config/i2p/rrd/*
+config/i2p/netDb/*
 global_raw
 env/*
 .env
