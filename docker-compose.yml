@@ -52,7 +52,7 @@ services:
     env_file:
       - .env
     volumes:
-      - /mnt/c/Workspace/Genesis-Crawler/app/api:/app/api:cached
+      - ./app/api:/app/api:cached
     deploy:
       resources:
         limits:

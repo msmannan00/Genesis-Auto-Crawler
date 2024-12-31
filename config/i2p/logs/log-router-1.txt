@@ -1,3 +1,1 @@
-Dec 30, 2024, 6:22:24 PM WARN  [Addressbook ] .naming.BlockfileNamingService: The hosts database was not closed cleanly or is still open by another process
-Dec 30, 2024, 6:24:25 PM WARN  [JobQueue 3/5] networkdb.reseed.ReseedChecker: Very few known peers remaining - reseeding now
-Dec 30, 2024, 6:24:28 PM WARN  [Reseed      ] uter.networkdb.reseed.Reseeder: EepGet failed on https://i2pseed.creativecowpat.net:8443/i2pseeds.su3?netid=2 : java.lang.Exception: Attempt failed
+Dec 31, 2024, 6:56:32 PM WARN  [Addressbook ] .naming.BlockfileNamingService: The hosts database was not closed cleanly or is still open by another process

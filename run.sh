@@ -32,7 +32,7 @@ download_and_extract_model() {
 clean_docker() {
     docker compose -p $PROJECT_NAME down --remove-orphans
     docker volume rm trusted-crawler_redis
-
+    docker network create --driver bridge shared_bridge
     docker compose -p $PROJECT_NAME exec -T worker celery -A crawler.crawler_services.celery_manager control purge || true
     docker compose -p $PROJECT_NAME exec -T worker celery -A crawler.crawler_services.celery_manager control revoke --terminate --all || true
     docker compose -p $PROJECT_NAME exec -T redis redis-cli FLUSHALL || true
