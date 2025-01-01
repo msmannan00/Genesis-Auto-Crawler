@@ -21,7 +21,7 @@ services:
       - tor-extend-10
     restart: always
     volumes:
-      - /mnt/c/Workspace/Genesis-Crawler/app:/app
+      - ./app/api:/app/api:cached
     ulimits:
       nproc: 65535
       nofile:
@@ -39,6 +39,12 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+    ports:  # Add this section
+      - "8000:8000"  # Map container's port 8000 to host's port 8000
 
   api:
     container_name: trusted-crawler-api
@@ -56,7 +62,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 4G
+          memory: 1500M
     healthcheck:
       test: ["CMD-SHELL", "timeout 5 bash -c '</dev/tcp/localhost/8000' || exit 1"]
       interval: 30s
@@ -79,7 +85,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 2G
+          memory: 500M
     healthcheck:
       test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
       interval: 10s
@@ -119,7 +125,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 5G
+          memory: 1G
     networks:
       - backend
     healthcheck:
@@ -147,7 +153,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 8G
+          memory: 2G
     healthcheck:
       test: ["CMD-SHELL", "celery -A crawler.crawler_services.celery_manager inspect ping || exit 1"]
       interval: 30s
@@ -169,13 +175,19 @@ services:
     restart: always
     networks:
       - backend
-    environment:
-      - CELERY_BROKER_URL=redis://:${REDIS_PASSWORD}@redis_server:6379/0
+      - shared_bridge
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.flower.rule=Host(`flower.orion.whistleaks.com`)"
+      - "traefik.http.routers.flower.entrypoints=websecure"
+      - "traefik.http.routers.flower.tls=true"
+      - "traefik.http.services.flower.loadbalancer.server.port=5555"
     healthcheck:
       test: ["CMD-SHELL", "timeout 5 bash -c '</dev/tcp/localhost/5555' || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 3
+
 
   tor-extend-1:
     container_name: trusted-crawler_tor_instace_1
@@ -557,15 +569,11 @@ services:
       - CONSOLE_AUTH=true
       - CONSOLE_USER=${I2P_USERNAME}
       - CONSOLE_PASSWORD=${I2P_PASSWORD}
+      - JVM_XMX=1024m
+      - EXT_PORT=7654
     networks:
       backend:
         ipv4_address: 172.19.0.20
-    healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:7657 || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 5s
 
 volumes:
   grafana-data:

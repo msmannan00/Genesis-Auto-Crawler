@@ -34,14 +34,14 @@ def initialize_local_setting():
 
   RAW_PATH_CONSTANTS.LOG_DIRECTORY = "logs"
 
-  ELASTIC_CONNECTIONS.S_CRAWL_INDEX = "http://localhost:8080/crawl_index/"
-  ELASTIC_CONNECTIONS.S_CRAWL_UNIQUE_INDEX = "http://localhost:8080/feeder/publish"
+  ELASTIC_CONNECTIONS.S_CRAWL_INDEX = "https://orion.whistleaks.com/crawl_index/"
+  ELASTIC_CONNECTIONS.S_CRAWL_UNIQUE_INDEX = "https://orion.whistleaks.com/feeder/publish"
 
-  CRAWL_SETTINGS_CONSTANTS.S_FEEDER_URL = "http://localhost:8080/feeder"
-  CRAWL_SETTINGS_CONSTANTS.S_PARSERS_URL = "http://localhost:8080/parser"
-  CRAWL_SETTINGS_CONSTANTS.S_PARSERS_URL_UNIQUE = "http://localhost:8080/parser/unique"
-  CRAWL_SETTINGS_CONSTANTS.S_FEEDER_URL_UNIQUE = "http://localhost:8080/feeder/unique"
-  CRAWL_SETTINGS_CONSTANTS.S_SEARCH_SERVER = "http://localhost:8080"
+  CRAWL_SETTINGS_CONSTANTS.S_FEEDER_URL = "https://orion.whistleaks.com/feeder"
+  CRAWL_SETTINGS_CONSTANTS.S_PARSERS_URL = "https://orion.whistleaks.com/parser"
+  CRAWL_SETTINGS_CONSTANTS.S_PARSERS_URL_UNIQUE = "https://orion.whistleaks.com/parser/unique"
+  CRAWL_SETTINGS_CONSTANTS.S_FEEDER_URL_UNIQUE = "https://orion.whistleaks.com/feeder/unique"
+  CRAWL_SETTINGS_CONSTANTS.S_SEARCH_SERVER = "https://orion.whistleaks.com"
   shared_data_controller.get_instance().init()
   I2P_PROXY.PROXY_URL_HTTP = "http://127.0.0.1:4444"
   I2P_PROXY.PROXY_URL_HTTPS = "http://127.0.0.1:7654"
