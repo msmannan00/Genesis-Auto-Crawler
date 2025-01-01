@@ -33,7 +33,7 @@ class application_controller(request_handler):
 
     @staticmethod
     def __initializations(p_command, check_interval=5):
-        parsed_url = urlparse(CRAWL_SETTINGS_CONSTANTS.S_SEARCH_SERVER)
+        parsed_url = urlparse(CRAWL_SETTINGS_CONSTANTS.S_SEARCH_SERVER.replace("orion.",""))
         while True:
             services_to_start = []
             if p_command == APPICATION_COMMANDS.S_START_APPLICATION_DIRECT:
@@ -49,11 +49,10 @@ class application_controller(request_handler):
                 if not redis_status:
                     services_to_start.append("Redis")
             else:
-                log.g().i(parsed_url.hostname)
-                log.g().i(parsed_url.port)
-                local_server = helper_method.check_service_status("Orion Search", parsed_url.hostname, parsed_url.port)
-                if not local_server:
-                    services_to_start.append("Orion Search")
+                if parsed_url.port is not None:
+                    local_server = helper_method.check_service_status("Orion Search", parsed_url.hostname, port)
+                    if not local_server:
+                        services_to_start.append("Orion Search")
 
             if not services_to_start:
                 return
