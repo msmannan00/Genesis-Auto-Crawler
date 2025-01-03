@@ -49,12 +49,13 @@ class application_controller(request_handler):
                 if not redis_status:
                     services_to_start.append("Redis")
             else:
-                port = parsed_url.port
-                if port is None:
-                    port = 443
-                local_server = helper_method.check_service_status("Orion Search", parsed_url.hostname, port)
-                if not local_server:
-                    services_to_start.append("Orion Search")
+                # port = parsed_url.port
+                pass
+                # if port is None:
+                #     port = 443
+                #     local_server = helper_method.check_service_status("Orion Search", parsed_url.hostname, port)
+                #     if not local_server:
+                #         services_to_start.append("Orion Search")
 
             if not services_to_start:
                 return
