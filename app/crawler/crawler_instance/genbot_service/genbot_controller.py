@@ -88,7 +88,7 @@ class genbot_controller(request_handler):
     if self.__m_html_parser.leak_extractor_instance is not None:
       self.__m_rule_model = self.__m_html_parser.leak_extractor_instance.rule_config
     else:
-      self.__m_rule_model = RuleModel(m_fetch_config = FetchConfig.REQUESTS, m_depth=CRAWL_SETTINGS_CONSTANTS.S_DEFAULT_DEPTH)
+      self.__m_rule_model = RuleModel(m_fetch_config = FetchConfig.REQUESTS, m_depth=CRAWL_SETTINGS_CONSTANTS.S_MAX_ALLOWED_DEPTH)
 
     p_request_url = helper_method.on_clean_url(p_request_url)
     self.__task_id = ""
@@ -132,6 +132,7 @@ class genbot_controller(request_handler):
 
 
 def genbot_instance(p_url, p_vid, p_proxy, p_tor_id):
+  p_url = "http://ndbele4nzskearmx6u6atxczqedizwibbnjot4c23eagwywrftnktuyd.onion"
   log.g().i(MANAGE_MESSAGES.S_PARSING_WORKER_STARTED + " : " + p_url)
   m_crawler = genbot_controller()
   m_crawler.invoke_trigger(ICRAWL_CONTROLLER_COMMANDS.S_INIT_CRAWLER_INSTANCE, [p_proxy, p_tor_id])
