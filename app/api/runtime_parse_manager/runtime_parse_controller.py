@@ -7,7 +7,6 @@ from api.runtime_parse_manager.runtime_parse_enum import RUNTIME_PARSE_REQUEST_Q
 from crawler.crawler_instance.local_shared_model.collector_data_model import collector_data_model
 from playwright.async_api import async_playwright
 from typing import Optional
-
 from crawler.crawler_instance.local_shared_model.rule_model import FetchProxy
 from crawler.crawler_instance.proxies.tor_controller.tor_controller import tor_controller
 from crawler.crawler_instance.proxies.tor_controller.tor_enums import TOR_COMMANDS
@@ -60,11 +59,15 @@ class runtime_parse_controller:
         result = []
         for parser in RUNTIME_PARSE_REQUEST_QUERIES.S_USERNAME:
             parse_script = self.on_init_leak_parser(parser)
-            driver = await self._initialize_webdriver()
             query["url"] = parse_script.base_url
-            response = await parse_script.parse_leak_data(query, driver)
+            try:
+                driver = await self._initialize_webdriver()
+                response = await parse_script.parse_leak_data(query, driver)
+                if len(response.cards_data)>0:
+                    result.append(response.model_dump())
+            except Exception as e:
+                pass
 
-            result.append(response.model_dump())
         return json.dumps(result)
 
     def on_init_leak_parser(self, file_name):
@@ -86,21 +89,21 @@ class runtime_parse_controller:
     async def invoke_trigger(self, command, data=None):
         if command == RUNTIME_PARSE_REQUEST_COMMANDS.S_PARSE_USERNAME:
             return await self.get_email_username(data)
-
-async def main():
-    url = "http://breachdbsztfykg2fdaq2gnqnxfsbj5d35byz3yzj73hazydk4vq72qd.onion/"
-    email = "msmannan00@gmail.com"
-    username = "msmannan00"
-    query = {"url": url, "email": email, "username": username}
-
-    try:
-        result = await runtime_parse_controller().invoke_trigger(RUNTIME_PARSE_REQUEST_COMMANDS.S_PARSE_USERNAME, query)
-        print(result)
-    except Exception as e:
-        print("Error occurred:", e)
-    finally:
-        pass
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
+#
+# async def main():
+#     url = "http://breachdbsztfykg2fdaq2gnqnxfsbj5d35byz3yzj73hazydk4vq72qd.onion/"
+#     email = "msmannan00@gmail.com"
+#     username = "msmannan00"
+#     query = {"url": url, "email": email, "username": username}
+#
+#     try:
+#         result = await runtime_parse_controller().invoke_trigger(RUNTIME_PARSE_REQUEST_COMMANDS.S_PARSE_USERNAME, query)
+#         print(result)
+#     except Exception as e:
+#         print("Error occurred:", e)
+#     finally:
+#         pass
+#
+#
+# if __name__ == "__main__":
+#     asyncio.run(main())

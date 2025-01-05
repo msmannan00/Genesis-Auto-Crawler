@@ -845,3 +845,8 @@ Jan 2, 2025, 10:04 PM -- New address turn-light-off.i2p added to address book. F
 Jan 2, 2025, 10:04 PM -- New address vannyan.i2p added to address book. From: http://notbob.i2p/hosts.txt
 Jan 3, 2025, 1:15 PM -- New address papero.i2p added to address book. From: http://notbob.i2p/hosts.txt
 Jan 3, 2025, 1:15 PM -- Bad hostname proxy.i2p. From: http://notbob.i2p/hosts.txt
+Jan 5, 2025, 3:51 PM -- New address 102chan-memorial.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Jan 5, 2025, 3:51 PM -- New address bocheng.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Jan 5, 2025, 3:51 PM -- New address hole.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Jan 5, 2025, 3:51 PM -- New address j8810kkw.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Jan 5, 2025, 3:52 PM -- New address xmr.cs.i2p added to address book. From: http://notbob.i2p/hosts.txt
