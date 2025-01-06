@@ -3,6 +3,8 @@ import importlib
 import json
 import os
 import sys
+from linecache import cache
+
 from api.runtime_parse_manager.runtime_parse_enum import RUNTIME_PARSE_REQUEST_QUERIES, RUNTIME_PARSE_REQUEST_COMMANDS
 from crawler.crawler_instance.local_shared_model.collector_data_model import collector_data_model
 from playwright.async_api import async_playwright
@@ -16,6 +18,7 @@ class runtime_parse_controller:
 
     def __init__(self):
         self.module_cache = {}
+        self.driver = None
 
     @staticmethod
     async def _initialize_webdriver(use_proxy: FetchProxy = FetchProxy.TOR) -> Optional[object]:
@@ -57,15 +60,21 @@ class runtime_parse_controller:
 
     async def get_email_username(self, query):
         result = []
+        try:
+            if self.driver is None:
+                self.driver = await self._initialize_webdriver()
+        except Exception as e:
+            return json.dumps(result)
+
         for parser in RUNTIME_PARSE_REQUEST_QUERIES.S_USERNAME:
-            parse_script = self.on_init_leak_parser(parser)
-            query["url"] = parse_script.base_url
             try:
-                driver = await self._initialize_webdriver()
-                response = await parse_script.parse_leak_data(query, driver)
+                parse_script = self.on_init_leak_parser(parser)
+                query["url"] = parse_script.base_url
+                response = await parse_script.parse_leak_data(query, self.driver)
                 if len(response.cards_data)>0:
                     result.append(response.model_dump())
             except Exception as e:
+                self.driver = await self._initialize_webdriver()
                 pass
 
         return json.dumps(result)
