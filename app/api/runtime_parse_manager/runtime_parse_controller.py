@@ -74,7 +74,7 @@ class runtime_parse_controller:
                 if len(response.cards_data)>0:
                     result.append(response.model_dump())
             except Exception as e:
-                self.driver = await self._initialize_webdriver()
+                self.driver = None
                 pass
 
         return json.dumps(result)
