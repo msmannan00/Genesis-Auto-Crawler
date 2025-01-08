@@ -59,7 +59,7 @@ class genbot_controller(request_handler):
           if not parser_status:
             m_sub_url = m_parsed_model.m_sub_url
 
-          if helper_method.get_host_name(m_redirected_url).__eq__(helper_method.get_host_name(p_request_model.m_url)) and self.m_url_duplication_handler.validate_duplicate(m_redirected_url) is False:
+          if helper_method.get_host_name(m_redirected_url).__eq__(helper_method.get_host_name(p_request_model.m_url)):
             if m_parsed_model.m_validity_score == 0 and not parser_status and self.__m_network_type != network_type.I2P:
               log.g().i(MANAGE_MESSAGES.S_LOW_YIELD_URL + " : " + str(self.__task_id) + " : " + str(self.__m_tor_id) + " : " + p_request_model.m_url)
               return None, None
@@ -110,7 +110,9 @@ class genbot_controller(request_handler):
 
       if m_parsed_model is not None and item.m_depth < self.__m_rule_model.m_depth:
        for sub_url in list(m_sub_url)[0:self.__m_rule_model.m_sub_url_length]:
-         self.m_unparsed_url.append(url_model_init(sub_url, item.m_depth + 1, self.__m_network_type))
+         if self.m_url_duplication_handler.is_duplicate(sub_url) is False:
+           self.m_url_duplication_handler.insert(sub_url)
+           self.m_unparsed_url.append(url_model_init(sub_url, item.m_depth + 1, self.__m_network_type))
 
       m_host_crawled = True
       self.m_unparsed_url.pop(0)

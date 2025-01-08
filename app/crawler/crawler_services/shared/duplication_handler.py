@@ -6,7 +6,7 @@ class duplication_handler:
   # Initializations
 
   # Helper Methods
-  def validate_duplicate(self, p_key):
+  def is_duplicate(self, p_key):
     if p_key not in self.__m_bloom_filter:
       return False
     else:
