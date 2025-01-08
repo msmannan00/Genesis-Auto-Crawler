@@ -127,7 +127,6 @@ class crawl_model(request_handler):
     while True:
       m_live_url_list, p_fetched_url_list = self.__install_live_url()
       m_request_list = list(m_live_url_list) + p_fetched_url_list
-      random.shuffle(m_request_list)
 
       for m_url_node in m_request_list:
         if helper_method.get_network_type(m_url_node) == network_type.I2P and shared_proxy_methods.get_i2p_status() or helper_method.get_network_type(m_url_node) == network_type.ONION and shared_proxy_methods.get_onion_status():
@@ -144,7 +143,6 @@ class crawl_model(request_handler):
     from crawler.shared_data import celery_shared_data
 
     if celery_shared_data.get_instance().get_network_status:
-      random.shuffle(p_fetched_url_list)
       while len(p_fetched_url_list) > 0:
         self.__celery_vid += 1
         try:
@@ -164,7 +162,6 @@ class crawl_model(request_handler):
     if celery_shared_data.get_instance().get_network_status:
       if not p_fetched_url_list:
         p_fetched_url_list.extend(self.__reinit_docker_request())
-      random.shuffle(p_fetched_url_list)
       while len(p_fetched_url_list) > 0:
         self.__celery_vid += 1
         m_url_node = p_fetched_url_list.pop(0)

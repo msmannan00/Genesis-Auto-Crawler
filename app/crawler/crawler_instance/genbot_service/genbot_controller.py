@@ -110,7 +110,7 @@ class genbot_controller(request_handler):
 
       if m_parsed_model is not None and item.m_depth < self.__m_rule_model.m_depth:
        for sub_url in list(m_sub_url)[0:self.__m_rule_model.m_sub_url_length]:
-         self.m_unparsed_url.insert(0, url_model_init(sub_url, item.m_depth + 1, self.__m_network_type))
+         self.m_unparsed_url.append(url_model_init(sub_url, item.m_depth + 1, self.__m_network_type))
 
       m_host_crawled = True
       self.m_unparsed_url.pop(0)

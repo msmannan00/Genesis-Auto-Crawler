@@ -850,3 +850,11 @@ Jan 5, 2025, 3:51 PM -- New address bocheng.i2p added to address book. From: htt
 Jan 5, 2025, 3:51 PM -- New address hole.i2p added to address book. From: http://notbob.i2p/hosts.txt
 Jan 5, 2025, 3:51 PM -- New address j8810kkw.i2p added to address book. From: http://notbob.i2p/hosts.txt
 Jan 5, 2025, 3:52 PM -- New address xmr.cs.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Jan 7, 2025, 8:28 PM -- New address aaoth.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Jan 7, 2025, 8:28 PM -- New address btc-node-xgt.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Jan 7, 2025, 8:28 PM -- New address sourceress.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Jan 7, 2025, 8:28 PM -- New address td.vern.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Jan 7, 2025, 8:28 PM -- New address xmpp.intr.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Jan 7, 2025, 8:28 PM -- Bad hostname proxy.i2p. From: http://notbob.i2p/hosts.txt
+Jan 8, 2025, 8:46 AM -- New address project-future.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Jan 8, 2025, 8:46 AM -- Bad hostname proxy.i2p. From: http://notbob.i2p/hosts.txt
