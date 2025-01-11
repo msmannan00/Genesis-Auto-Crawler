@@ -1,1 +1,764 @@
-Jan 8, 2025, 2:47:05 PM WARN  [Addressbook ] .naming.BlockfileNamingService: The hosts database was not closed cleanly or is still open by another process
+Jan 8, 2025, 5:58:38 PM WARN  [Addressbook ] .naming.BlockfileNamingService: The hosts database was not closed cleanly or is still open by another process
+Jan 9, 2025, 7:38:07 AM CRIT  [uildExecutor] net.i2p.util.Clock            : Large clock shift forward by 9h
+Jan 9, 2025, 7:38:07 AM ERROR [uildExecutor] net.i2p.router.Router         : Restarting after large clock shift forward by 9h
+Jan 9, 2025, 7:38:07 AM WARN  [JobQueue 1/1] orkdb.kademlia.ExpireLeasesJob: Expired local leaseset ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p
+Jan 9, 2025, 7:38:08 AM ERROR [uter Restart] net.i2p.router.Router         : Stopping the router for a restart...
+Jan 9, 2025, 7:38:08 AM WARN  [uter Restart] net.i2p.router.Router         : Stopping the client manager
+Jan 9, 2025, 7:38:08 AM ERROR [nal Reader 4] lient.impl.I2PSessionMuxedImpl: [shared clients #55353(OPEN)]: Error occurred communicating with router: Router restart
+net.i2p.client.I2PSessionException: Disconnect Message received: Router restart
+	at net.i2p.client.impl.DisconnectMessageHandler.handleMessage(DisconnectMessageHandler.java:33)
+	at net.i2p.client.impl.I2PSessionImpl.messageReceived(I2PSessionImpl.java:1075)
+	at net.i2p.internal.QueuedI2CPMessageReader$QueuedI2CPMessageReaderRunner.run2(QueuedI2CPMessageReader.java:56)
+	at net.i2p.data.i2cp.I2CPMessageReader$I2CPMessageReaderRunner.run(I2CPMessageReader.java:164)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+	at net.i2p.util.I2PThread.run(I2PThread.java:103)
+Jan 9, 2025, 7:38:08 AM WARN  [uter Restart] net.i2p.router.Router         : Stopping the comm system
+Jan 9, 2025, 7:38:13 AM WARN  [uter Restart] net.i2p.router.Router         : Restarted the comm system
+Jan 9, 2025, 7:38:13 AM WARN  [uter Restart] net.i2p.router.Router         : Stopping the tunnel manager
+Jan 9, 2025, 7:38:13 AM WARN  [uter Restart] net.i2p.router.Router         : Restarted the tunnel manager
+Jan 9, 2025, 7:38:24 AM WARN  [uter Restart] net.i2p.router.Router         : Restarting the client manager
+Jan 9, 2025, 7:38:24 AM WARN  [uter Restart] net.i2p.router.Router         : Restart complete
+Jan 9, 2025, 8:07:04 AM ERROR [t Runner 157] .i2ptunnel.I2PTunnelClientBase: Unable to build tunnels for the client, retrying in 20 seconds
+net.i2p.client.I2PSessionException: [shared clients #17700(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.getDefaultOptions(I2PTunnelHTTPClient.java:312)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1462)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 8 more
+Jan 9, 2025, 8:12:28 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 8:17:51 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 8:23:15 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 8:23:15 AM ERROR [t Runner 157] .i2ptunnel.I2PTunnelHTTPClient: i2ptunnel client error
+java.lang.IllegalArgumentException: Unable to build tunnels for the client
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:510)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.getDefaultOptions(I2PTunnelHTTPClient.java:312)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1462)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: net.i2p.client.I2PSessionException: [shared clients #43531(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	... 7 more
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 8 more
+Jan 9, 2025, 8:28:18 AM ERROR [t Runner 157] .i2ptunnel.I2PTunnelClientBase: Unable to build tunnels for the client, retrying in 20 seconds
+net.i2p.client.I2PSessionException: [shared clients #23248(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.getDefaultOptions(I2PTunnelHTTPClient.java:312)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1462)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 8 more
+Jan 9, 2025, 8:33:41 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 8:38:45 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 8:38:45 AM ERROR [t Runner 158] .i2ptunnel.I2PTunnelHTTPClient: i2ptunnel client error
+java.lang.IllegalArgumentException: Unable to build tunnels for the client
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:510)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.getDefaultOptions(I2PTunnelHTTPClient.java:312)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1462)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: net.i2p.client.I2PSessionException: [shared clients #31212(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	... 7 more
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 8 more
+Jan 9, 2025, 8:43:49 AM ERROR [t Runner 157] .i2ptunnel.I2PTunnelClientBase: Unable to build tunnels for the client, retrying in 20 seconds
+net.i2p.client.I2PSessionException: [shared clients #65171(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.getDefaultOptions(I2PTunnelHTTPClient.java:312)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1462)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 8 more
+Jan 9, 2025, 8:48:55 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 8:48:55 AM ERROR [t Runner 158] .i2ptunnel.I2PTunnelHTTPClient: i2ptunnel client error
+java.lang.IllegalArgumentException: Unable to build tunnels for the client
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:510)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.getDefaultOptions(I2PTunnelHTTPClient.java:312)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1462)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: net.i2p.client.I2PSessionException: [shared clients #37526(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	... 7 more
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 8 more
+Jan 9, 2025, 8:54:02 AM ERROR [t Runner 158] .i2ptunnel.I2PTunnelClientBase: Unable to build tunnels for the client, retrying in 20 seconds
+net.i2p.client.I2PSessionException: [shared clients #47546(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.getDefaultOptions(I2PTunnelHTTPClient.java:312)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1462)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 8 more
+Jan 9, 2025, 8:59:20 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 8:59:20 AM ERROR [t Runner 157] .i2ptunnel.I2PTunnelHTTPClient: i2ptunnel client error
+java.lang.IllegalArgumentException: Unable to build tunnels for the client
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:510)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.getDefaultOptions(I2PTunnelHTTPClient.java:312)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1462)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: net.i2p.client.I2PSessionException: [shared clients #15231(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	... 7 more
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 8 more
+Jan 9, 2025, 9:04:28 AM ERROR [t Runner 158] .i2ptunnel.I2PTunnelClientBase: Unable to build tunnels for the client, retrying in 20 seconds
+net.i2p.client.I2PSessionException: [shared clients #10862(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.getDefaultOptions(I2PTunnelHTTPClient.java:312)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1462)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 8 more
+Jan 9, 2025, 9:09:36 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 9:09:36 AM ERROR [t Runner 157] .i2ptunnel.I2PTunnelHTTPClient: i2ptunnel client error
+java.lang.IllegalArgumentException: Unable to build tunnels for the client
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:510)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.getDefaultOptions(I2PTunnelHTTPClient.java:312)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1462)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: net.i2p.client.I2PSessionException: [shared clients #16236(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	... 7 more
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 8 more
+Jan 9, 2025, 9:14:44 AM ERROR [t Runner 158] .i2ptunnel.I2PTunnelClientBase: Unable to build tunnels for the client, retrying in 20 seconds
+net.i2p.client.I2PSessionException: [shared clients #19448(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.getDefaultOptions(I2PTunnelHTTPClient.java:312)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1462)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 8 more
+Jan 9, 2025, 9:19:52 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 9:19:52 AM ERROR [t Runner 157] .i2ptunnel.I2PTunnelHTTPClient: i2ptunnel client error
+java.lang.IllegalArgumentException: Unable to build tunnels for the client
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:510)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.getDefaultOptions(I2PTunnelHTTPClient.java:312)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1462)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: net.i2p.client.I2PSessionException: [shared clients #60725(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	... 7 more
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 8 more
+Jan 9, 2025, 9:25:01 AM ERROR [t Runner 158] .i2ptunnel.I2PTunnelClientBase: Unable to build tunnels for the client, retrying in 20 seconds
+net.i2p.client.I2PSessionException: [shared clients #14102(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.getDefaultOptions(I2PTunnelHTTPClient.java:312)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1462)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 8 more
+Jan 9, 2025, 9:30:09 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 9:30:09 AM ERROR [t Runner 161] .i2ptunnel.I2PTunnelHTTPClient: i2ptunnel client error
+java.lang.IllegalArgumentException: Unable to build tunnels for the client
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:510)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.getDefaultOptions(I2PTunnelHTTPClient.java:312)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1462)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: net.i2p.client.I2PSessionException: [shared clients #54160(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	... 7 more
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 8 more
+Jan 9, 2025, 9:35:18 AM ERROR [t Runner 158] .i2ptunnel.I2PTunnelClientBase: Unable to build tunnels for the client, retrying in 20 seconds
+net.i2p.client.I2PSessionException: [shared clients #12192(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.getDefaultOptions(I2PTunnelHTTPClient.java:312)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1462)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 8 more
+Jan 9, 2025, 9:40:26 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 9:40:26 AM ERROR [t Runner 165] .i2ptunnel.I2PTunnelHTTPClient: i2ptunnel client error
+java.lang.IllegalArgumentException: Unable to build tunnels for the client
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:510)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.getDefaultOptions(I2PTunnelHTTPClient.java:312)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1462)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: net.i2p.client.I2PSessionException: [shared clients #64905(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	... 7 more
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 8 more
+Jan 9, 2025, 9:45:35 AM ERROR [t Runner 158] .i2ptunnel.I2PTunnelClientBase: Unable to build tunnels for the client, retrying in 20 seconds
+net.i2p.client.I2PSessionException: [shared clients #46495(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.getDefaultOptions(I2PTunnelHTTPClient.java:312)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1462)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 8 more
+Jan 9, 2025, 9:50:44 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 9:50:44 AM ERROR [t Runner 157] .i2ptunnel.I2PTunnelHTTPClient: i2ptunnel client error
+java.lang.IllegalArgumentException: Unable to build tunnels for the client
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:510)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.getDefaultOptions(I2PTunnelHTTPClient.java:312)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1462)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: net.i2p.client.I2PSessionException: [shared clients #63092(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	... 7 more
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 8 more
+Jan 9, 2025, 9:55:54 AM ERROR [t Runner 161] .i2ptunnel.I2PTunnelClientBase: Unable to build tunnels for the client, retrying in 20 seconds
+net.i2p.client.I2PSessionException: [shared clients #48008(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.getDefaultOptions(I2PTunnelHTTPClient.java:312)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1462)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 8 more
+Jan 9, 2025, 10:01:03 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 10:01:03 AM ERROR [t Runner 165] .i2ptunnel.I2PTunnelHTTPClient: i2ptunnel client error
+java.lang.IllegalArgumentException: Unable to build tunnels for the client
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:510)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.getDefaultOptions(I2PTunnelHTTPClient.java:312)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1462)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: net.i2p.client.I2PSessionException: [shared clients #54523(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	... 7 more
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 8 more
+Jan 9, 2025, 10:06:12 AM ERROR [t Runner 158] .i2ptunnel.I2PTunnelClientBase: Unable to build tunnels for the client, retrying in 20 seconds
+net.i2p.client.I2PSessionException: [shared clients #51635(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.getDefaultOptions(I2PTunnelHTTPClient.java:312)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1462)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 8 more
+Jan 9, 2025, 10:11:21 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 10:11:21 AM ERROR [t Runner 169] .i2ptunnel.I2PTunnelHTTPClient: i2ptunnel client error
+java.lang.IllegalArgumentException: Unable to build tunnels for the client
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:510)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.getDefaultOptions(I2PTunnelHTTPClient.java:312)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1462)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: net.i2p.client.I2PSessionException: [shared clients #22933(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	... 7 more
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 8 more
+Jan 9, 2025, 10:41:25 AM WARN  [JobQueue 1/1] orkdb.kademlia.ExpireLeasesJob: Expired local leaseset ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p
+Jan 9, 2025, 10:59:26 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 11:29:28 AM WARN  [JobQueue 4/5] orkdb.kademlia.ExpireLeasesJob: Expired local leaseset ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p
+Jan 9, 2025, 11:38:24 AM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 10m ago
+Jan 9, 2025, 11:38:24 AM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 0ms
+Send rate: 637Bps
+Memory: 83.47MiB / 512.00MiB
+Jan 9, 2025, 11:38:24 AM CRIT  [uterWatchdog] 2p.router.tasks.RouterWatchdog: Router appears hung, or there is severe network congestion.  Watchdog starts barking!
+Jan 9, 2025, 11:39:26 AM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 11m ago
+Jan 9, 2025, 11:39:26 AM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 165ms
+Send rate: 598Bps
+Memory: 92.36MiB / 512.00MiB
+Jan 9, 2025, 11:40:28 AM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 12m ago
+Jan 9, 2025, 11:40:28 AM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 0ms
+Send rate: 749Bps
+Memory: 101.17MiB / 512.00MiB
+Jan 9, 2025, 11:41:30 AM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 13m ago
+Jan 9, 2025, 11:41:30 AM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 0ms
+Send rate: 749Bps
+Memory: 110.16MiB / 512.00MiB
+Jan 9, 2025, 11:42:31 AM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 14m ago
+Jan 9, 2025, 11:42:31 AM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 0ms
+Send rate: 689Bps
+Memory: 118.98MiB / 512.00MiB
+Jan 9, 2025, 11:43:33 AM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 15m ago
+Jan 9, 2025, 11:43:33 AM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 0ms
+Send rate: 689Bps
+Memory: 127.96MiB / 512.00MiB
+Jan 9, 2025, 11:44:35 AM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 16m ago
+Jan 9, 2025, 11:44:35 AM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 49ms
+Send rate: 766Bps
+Memory: 136.50MiB / 512.00MiB
+Jan 9, 2025, 11:45:37 AM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 17m ago
+Jan 9, 2025, 11:45:37 AM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 4
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 3ms
+Send rate: 640Bps
+Memory: 146.09MiB / 512.00MiB
+Jan 9, 2025, 11:46:39 AM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 18m ago
+Jan 9, 2025, 11:46:39 AM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 4
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 3ms
+Send rate: 640Bps
+Memory: 77.13MiB / 512.00MiB
+Jan 9, 2025, 1:59:36 PM WARN  [JobQueue 5/5] orkdb.kademlia.ExpireLeasesJob: Expired local leaseset ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p
+Jan 9, 2025, 2:08:29 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 10m ago
+Jan 9, 2025, 2:08:29 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 4
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 517ms
+Send rate: 397Bps
+Memory: 123.18MiB / 512.00MiB
+Jan 9, 2025, 2:08:29 PM CRIT  [uterWatchdog] 2p.router.tasks.RouterWatchdog: Router appears hung, or there is severe network congestion.  Watchdog starts barking!
+Jan 9, 2025, 2:09:31 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 11m ago
+Jan 9, 2025, 2:09:31 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 4
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 0ms
+Send rate: 539Bps
+Memory: 126.85MiB / 512.00MiB
+Jan 9, 2025, 2:10:33 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 12m ago
+Jan 9, 2025, 2:10:33 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 4
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 0ms
+Send rate: 564Bps
+Memory: 130.40MiB / 512.00MiB
+Jan 9, 2025, 2:11:36 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 13m ago
+Jan 9, 2025, 2:11:36 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 0ms
+Send rate: 564Bps
+Memory: 134.92MiB / 512.00MiB
+Jan 9, 2025, 2:12:38 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 14m ago
+Jan 9, 2025, 2:12:38 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 185ms
+Send rate: 469Bps
+Memory: 140.27MiB / 512.00MiB
+Jan 9, 2025, 2:13:40 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 15m ago
+Jan 9, 2025, 2:13:40 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 185ms
+Send rate: 469Bps
+Memory: 146.87MiB / 512.00MiB
+Jan 9, 2025, 2:50:44 PM WARN  [JobQueue 2/5] orkdb.kademlia.ExpireLeasesJob: Expired local leaseset ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p
+Jan 9, 2025, 2:59:24 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 10m ago
+Jan 9, 2025, 2:59:24 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 3ms
+Send rate: 456Bps
+Memory: 153.03MiB / 512.00MiB
+Jan 9, 2025, 2:59:24 PM CRIT  [uterWatchdog] 2p.router.tasks.RouterWatchdog: Router appears hung, or there is severe network congestion.  Watchdog starts barking!
+Jan 9, 2025, 3:00:27 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 11m ago
+Jan 9, 2025, 3:00:27 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 3ms
+Send rate: 456Bps
+Memory: 78.23MiB / 512.00MiB
+Jan 9, 2025, 3:01:29 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 12m ago
+Jan 9, 2025, 3:01:29 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 0ms
+Send rate: 496Bps
+Memory: 81.66MiB / 512.00MiB
+Jan 9, 2025, 3:02:31 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 13m ago
+Jan 9, 2025, 3:02:31 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 0ms
+Send rate: 511Bps
+Memory: 85.45MiB / 512.00MiB
+Jan 9, 2025, 3:03:34 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 14m ago
+Jan 9, 2025, 3:03:34 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 0ms
+Send rate: 511Bps
+Memory: 88.42MiB / 512.00MiB
+Jan 9, 2025, 3:04:36 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 15m ago
+Jan 9, 2025, 3:04:36 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 0ms
+Send rate: 573Bps
+Memory: 92.66MiB / 512.00MiB
+Jan 9, 2025, 3:05:39 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 16m ago
+Jan 9, 2025, 3:05:39 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 0ms
+Send rate: 573Bps
+Memory: 97.16MiB / 512.00MiB
+Jan 9, 2025, 3:06:41 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 17m ago
+Jan 9, 2025, 3:06:41 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 241ms
+Send rate: 526Bps
+Memory: 101.23MiB / 512.00MiB
+Jan 9, 2025, 3:07:44 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 18m ago
+Jan 9, 2025, 3:07:44 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 4
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 3ms
+Send rate: 473Bps
+Memory: 105.65MiB / 512.00MiB
+Jan 9, 2025, 3:08:46 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 19m ago
+Jan 9, 2025, 3:08:46 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 4
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 3ms
+Send rate: 473Bps
+Memory: 109.23MiB / 512.00MiB
+Jan 9, 2025, 3:09:49 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 20m ago
+Jan 9, 2025, 3:09:49 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 4
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 0ms
+Send rate: 558Bps
+Memory: 112.72MiB / 512.00MiB
+Jan 9, 2025, 3:10:51 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 21m ago
+Jan 9, 2025, 3:10:51 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 0ms
+Send rate: 558Bps
+Memory: 116.54MiB / 512.00MiB
+Jan 9, 2025, 3:11:54 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 22m ago
+Jan 9, 2025, 3:11:54 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 0ms
+Send rate: 596Bps
+Memory: 120.43MiB / 512.00MiB
+Jan 9, 2025, 3:12:56 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 24m ago
+Jan 9, 2025, 3:12:56 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 364ms
+Send rate: 351Bps
+Memory: 125.18MiB / 512.00MiB
+Jan 9, 2025, 3:13:58 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 25m ago
+Jan 9, 2025, 3:13:58 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 364ms
+Send rate: 351Bps
+Memory: 128.16MiB / 512.00MiB
+Jan 9, 2025, 3:15:01 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 26m ago
+Jan 9, 2025, 3:15:01 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 0ms
+Send rate: 569Bps
+Memory: 132.99MiB / 512.00MiB
+Jan 9, 2025, 3:16:03 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 27m ago
+Jan 9, 2025, 3:16:03 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 0ms
+Send rate: 569Bps
+Memory: 138.02MiB / 512.00MiB
+Jan 9, 2025, 3:17:06 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 28m ago
+Jan 9, 2025, 3:17:06 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 0ms
+Send rate: 472Bps
+Memory: 144.09MiB / 512.00MiB
+Jan 9, 2025, 3:18:08 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 29m ago
+Jan 9, 2025, 3:18:08 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 0ms
+Send rate: 738Bps
+Memory: 150.28MiB / 512.00MiB
+Jan 9, 2025, 3:19:11 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 30m ago
+Jan 9, 2025, 3:19:11 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 0ms
+Send rate: 738Bps
+Memory: 78.71MiB / 512.00MiB
+Jan 9, 2025, 3:20:13 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 31m ago
+Jan 9, 2025, 3:20:13 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 0ms
+Send rate: 684Bps
+Memory: 83.88MiB / 512.00MiB
+Jan 9, 2025, 3:21:16 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 32m ago
+Jan 9, 2025, 3:21:16 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 0ms
+Send rate: 684Bps
+Memory: 90.27MiB / 512.00MiB
+Jan 9, 2025, 3:22:18 PM ERROR [uterWatchdog] client.ClientManagerFacadeImpl: Client ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p has a leaseSet that expired 33m ago
+Jan 9, 2025, 3:22:18 PM ERROR [uterWatchdog] 2p.router.tasks.RouterWatchdog: Watchdog status
+Comm system: UNKNOWN (16; Testing)
+Peers: 3
+Ready and waiting jobs: 0
+Lag: 0ms
+Part. tunnels: 0
+Send processing time: 0ms
+Send rate: 664Bps
+Memory: 96.34MiB / 512.00MiB
+Jan 9, 2025, 3:56:47 PM WARN  [JobQueue 2/5] orkdb.kademlia.ExpireLeasesJob: Expired local leaseset ww57zjx3zvxcjmoh4cvg5m5mqrsjg7xceo34bxtpzna4iz2itlmq.b32.i2p

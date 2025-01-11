@@ -1465,3 +1465,22 @@ INFO: No, there wasn't another router already running. Proceeding with startup.
 INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
 INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
 INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+Jan 9, 2025, 7:38:07 AM CRIT  [uildExecutor] net.i2p.util.Clock            : Large clock shift forward by 9h
+Jan 9, 2025, 8:23:15 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 8:38:45 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 8:48:55 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 8:59:20 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 9:09:36 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 9:19:52 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 9:30:09 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 9:40:26 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 9:50:44 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 10:01:03 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 10:11:21 AM ^^^ 1 similar message omitted ^^^
+Jan 9, 2025, 11:38:24 AM CRIT  [uterWatchdog] 2p.router.tasks.RouterWatchdog: Router appears hung, or there is severe network congestion.  Watchdog starts barking!
+Jan 9, 2025, 2:08:29 PM CRIT  [uterWatchdog] 2p.router.tasks.RouterWatchdog: Router appears hung, or there is severe network congestion.  Watchdog starts barking!
+Jan 9, 2025, 2:59:24 PM CRIT  [uterWatchdog] 2p.router.tasks.RouterWatchdog: Router appears hung, or there is severe network congestion.  Watchdog starts barking!

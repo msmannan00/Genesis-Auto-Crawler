@@ -21,7 +21,7 @@ services:
       - tor-extend-10
     restart: always
     volumes:
-      - /mnt/c/Workspace/Genesis-Crawler/app:/app
+      - ./app/api:/app/api:cached
     ulimits:
       nproc: 65535
       nofile:
