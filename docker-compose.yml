@@ -21,6 +21,7 @@ services:
       - tor-extend-10
     restart: always
     volumes:
+      - ./app:/app:cached
       - ./app/api:/app/api:cached
     ulimits:
       nproc: 65535

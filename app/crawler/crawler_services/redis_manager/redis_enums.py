@@ -1,11 +1,10 @@
+from enum import Enum
 from crawler.crawler_services.shared.env_handler import env_handler
-
 
 class REDIS_CONNECTIONS:
   S_DATABASE_IP = 'redis_server'
   S_DATABASE_PORT = 6379
   S_DATABASE_PASSWORD = env_handler.get_instance().env('REDIS_PASSWORD')
-
 
 class REDIS_KEYS:
   RAW_HTML_SCORE = "RAW_HTML_SCORE_"
@@ -14,6 +13,8 @@ class REDIS_KEYS:
   HOST_LOW_YIELD_COUNT = "LOW_YIELD_"
   UNIQIE_CRAWLER_RUNNING = "UNIQIE_CRAWLER_RUNNING"
 
+class CUSTOM_SCRIPT_REDIS_KEYS(Enum):
+  URL_PARSED = "URL_PARSED_"
 
 class REDIS_COMMANDS:
   S_SET_BOOL = 1

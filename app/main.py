@@ -65,7 +65,7 @@ def main():
       application_controller.get_instance().invoke_trigger(APPICATION_COMMANDS.S_START_APPLICATION_DOCKERISED)
 
   except Exception as ex:
-    log.g().e(MANAGE_MESSAGES.S_APPLICATION_ERROR + " : " + str(ex))
+    log.g().e(MANAGE_MESSAGES.S_APPLICATION_ERROR + " : TRACEBACK : " + str(ex.__traceback__))
 
 
 if __name__ == "__main__":

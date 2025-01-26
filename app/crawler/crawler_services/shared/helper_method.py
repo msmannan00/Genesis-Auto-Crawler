@@ -194,3 +194,23 @@ class helper_method:
     if m_host_url.endswith("/"):
       m_host_url = m_host_url[:-1]
     return m_host_url
+
+  @staticmethod
+  def clean_text(text: str) -> str:
+    text = re.sub(r'\s+', ' ', text)
+    text = text.strip()
+    return text
+
+  @staticmethod
+  def extract_emails(text: str) -> list:
+
+    email_pattern = r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'
+    emails = re.findall(email_pattern, text)
+    return emails
+
+  @staticmethod
+  def extract_phone_numbers(text: str) -> list:
+
+    phone_pattern = r'\+?[0-9]{1,4}?[ -.]?\(?[0-9]{1,4}?\)?[ -.]?[0-9]{1,4}[ -.]?[0-9]{1,9}'
+    phone_numbers = re.findall(phone_pattern, text)
+    return phone_numbers

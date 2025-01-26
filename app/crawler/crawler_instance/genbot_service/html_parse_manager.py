@@ -377,8 +377,6 @@ class html_parse_manager(HTMLParser, ABC):
                 self.m_content_type = shared_data_controller.get_instance().trigger_topic_classifier(self.m_base_url, self.m_title, self.m_important_content, self.m_content)
                 if self.m_content_type is None:
                     return [CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL]
-
-                log.g().i(self.m_content_type)
                 return self.m_content_type
             return [CRAWL_SETTINGS_CONSTANTS.S_THREAD_CATEGORY_GENERAL]
         except Exception:

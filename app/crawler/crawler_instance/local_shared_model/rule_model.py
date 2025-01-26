@@ -9,8 +9,7 @@ class FetchProxy(str, Enum):
     NONE = "none"
 
 class RuleModel:
-    def __init__(self, m_depth: int = 2, m_sub_url_length = 50, m_fetch_config: FetchConfig = FetchConfig.SELENIUM, m_fetch_proxy: FetchProxy = FetchProxy.NONE):
-        self.m_depth = m_depth
+    def __init__(self, m_timeout: int = 7200, m_fetch_config: FetchConfig = FetchConfig.SELENIUM, m_fetch_proxy: FetchProxy = FetchProxy.NONE):
+        self.m_timeout = m_timeout
         self.m_fetch_config = m_fetch_config
         self.m_fetch_proxy = m_fetch_proxy
-        self.m_sub_url_length = m_sub_url_length
