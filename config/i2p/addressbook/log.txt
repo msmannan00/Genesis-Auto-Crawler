@@ -913,3 +913,7 @@ Jan 26, 2025, 3:11 PM -- New address subvia.i2p added to address book. From: htt
 Jan 26, 2025, 3:11 PM -- New address techpod-blog.i2p added to address book. From: http://notbob.i2p/hosts.txt
 Jan 26, 2025, 3:11 PM -- New address vzdor.i2p added to address book. From: http://notbob.i2p/hosts.txt
 Jan 26, 2025, 3:11 PM -- New address xmr-node.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Jan 27, 2025, 3:49 PM -- New address iskopazi.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Jan 27, 2025, 3:49 PM -- New address tmpsend.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Jan 27, 2025, 3:49 PM -- New address usefulapp.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Jan 27, 2025, 3:50 PM -- New address xmr.stormycloud.i2p added to address book. From: http://notbob.i2p/hosts.txt

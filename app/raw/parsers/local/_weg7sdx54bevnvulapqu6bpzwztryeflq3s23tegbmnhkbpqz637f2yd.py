@@ -73,13 +73,13 @@ class _weg7sdx54bevnvulapqu6bpzwztryeflq3s23tegbmnhkbpqz637f2yd(leak_extractor_i
                     m_url=page_url,
                     m_base_url=self.base_url,
                     m_content=content,
-                    m_network=helper_method.get_network_type(self.base_url).value,
                     m_important_content=content,
                     m_weblink=weblinks,
                     m_dumplink=dumplinks,
-                    m_email_addresses= helper_method.extract_emails(content),
-                    m_phone_numbers= helper_method.extract_phone_numbers(content),
                     m_extra_tags=extra_tags,
-                    m_content_type="organization"
+                    m_content_type="organization",
+                    m_email_addresses = helper_method.extract_emails(content),
+                    m_network = helper_method.get_network_type(self.base_url).value,
+                    m_phone_numbers = helper_method.extract_phone_numbers(content)
                 )
                 self._card_data.append(card_data)

@@ -1,1 +1,82 @@
 Jan 26, 2025, 7:45:23 PM WARN  [Addressbook ] .naming.BlockfileNamingService: The hosts database was not closed cleanly or is still open by another process
+Jan 27, 2025, 7:49:43 AM CRIT  [NTCP Pumper ] net.i2p.util.Clock            : Large clock shift forward by 7h
+Jan 27, 2025, 7:49:43 AM WARN  [JobQueue 5/5] orkdb.kademlia.ExpireLeasesJob: Expired local leaseset 7ipsrp3w7tulpuw3junqou2hy5nc4p4k5zr7vgeup3aqi2cbpkfq.b32.i2p
+Jan 27, 2025, 7:49:43 AM ERROR [NTCP Pumper ] net.i2p.router.Router         : Restarting after large clock shift forward by 7h
+Jan 27, 2025, 7:49:43 AM ERROR [uter Restart] net.i2p.router.Router         : Stopping the router for a restart...
+Jan 27, 2025, 7:49:43 AM WARN  [uter Restart] net.i2p.router.Router         : Stopping the client manager
+Jan 27, 2025, 7:49:43 AM ERROR [nal Reader 4] lient.impl.I2PSessionMuxedImpl: [shared clients #2348(OPEN)]: Error occurred communicating with router: Router restart
+net.i2p.client.I2PSessionException: Disconnect Message received: Router restart
+	at net.i2p.client.impl.DisconnectMessageHandler.handleMessage(DisconnectMessageHandler.java:33)
+	at net.i2p.client.impl.I2PSessionImpl.messageReceived(I2PSessionImpl.java:1075)
+	at net.i2p.internal.QueuedI2CPMessageReader$QueuedI2CPMessageReaderRunner.run2(QueuedI2CPMessageReader.java:56)
+	at net.i2p.data.i2cp.I2CPMessageReader$I2CPMessageReaderRunner.run(I2CPMessageReader.java:164)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+	at net.i2p.util.I2PThread.run(I2PThread.java:103)
+Jan 27, 2025, 7:49:43 AM WARN  [uter Restart] net.i2p.router.Router         : Stopping the comm system
+Jan 27, 2025, 7:49:52 AM WARN  [uter Restart] net.i2p.router.Router         : Restarted the comm system
+Jan 27, 2025, 7:49:52 AM WARN  [uter Restart] net.i2p.router.Router         : Stopping the tunnel manager
+Jan 27, 2025, 7:49:52 AM WARN  [uter Restart] net.i2p.router.Router         : Restarted the tunnel manager
+Jan 27, 2025, 7:50:01 AM WARN  [uter Restart] net.i2p.router.Router         : Restarting the client manager
+Jan 27, 2025, 7:50:01 AM WARN  [uter Restart] net.i2p.router.Router         : Restart complete
+Jan 28, 2025, 8:09:10 AM CRIT  [NTCP Pumper ] net.i2p.util.Clock            : Large clock shift forward by 9h
+Jan 28, 2025, 8:09:10 AM WARN  [JobQueue 2/5] orkdb.kademlia.ExpireLeasesJob: Expired local leaseset 7ipsrp3w7tulpuw3junqou2hy5nc4p4k5zr7vgeup3aqi2cbpkfq.b32.i2p
+Jan 28, 2025, 8:09:10 AM ERROR [NTCP Pumper ] net.i2p.router.Router         : Restarting after large clock shift forward by 9h
+Jan 28, 2025, 8:09:10 AM ERROR [uter Restart] net.i2p.router.Router         : Stopping the router for a restart...
+Jan 28, 2025, 8:09:10 AM WARN  [uter Restart] net.i2p.router.Router         : Stopping the client manager
+Jan 28, 2025, 8:09:10 AM ERROR [nal Reader 6] lient.impl.I2PSessionMuxedImpl: [shared clients #65227(OPEN)]: Error occurred communicating with router: Router restart
+net.i2p.client.I2PSessionException: Disconnect Message received: Router restart
+	at net.i2p.client.impl.DisconnectMessageHandler.handleMessage(DisconnectMessageHandler.java:33)
+	at net.i2p.client.impl.I2PSessionImpl.messageReceived(I2PSessionImpl.java:1075)
+	at net.i2p.internal.QueuedI2CPMessageReader$QueuedI2CPMessageReaderRunner.run2(QueuedI2CPMessageReader.java:56)
+	at net.i2p.data.i2cp.I2CPMessageReader$I2CPMessageReaderRunner.run(I2CPMessageReader.java:164)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+	at net.i2p.util.I2PThread.run(I2PThread.java:103)
+Jan 28, 2025, 8:09:10 AM WARN  [uter Restart] net.i2p.router.Router         : Stopping the comm system
+Jan 28, 2025, 8:09:15 AM WARN  [uter Restart] net.i2p.router.Router         : Restarted the comm system
+Jan 28, 2025, 8:09:15 AM WARN  [uter Restart] net.i2p.router.Router         : Stopping the tunnel manager
+Jan 28, 2025, 8:09:15 AM WARN  [uter Restart] net.i2p.router.Router         : Restarted the tunnel manager
+Jan 28, 2025, 8:09:19 AM ERROR [ent Runner 5] .i2ptunnel.I2PTunnelClientBase: Unable to build tunnels for the client, retrying in 20 seconds
+net.i2p.client.I2PSessionException: Router client manager is shut down
+	at net.i2p.router.client.ClientManager.internalConnect(ClientManager.java:224)
+	at net.i2p.router.client.ClientManagerFacadeImpl.connect(ClientManagerFacadeImpl.java:267)
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:722)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1312)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Jan 28, 2025, 8:09:25 AM WARN  [uter Restart] net.i2p.router.Router         : Restarting the client manager
+Jan 28, 2025, 8:09:25 AM WARN  [uter Restart] net.i2p.router.Router         : Restart complete
+Jan 28, 2025, 8:15:16 AM ERROR [ent Runner 5] .i2ptunnel.I2PTunnelClientBase: Unable to build tunnels for the client, retrying in 20 seconds
+net.i2p.client.I2PSessionException: [shared clients #59312(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1312)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 7 more
+Jan 28, 2025, 8:20:24 AM ^^^ 1 similar message omitted ^^^
+Jan 28, 2025, 8:25:28 AM ^^^ 1 similar message omitted ^^^
+Jan 28, 2025, 8:25:28 AM ERROR [ent Runner 5] .i2ptunnel.I2PTunnelHTTPClient: i2ptunnel client error
+java.lang.IllegalArgumentException: Unable to build tunnels for the client
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:510)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.verifySocketManager(I2PTunnelClientBase.java:244)
+	at net.i2p.i2ptunnel.I2PTunnelHTTPClient.clientConnectionRun(I2PTunnelHTTPClient.java:1312)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase$BlockingRunner.run(I2PTunnelClientBase.java:859)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: net.i2p.client.I2PSessionException: [shared clients #48239(GOTDATE)]: Failed to build tunnels - No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:850)
+	at net.i2p.i2ptunnel.I2PTunnelClientBase.connectManager(I2PTunnelClientBase.java:481)
+	... 6 more
+Caused by: java.io.IOException: No tunnels built after waiting 5 minutes. Your network connection may be down, or there is severe network congestion.
+	at net.i2p.client.impl.I2PSessionImpl.connect(I2PSessionImpl.java:794)
+	... 7 more

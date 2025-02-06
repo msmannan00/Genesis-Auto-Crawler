@@ -20,7 +20,7 @@ from crawler.crawler_services.shared.web_request_handler import webRequestManage
 from crawler.crawler_instance.proxies.tor_controller.tor_enums import TOR_COMMANDS
 from crawler.crawler_services.log_manager.log_controller import log
 from crawler.crawler_services.request_manager.request_handler import request_handler
-import random
+
 class crawl_model(request_handler):
 
   def __init__(self):
