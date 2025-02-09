@@ -11,7 +11,8 @@ class elastic_controller(request_handler):
   def destroy_instance(cls):
       cls.__instance = None
 
-  def __post_data(self, p_data, unique_index=False):
+  @staticmethod
+  def __post_data(p_data, unique_index=False):
     web_request_manager = webRequestManager()
     m_counter = 0
     while True:

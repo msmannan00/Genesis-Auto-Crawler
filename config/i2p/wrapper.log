@@ -1633,3 +1633,32 @@ INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resourc
 Jan 27, 2025, 7:49:43 AM CRIT  [NTCP Pumper ] net.i2p.util.Clock            : Large clock shift forward by 7h
 Jan 28, 2025, 8:09:10 AM CRIT  [NTCP Pumper ] net.i2p.util.Clock            : Large clock shift forward by 9h
 Jan 28, 2025, 8:25:28 AM ^^^ 1 similar message omitted ^^^
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: There may be another router already running. Waiting a while to be sure...
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: No, there wasn't another router already running. Proceeding with startup.
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: There may be another router already running. Waiting a while to be sure...
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: No, there wasn't another router already running. Proceeding with startup.
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+WARN: Old router was not shut down gracefully, deleting /i2p/.i2p/router.ping
+INFO: Native CPUID library libjcpuid-x86-linux.so loaded from resource
+INFO: Loaded library: jar:file:/i2p/lib/jbigi.jar!/libjbigi-linux-skylake_64.so
+INFO: Native BigInteger library libjbigi-linux-skylake_64.so loaded from resource
+Feb 9, 2025, 5:43:32 PM CRIT  [NTCP Pumper ] net.i2p.util.Clock            : Large clock shift forward by 9m

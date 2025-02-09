@@ -13,6 +13,8 @@ from crawler.crawler_instance.proxies.shared_proxy_methods import shared_proxy_m
 from crawler.crawler_instance.proxies.tor_controller.tor_controller import tor_controller
 from crawler.crawler_services.mongo_manager.mongo_controller import mongo_controller
 from crawler.crawler_services.mongo_manager.mongo_enums import MONGO_CRUD, MONGODB_COMMANDS
+from crawler.crawler_services.redis_manager.redis_controller import redis_controller
+from crawler.crawler_services.redis_manager.redis_enums import REDIS_COMMANDS
 from crawler.crawler_services.shared.env_handler import env_handler
 from crawler.crawler_services.shared.helper_method import helper_method
 from crawler.crawler_services.shared.scheduler import RepeatedTimer
@@ -20,7 +22,7 @@ from crawler.crawler_services.shared.web_request_handler import webRequestManage
 from crawler.crawler_instance.proxies.tor_controller.tor_enums import TOR_COMMANDS
 from crawler.crawler_services.log_manager.log_controller import log
 from crawler.crawler_services.request_manager.request_handler import request_handler
-
+import time
 class crawl_model(request_handler):
 
   def __init__(self):
@@ -167,10 +169,29 @@ class crawl_model(request_handler):
         m_url_node = p_fetched_url_list.pop(0)
         celery_controller.get_instance().invoke_trigger(CELERY_COMMANDS.S_START_CRAWLER, [m_url_node, self.__celery_vid])
 
+  @staticmethod
+  def __init_token():
+    MAX_RETRIES = 50
+    RETRY_DELAY = 5
+
+    web_request_manager = webRequestManager()
+    username = env_handler.get_instance().env("S_SERVER_USERNAME")
+    password = env_handler.get_instance().env("S_SERVER_PASSWORD")
+
+    for _ in range(MAX_RETRIES):
+      token, _ = web_request_manager.request_token(CRAWL_SETTINGS_CONSTANTS.S_TOKEN, username, password)
+      if token:
+        redis_controller().invoke_trigger(REDIS_COMMANDS.S_SET_STRING, ["bearertoken", token, None])
+        return
+      log.g().e(MANAGE_MESSAGES.S_TOKEN_ERROR)
+      time.sleep(RETRY_DELAY)
+
   def __init_crawler(self):
     self.__celery_vid = 100000
+    RepeatedTimer(CRAWL_SETTINGS_CONSTANTS.S_UPDATE_STATUS_TIMEOUT, self.reinit_list_periodically, False, self.__init_token())
 
     if shared_proxy_methods.get_onion_status() or shared_proxy_methods.get_i2p_status():
+      self.__init_token()
       self.init_parsers()
       if APP_STATUS.DOCKERIZED_RUN:
        self.__init_docker_request()

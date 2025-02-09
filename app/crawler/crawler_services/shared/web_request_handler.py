@@ -5,7 +5,8 @@ from crawler.constants.enums import network_type
 from crawler.constants.strings import MANAGE_MESSAGES
 from crawler.crawler_instance.local_shared_model.rule_model import FetchProxy
 from crawler.crawler_services.log_manager.log_controller import log
-from crawler.crawler_services.shared.crypto_handler import crypto_handler
+from crawler.crawler_services.redis_manager.redis_controller import redis_controller
+from crawler.crawler_services.redis_manager.redis_enums import REDIS_COMMANDS
 from crawler.crawler_services.shared.helper_method import helper_method
 
 
@@ -86,12 +87,9 @@ class webRequestManager:
   def request_server_post(url, data=None, params=None, timeout=1000):
     response = None
     try:
-      crypto = crypto_handler()
-      secret_token = crypto.generate_secret_token()
-
+      token = redis_controller().invoke_trigger(REDIS_COMMANDS.S_GET_STRING, ["bearertoken", "", None])
       headers = {
-        'pSecretToken': f'{secret_token}',
-        'Content-Type': 'application/json'
+        "Authorization": f"Bearer {token}",
       }
 
       response = requests.post(url, json=data, params=params, headers=headers, timeout=timeout)
@@ -108,11 +106,10 @@ class webRequestManager:
   @staticmethod
   def request_server_get(url, params=None, timeout=1000):
     try:
-      crypto = crypto_handler()
-      secret_token = crypto.generate_secret_token()
+      token = redis_controller().invoke_trigger(REDIS_COMMANDS.S_GET_STRING, ["bearertoken", "", None])
 
       headers = {
-        'pSecretToken': f'{secret_token}'
+        "Authorization": f"Bearer {token}",
       }
 
       response = requests.get(url, params=params, headers=headers, timeout=timeout, allow_redirects=True)
@@ -121,3 +118,34 @@ class webRequestManager:
 
     except Exception as ex:
       return None, str(ex)
+
+  @staticmethod
+  def request_token(url, username, password, timeout=1000):
+    try:
+      headers = {
+        'Content-Type': 'application/json'
+      }
+
+      payload = {
+        'username': username,
+        'password': password
+      }
+
+      response = requests.post(url, json=payload, headers=headers, timeout=timeout, allow_redirects=True)
+
+      if response.status_code != 200:
+        return None, f"HTTP {response.status_code}: {response.text}"
+
+      try:
+        data = response.json()
+      except requests.exceptions.JSONDecodeError:
+        return None, "Invalid JSON response from server"
+
+      token = data.get("access_token")
+      if not token:
+        return None, "Token not found in response"
+
+      return token, response.status_code
+
+    except requests.exceptions.RequestException as ex:
+      return None, f"Request failed: {ex}"

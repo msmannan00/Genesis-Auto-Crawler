@@ -24,13 +24,6 @@ class crawl_controller(request_handler):
     self.__m_crawl_model = crawl_model()
 
   @staticmethod
-  def __update_crawler_status():
-    try:
-      requests.get(CRAWL_SETTINGS_CONSTANTS.S_UPDATE_STATUS_URL, timeout=100)
-    except Exception:
-      pass
-
-  @staticmethod
   def __update_internet_status():
     url = NETWORK_MONITOR.S_PING_URL
     timeout = 5
@@ -43,7 +36,6 @@ class crawl_controller(request_handler):
 
   def __on_start(self):
     if APP_STATUS.DOCKERIZED_RUN:
-      RepeatedTimer(CRAWL_SETTINGS_CONSTANTS.S_UPDATE_STATUS_TIMEOUT, self.__update_crawler_status)
       RepeatedTimer(CRAWL_SETTINGS_CONSTANTS.S_UPDATE_NETWORK_STATUS_TIMEOUT, self.__update_internet_status)
       redis_controller().invoke_trigger(REDIS_COMMANDS.S_SET_BOOL, [REDIS_KEYS.S_NETWORK_MONITOR_STATUS, True, None])
     else:

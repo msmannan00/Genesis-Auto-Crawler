@@ -1,6 +1,7 @@
+import traceback
+
 from crawler.crawler_instance.genbot_service.shared_data_controller import shared_data_controller
-from crawler.crawler_instance.proxies.i2p_controller.i2p_controller import i2p_controller
-from crawler.crawler_instance.proxies.i2p_controller.i2p_enums import I2P_PROXY, I2P_COMMANDS
+from crawler.crawler_instance.proxies.i2p_controller.i2p_enums import I2P_PROXY
 from crawler.crawler_services.log_manager.log_controller import log
 from crawler.constants.strings import TOR_STRINGS, MANAGE_MESSAGES
 from crawler.crawler_services.mongo_manager.mongo_enums import MONGO_CONNECTIONS
@@ -41,6 +42,7 @@ def initialize_local_setting():
   CRAWL_SETTINGS_CONSTANTS.S_PARSERS_URL_UNIQUE = "http://localhost:8080/parser/unique"
   CRAWL_SETTINGS_CONSTANTS.S_FEEDER_URL_UNIQUE = "http://localhost:8080/feeder/unique"
   CRAWL_SETTINGS_CONSTANTS.S_SEARCH_SERVER = "http://localhost:8080"
+  CRAWL_SETTINGS_CONSTANTS.S_TOKEN = "http://localhost:8080/token"
   shared_data_controller.get_instance().init()
   I2P_PROXY.PROXY_URL_HTTP = "http://127.0.0.1:4444"
   I2P_PROXY.PROXY_URL_HTTPS = "http://127.0.0.1:7654"
@@ -63,9 +65,9 @@ def main():
       APP_STATUS.DOCKERIZED_RUN = True
       application_controller.get_instance().invoke_trigger(APPICATION_COMMANDS.S_START_APPLICATION_DOCKERISED)
 
-  except Exception as ex:
-    log.g().e(MANAGE_MESSAGES.S_APPLICATION_ERROR + " : TRACEBACK : " + str(ex.__traceback__))
-
+  except Exception as _:
+    error_traceback = traceback.format_exc()
+    log.g().e(f"{MANAGE_MESSAGES.S_APPLICATION_ERROR} : TRACEBACK : {error_traceback}")
 
 if __name__ == "__main__":
   main()

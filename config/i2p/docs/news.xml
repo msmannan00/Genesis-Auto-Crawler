@@ -1,11 +1,34 @@
 <!--
-<i2p.release  version="2.7.0" minVersion="0.9.9" minJavaVersion="1.8" su3Torrent="magnet:?xt=urn:btih:323086d2d004b0ed0b6dd8da3d49e9e82626d03b&dn=i2pupdate-2.7.0.su3&tr=http://tracker2.postman.i2p/announce.php" su3i2p="http://mgp6yzdxeoqds3wucnbhfrdgpjjyqbiqjdwcfezpul3or7bzm4ga.b32.i2p/2.6.1/i2pupdate.su3,http://stats.i2p/i2p/2.6.1/i2pupdate.su3"/>
-** News version:	1728433462
+<i2p.release  version="2.8.0" minVersion="0.9.9" minJavaVersion="1.8" su3Torrent="magnet:?xt=urn:btih:40b59310d6c3c41519e06307290cadcf2f674585&dn=i2pupdate-2.8.0.su3&tr=http://tracker2.postman.i2p/announce.php" su3i2p="http://mgp6yzdxeoqds3wucnbhfrdgpjjyqbiqjdwcfezpul3or7bzm4ga.b32.i2p/2.8.0/i2pupdate.su3,http://stats.i2p/i2p/2.8.0/i2pupdate.su3"/>
+** News version:	1739045540
 ** Signed by:	hankhill19580@gmail.com
 ** Feed:	I2P News
 ** Feed ID:	urn:uuid:60a76c80-d399-11d9-b91C-543213999af6
-** Feed Date:	Oct 9, 2024
+** Feed Date:	Feb 8, 2025
 -->
+<!-- Entry Date: 1739030400000 -->
+<h3>Feb 8, 2025: Local site access fails in 2.8.0</h3>
+<div xmlns="http://www.w3.org/1999/xhtml"><p>
+In 2.8.0, browsing to a local site (either by hostname or b32) will fail.
+The workaround is using localhost and the server port, usually 7658, to bypass I2P.
+For example, <a href="http://127.0.0.1:7658/">http://127.0.0.1:7658/</a>.
+We apologize for the issue and are working on a fix.
+</p></div>
+
+<!-- Entry Date: 1738587600000 -->
+<h3>Feb 3, 2025: I2P 2.8.0 Release</h3>
+<div xmlns="http://www.w3.org/1999/xhtml"><p>
+This release improves I2P by fixing bugs, removing unused code, and improving network stability.
+</p><p>
+We have improved handling of congested routers in the network.
+Issues in UPnP and NAT traversal were addressed to improve connectivity and error reporting.
+We now have a more aggressive strategy for leaseset removal from the NetDb to improve router performance and mitigate overload.
+Other changes were implemented to reduce the observability of events like a router rebooting or shutting down.
+</p><p>
+As usual, we recommend that you update to this release.
+The best way to maintain security and help the network is to run the latest release.
+</p></div>
+
 <!-- Entry Date: 1728381600000 -->
 <h3>Oct 8, 2024: I2P 2.7.0 Release</h3>
 <div xmlns="http://www.w3.org/1999/xhtml"><p>

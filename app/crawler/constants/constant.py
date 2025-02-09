@@ -65,15 +65,16 @@ class CRAWL_SETTINGS_CONSTANTS:
   S_FEEDER_URL = f"{S_SERVER}/feeder"
   S_FEEDER_URL_UNIQUE = f"{S_SERVER}/feeder/unique"
   S_PARSERS_URL = f"{S_SERVER}/parser"
+  S_TOKEN = f"{S_SERVER}/token"
   S_SEARCH_SERVER = f"{S_SERVER}"
   S_PARSE_EXTRACTION_DIR = "raw/parsers"
 
   # Total Thread Instances Allowed
+  S_REFRESH_TOKEN_TIMEOUT = 10800
   S_UPDATE_STATUS_TIMEOUT = 1800
   S_UPDATE_PARSERS_TIMEOUT = 16400
   S_UPDATE_UNIQUE_FEEDER_TIMEOUT = 604800
   S_UPDATE_NETWORK_STATUS_TIMEOUT = 60
-  S_UPDATE_STATUS_URL = "http://167.86.99.31/update_status/?pRequest=m_crawler"
 
   # Time Delay to Invoke New Url Requests
   S_TOR_NEW_CIRCUIT_INVOKE_DELAY = 1800

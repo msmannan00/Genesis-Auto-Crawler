@@ -74,3 +74,4 @@ class MANAGE_MESSAGES:
   S_UNIQUE_PARSING_PENDING = "[46] Unique parsing pending"
   S_UNIQUE_PARSING_COMPLETE = "[47] Unique parsing complete"
   S_INCLUDES_STARTING = "[48] Application includes are initializing"
+  S_TOKEN_ERROR = "[49] Error while creating session token"

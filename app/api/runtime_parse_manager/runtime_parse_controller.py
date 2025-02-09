@@ -1,10 +1,7 @@
-import asyncio
 import importlib
 import json
 import os
 import sys
-from linecache import cache
-
 from api.runtime_parse_manager.runtime_parse_enum import RUNTIME_PARSE_REQUEST_QUERIES, RUNTIME_PARSE_REQUEST_COMMANDS
 from crawler.crawler_instance.local_shared_model.collector_data_model import collector_data_model
 from playwright.async_api import async_playwright
@@ -20,12 +17,22 @@ class runtime_parse_controller:
         self.module_cache = {}
         self.driver = None
 
+
     @staticmethod
     async def _initialize_webdriver(use_proxy: FetchProxy = FetchProxy.TOR) -> Optional[object]:
 
         tor_proxy = None
         if use_proxy == FetchProxy.TOR:
             tor_proxy, tor_id = tor_controller.get_instance().invoke_trigger(TOR_COMMANDS.S_PROXY, [])
+
+        def get_block_resources(route):
+            request_url = route.request.url.lower()
+
+            if any(request_url.startswith(scheme) for scheme in ["data:image", "data:video", "data:audio"]) or \
+                route.request.resource_type in ["image", "media", "font", "stylesheet"]:
+                return route.abort()
+            else:
+                return route.continue_()
 
         proxy_url = next(iter(tor_proxy.values()))
         ip_port = proxy_url.split('//')[1]
@@ -39,6 +46,7 @@ class runtime_parse_controller:
         browser = await playwright.chromium.launch(headless=True, proxy=proxies)
 
         context = await browser.new_context()
+        await context.route("**/*", get_block_resources)
         return context
 
     # async def _initialize_webdriver(use_proxy: bool = True) -> Optional[object]:

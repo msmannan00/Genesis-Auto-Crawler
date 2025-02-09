@@ -917,3 +917,23 @@ Jan 27, 2025, 3:49 PM -- New address iskopazi.i2p added to address book. From: h
 Jan 27, 2025, 3:49 PM -- New address tmpsend.i2p added to address book. From: http://notbob.i2p/hosts.txt
 Jan 27, 2025, 3:49 PM -- New address usefulapp.i2p added to address book. From: http://notbob.i2p/hosts.txt
 Jan 27, 2025, 3:50 PM -- New address xmr.stormycloud.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Feb 9, 2025, 3:00 PM -- New address aiwnios.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Feb 9, 2025, 3:00 PM -- New address bytepay.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Feb 9, 2025, 3:00 PM -- New address contact.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Feb 9, 2025, 3:00 PM -- New address cthulhu.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Feb 9, 2025, 3:00 PM -- New address git.cosmicflow.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Feb 9, 2025, 3:00 PM -- New address gsrcdj.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Feb 9, 2025, 3:00 PM -- New address heptan.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Feb 9, 2025, 3:00 PM -- New address kocour.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Feb 9, 2025, 3:00 PM -- New address ltgc.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Feb 9, 2025, 3:00 PM -- New address meteolab.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Feb 9, 2025, 3:00 PM -- New address monero-node-clay.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Feb 9, 2025, 3:00 PM -- New address origami-technology.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Feb 9, 2025, 3:00 PM -- New address proxy1488.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Feb 9, 2025, 3:00 PM -- New address rimgo.zzls.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Feb 9, 2025, 3:00 PM -- New address sn4il.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Feb 9, 2025, 3:00 PM -- New address tttt.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Feb 9, 2025, 3:00 PM -- New address wall.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Feb 9, 2025, 3:00 PM -- New address xmr-directory.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Feb 9, 2025, 3:00 PM -- New address xmr-pricenode.i2p added to address book. From: http://notbob.i2p/hosts.txt
+Feb 9, 2025, 3:00 PM -- Bad hostname proxy.i2p. From: http://notbob.i2p/hosts.txt
