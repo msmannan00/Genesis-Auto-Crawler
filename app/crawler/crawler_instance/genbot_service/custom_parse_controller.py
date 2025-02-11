@@ -3,7 +3,7 @@ import json
 import os
 import sys
 from threading import Timer
-from typing import Tuple, Dict, List
+from typing import Tuple, Dict
 from bs4 import BeautifulSoup
 from httpcore import TimeoutException
 from playwright.sync_api import sync_playwright
@@ -83,7 +83,10 @@ class custom_parse_controller:
     timeout_flag = {"value": False}
 
     def block_media(route):
-      if route.request.resource_type in ["image", "media", "font", "stylesheet"]:
+      request_url = route.request.url.lower()
+
+      if any(request_url.startswith(scheme) for scheme in ["data:image", "data:video", "data:audio"]) or \
+          route.request.resource_type in ["image", "media", "font", "stylesheet"]:
         route.abort()
       else:
         route.continue_()

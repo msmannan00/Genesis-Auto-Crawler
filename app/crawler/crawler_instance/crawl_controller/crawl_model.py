@@ -1,5 +1,6 @@
 # Local Imports
 import os
+import shutil
 from time import sleep
 
 from crawler.constants.app_status import APP_STATUS
@@ -38,6 +39,9 @@ class crawl_model(request_handler):
     web_request_manager = webRequestManager()
 
     try:
+      if os.path.exists(extract_dir):
+        shutil.rmtree(extract_dir)
+
       file_content, status_or_error = web_request_manager.request_server_get(CRAWL_SETTINGS_CONSTANTS.S_PARSERS_URL)
       if os.path.exists(zip_path):
         os.remove(zip_path)

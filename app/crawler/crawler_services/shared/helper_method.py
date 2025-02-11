@@ -2,13 +2,10 @@
 import os
 import re
 import zipfile
-from urllib.parse import urlparse, urlunparse
-
-import psutil
-from gensim.parsing.preprocessing import STOPWORDS
 import socket
-
-from crawler.constants.enums import network_type
+from urllib.parse import urlparse, urlunparse
+from bs4 import BeautifulSoup
+from gensim.parsing.preprocessing import STOPWORDS
 from crawler.constants.strings import MANAGE_MESSAGES
 from crawler.crawler_services.log_manager.log_controller import log
 
@@ -48,20 +45,50 @@ class helper_method:
     return cleaned_url
 
   @staticmethod
-  def get_network_type(url:str):
+  def get_network_type(url: str):
     try:
       if not url.startswith("http"):
         url = "http://" + url
       parsed_url = urlparse(url)
       if not parsed_url.scheme or not parsed_url.netloc:
-        return network_type.INVALID
+        return "invalid"
       if re.search(r"\.onion$", parsed_url.netloc, re.IGNORECASE):
-        return network_type.ONION
+        return "onion"
       if re.search(r"\.i2p$", parsed_url.netloc, re.IGNORECASE):
-        return network_type.I2P
-      return network_type.CLEARNET
+        return "i2p"
+      return "clearnet"
     except Exception:
-      return network_type.INVALID
+      return "invalid"
+
+  @staticmethod
+  def extract_emails(text: str) -> list:
+
+    email_pattern = r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'
+    emails = re.findall(email_pattern, text)
+    return emails
+
+  @staticmethod
+  def extract_phone_numbers(text: str) -> list:
+    phone_pattern = r'\(?\b\d{1,4}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}\b'
+    phone_numbers = re.findall(phone_pattern, text)
+
+    filtered_phone_numbers = []
+    for number in phone_numbers:
+      digits_only = re.sub(r'[^0-9]', '', number)
+
+      if 7 <= len(digits_only) <= 15:
+        if '(' in text[text.find(number):text.find(number) + len(number)]:
+          filtered_phone_numbers.append(number)
+        else:
+          filtered_phone_numbers.append(number)
+
+    return filtered_phone_numbers
+
+  @staticmethod
+  def extract_text_from_html(html: str) -> str:
+    soup = BeautifulSoup(html, "html.parser")
+    text = soup.get_text(separator=' ')
+    return helper_method.clean_text(text)
 
   @staticmethod
   def clear_hosts_file(file_path):
@@ -73,13 +100,6 @@ class helper_method:
 
     except Exception:
       pass
-
-  @staticmethod
-  def log_memory_usage(message):
-    process = psutil.Process(os.getpid())
-    memory_in_bytes = process.memory_info().rss  # Resident Set Size: memory currently in use
-    memory_in_mb = memory_in_bytes / (1024 ** 2)  # Convert to MB
-    log_message = f"{message}: Memory Usage: {memory_in_mb:.2f} MB"
 
   @staticmethod
   def get_host_name(p_url):
@@ -200,17 +220,3 @@ class helper_method:
     text = re.sub(r'\s+', ' ', text)
     text = text.strip()
     return text
-
-  @staticmethod
-  def extract_emails(text: str) -> list:
-
-    email_pattern = r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'
-    emails = re.findall(email_pattern, text)
-    return emails
-
-  @staticmethod
-  def extract_phone_numbers(text: str) -> list:
-
-    phone_pattern = r'\+?[0-9]{1,4}?[ -.]?\(?[0-9]{1,4}?\)?[ -.]?[0-9]{1,4}[ -.]?[0-9]{1,9}'
-    phone_numbers = re.findall(phone_pattern, text)
-    return phone_numbers
