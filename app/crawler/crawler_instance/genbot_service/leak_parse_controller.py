@@ -19,7 +19,7 @@ from crawler.crawler_services.log_manager.log_controller import log
 from crawler.crawler_services.shared.helper_method import helper_method
 
 
-class custom_parse_controller:
+class leak_parse_controller:
 
   def __init__(self):
     self.__m_proxy = {}
@@ -67,8 +67,9 @@ class custom_parse_controller:
     if len(model.cards_data)>0:
       for item in model.cards_data:
         item.m_network_type = helper_method.get_network_type(item)
-      m_paresed_request_data = {"m_leak_data_model": json.dumps(model.model_dump())}
-      self.__elastic_controller_instance.invoke_trigger(ELASTIC_CRUD_COMMANDS.S_INDEX, [ELASTIC_REQUEST_COMMANDS.S_INDEX, json.dumps(m_paresed_request_data), ELASTIC_CONNECTIONS.S_CRAWL_INDEX])
+      model.m_network = helper_method.get_network_type(model.base_url)
+      m_paresed_request_data = model.model_dump()
+      self.__elastic_controller_instance.invoke_trigger(ELASTIC_CRUD_COMMANDS.S_INDEX, [ELASTIC_REQUEST_COMMANDS.S_INDEX, m_paresed_request_data, ELASTIC_CONNECTIONS.S_INDEX_LEAK])
 
   def __parse_leak_data(self, proxy: dict, model: leak_extractor_interface) -> Tuple[leak_data_model, Dict[str, str]]:
     parsed_length = 0

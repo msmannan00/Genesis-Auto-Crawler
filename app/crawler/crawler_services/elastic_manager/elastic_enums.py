@@ -9,4 +9,5 @@ class ELASTIC_REQUEST_COMMANDS:
   S_UNIQUE_INDEX = 8
 
 class ELASTIC_CONNECTIONS:
-  S_CRAWL_INDEX = f"{S_SERVER}/crawl_index/"
+  S_INDEX_LEAK = f"{S_SERVER}/api/index/leak"
+  S_INDEX_GENERIC = f"{S_SERVER}/api/index/generic"

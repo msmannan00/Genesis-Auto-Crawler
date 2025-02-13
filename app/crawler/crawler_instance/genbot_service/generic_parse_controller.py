@@ -73,12 +73,8 @@ class generic_parse_controller:
 
                 if m_parsed_model is not None:
                     if helper_method.get_host_name(m_redirected_url) == helper_method.get_host_name(p_request_model.m_url):
-                        m_paresed_request_data = {
-                            "m_generic_model": json.dumps(m_parsed_model.model_dump()),
-                        }
                         self.__elastic_controller_instance.invoke_trigger(
-                            ELASTIC_CRUD_COMMANDS.S_INDEX,
-                            [ELASTIC_REQUEST_COMMANDS.S_INDEX, json.dumps(m_paresed_request_data), ELASTIC_CONNECTIONS.S_CRAWL_INDEX]
+                           ELASTIC_CRUD_COMMANDS.S_INDEX, [ELASTIC_REQUEST_COMMANDS.S_INDEX, m_parsed_model.model_dump(), ELASTIC_CONNECTIONS.S_INDEX_GENERIC]
                         )
                         log.g().s(MANAGE_MESSAGES.S_LOCAL_URL_PARSED + " : " + str(self.__task_id) + " : " + str(self.__m_tor_id) + " : " + m_redirected_url)
                         return m_parsed_model, m_parsed_model.m_sub_url

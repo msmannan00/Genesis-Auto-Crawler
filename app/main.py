@@ -37,10 +37,9 @@ def initialize_local_setting():
 
   ELASTIC_CONNECTIONS.S_CRAWL_INDEX = "http://localhost:8080/crawl_index/"
 
-  CRAWL_SETTINGS_CONSTANTS.S_FEEDER_URL = "http://localhost:8080/feeder"
-  CRAWL_SETTINGS_CONSTANTS.S_PARSERS_URL = "http://localhost:8080/parser"
-  CRAWL_SETTINGS_CONSTANTS.S_PARSERS_URL_UNIQUE = "http://localhost:8080/parser/unique"
-  CRAWL_SETTINGS_CONSTANTS.S_FEEDER_URL_UNIQUE = "http://localhost:8080/feeder/unique"
+  CRAWL_SETTINGS_CONSTANTS.S_PARSERS_URL = "http://localhost:8080/api/parser"
+  CRAWL_SETTINGS_CONSTANTS.S_PARSERS_URL_UNIQUE = "http://localhost:8080/api/parser/unique"
+  CRAWL_SETTINGS_CONSTANTS.S_FEEDER_URL_UNIQUE = "http://localhost:8080/api/feeder/unique"
   CRAWL_SETTINGS_CONSTANTS.S_SEARCH_SERVER = "http://localhost:8080"
   CRAWL_SETTINGS_CONSTANTS.S_TOKEN = "http://localhost:8080/token"
   shared_data_controller.get_instance().init()

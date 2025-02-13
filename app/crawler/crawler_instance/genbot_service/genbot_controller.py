@@ -2,7 +2,7 @@
 import gc
 from asyncio import sleep
 from crawler.constants.strings import MANAGE_MESSAGES
-from crawler.crawler_instance.genbot_service.custom_parse_controller import custom_parse_controller
+from crawler.crawler_instance.genbot_service.leak_parse_controller import leak_parse_controller
 from crawler.crawler_instance.genbot_service.generic_parse_controller import generic_parse_controller
 from crawler.crawler_services.mongo_manager.mongo_controller import mongo_controller
 from crawler.crawler_services.mongo_manager.mongo_enums import MONGO_CRUD, MONGODB_COMMANDS
@@ -17,7 +17,7 @@ class genbot_controller(request_handler):
   def __init__(self):
 
     self.__generic_parse_controller = generic_parse_controller()
-    self.__custom_parse_controller = custom_parse_controller()
+    self.__custom_parse_controller = leak_parse_controller()
 
 
   def init(self, p_proxy, p_tor_id):
@@ -43,7 +43,7 @@ class genbot_controller(request_handler):
 
 
 def genbot_instance(p_url, p_vid, p_proxy, p_tor_id):
-  p_url = "http://weg7sdx54bevnvulapqu6bpzwztryeflq3s23tegbmnhkbpqz637f2yd.onion"
+  p_url = "http://weg7sdx54bevnvulapqu6bpzwztryeflq3s23tegbmnhkbpqz637f2yd.onion/?page=1"
   log.g().i(MANAGE_MESSAGES.S_PARSING_WORKER_STARTED + " : " + p_url)
   m_crawler = genbot_controller()
   m_crawler.invoke_trigger(ICRAWL_CONTROLLER_COMMANDS.S_INIT_CRAWLER_INSTANCE, [p_proxy, p_tor_id])

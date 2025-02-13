@@ -7,5 +7,4 @@ class leak_data_model(BaseModel):
     contact_link: str = ""
     base_url: str = ""
     m_network: str = ""
-    content_type: List[str] = []
 
