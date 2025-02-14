@@ -16,4 +16,4 @@ mongo-data/*
 app/raw/model/*
 static/trustly/.well-known/model/toxic-model.zip
 app/api/raw/model/*
-config\i2p\
+config/i2p/*
