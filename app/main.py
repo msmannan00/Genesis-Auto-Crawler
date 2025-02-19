@@ -41,7 +41,7 @@ def initialize_local_setting():
   CRAWL_SETTINGS_CONSTANTS.S_PARSERS_URL_UNIQUE = "http://localhost:8080/api/parser/unique"
   CRAWL_SETTINGS_CONSTANTS.S_FEEDER_URL_UNIQUE = "http://localhost:8080/api/feeder/unique"
   CRAWL_SETTINGS_CONSTANTS.S_SEARCH_SERVER = "http://localhost:8080"
-  CRAWL_SETTINGS_CONSTANTS.S_TOKEN = "http://localhost:8080/token"
+  CRAWL_SETTINGS_CONSTANTS.S_TOKEN = "http://localhost:8080/api/token"
   shared_data_controller.get_instance().init()
   I2P_PROXY.PROXY_URL_HTTP = "http://127.0.0.1:4444"
   I2P_PROXY.PROXY_URL_HTTPS = "http://127.0.0.1:7654"

@@ -30,7 +30,6 @@ class crawl_model(request_handler):
     self.__celery_vid = 100000
     self.__mongo = mongo_controller()
 
-
   @staticmethod
   def init_parsers():
     log.g().s(MANAGE_MESSAGES.S_PARSER_LOAD_STARTED)
@@ -38,25 +37,35 @@ class crawl_model(request_handler):
     extract_dir = os.path.join(os.getcwd(), CRAWL_SETTINGS_CONSTANTS.S_PARSE_EXTRACTION_DIR)
     web_request_manager = webRequestManager()
 
-    try:
-      if os.path.exists(extract_dir):
-        shutil.rmtree(extract_dir)
+    while True:
+      try:
+        if os.path.exists(extract_dir):
+          shutil.rmtree(extract_dir)
 
-      file_content, status_or_error = web_request_manager.request_server_get(CRAWL_SETTINGS_CONSTANTS.S_PARSERS_URL)
-      if os.path.exists(zip_path):
-        os.remove(zip_path)
-      if status_or_error == 200:
-        with open(zip_path, "wb") as file:
-          file.write(file_content)
+        file_content, status_or_error = web_request_manager.request_server_get(CRAWL_SETTINGS_CONSTANTS.S_PARSERS_URL)
 
-        helper_method.extract_zip(zip_path, extract_dir)
-      if os.path.exists(zip_path):
-        os.remove(zip_path)
-    except Exception as e:
-      log.g().e(MANAGE_MESSAGES.S_PARSER_LOAD_EXCEPTION + " : " + str(e))
-    finally:
-      log.g().s(MANAGE_MESSAGES.S_PARSER_LOAD_FINISHED)
+        if status_or_error == 200:
+          if os.path.exists(zip_path):
+            os.remove(zip_path)
 
+          with open(zip_path, "wb") as file:
+            file.write(file_content)
+
+          helper_method.extract_zip(zip_path, extract_dir)
+
+          if os.path.exists(zip_path):
+            os.remove(zip_path)
+
+          log.g().s(MANAGE_MESSAGES.S_PARSER_LOAD_FINISHED)
+          break
+
+        else:
+          log.g().e(f"Failed to download parsers. Status: {status_or_error}. Retrying in 1 second...")
+          time.sleep(1)
+
+      except Exception as e:
+        log.g().e(MANAGE_MESSAGES.S_PARSER_LOAD_EXCEPTION + " : " + str(e))
+        time.sleep(1)
 
   # Start Crawler Manager
   def __install_live_url(self):
@@ -192,7 +201,7 @@ class crawl_model(request_handler):
 
   def __init_crawler(self):
     self.__celery_vid = 100000
-    RepeatedTimer(CRAWL_SETTINGS_CONSTANTS.S_UPDATE_STATUS_TIMEOUT, self.reinit_list_periodically, False, self.__init_token())
+    RepeatedTimer(CRAWL_SETTINGS_CONSTANTS.S_UPDATE_STATUS_TIMEOUT, self.__init_token(), False)
 
     if shared_proxy_methods.get_onion_status() or shared_proxy_methods.get_i2p_status():
       self.__init_token()

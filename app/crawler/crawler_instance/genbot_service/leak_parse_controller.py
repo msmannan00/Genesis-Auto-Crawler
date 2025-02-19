@@ -1,5 +1,4 @@
 import importlib
-import json
 import os
 import sys
 from threading import Timer
@@ -7,7 +6,6 @@ from typing import Tuple, Dict
 from bs4 import BeautifulSoup
 from httpcore import TimeoutException
 from playwright.sync_api import sync_playwright
-
 from crawler.constants.strings import MANAGE_MESSAGES
 from crawler.crawler_instance.genbot_service.file_parse_manager import file_parse_manager
 from crawler.crawler_instance.local_interface_model.leak_extractor_interface import leak_extractor_interface
@@ -146,8 +144,8 @@ class leak_parse_controller:
           model.soup = BeautifulSoup(page.content(), 'html.parser')
           raw_parse_mapping[page.url] = page.content()
           model.parse_leak_data(page)
-        except Exception:
-          pass
+        except Exception as ex:
+          log.g().e(MANAGE_MESSAGES.S_LOAD_URL_ERROR + f" : {str(ex)}")
         finally:
           timeout_timer.cancel()
 

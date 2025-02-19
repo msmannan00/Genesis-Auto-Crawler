@@ -64,7 +64,7 @@ class CRAWL_SETTINGS_CONSTANTS:
   # Local URL
   S_FEEDER_URL_UNIQUE = f"{S_SERVER}/api/feeder/unique"
   S_PARSERS_URL = f"{S_SERVER}/api/parser"
-  S_TOKEN = f"{S_SERVER}/token"
+  S_TOKEN = f"{S_SERVER}/api/token"
   S_SEARCH_SERVER = f"{S_SERVER}"
   S_PARSE_EXTRACTION_DIR = "raw/parsers"
 
