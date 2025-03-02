@@ -1,0 +1,69 @@
+# Base image with common dependencies
+FROM python:3.11-slim AS base
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    NLTK_DATA=/root/nltk_data
+
+# Install common system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    gcc \
+    g++ \
+    libblas-dev \
+    liblapack-dev \
+    gfortran \
+    libnss3 \
+    libx11-xcb1 \
+    libxcomposite1 \
+    libxrandr2 \
+    libxdamage1 \
+    libxshmfence1 \
+    libasound2 \
+    libpangocairo-1.0-0 \
+    libcairo2 \
+    libffi-dev \
+    libpango-1.0-0 \
+    curl \
+    iputils-ping \
+    wget \
+    --no-install-recommends && rm -rf /var/lib/apt/lists/*
+
+# Install Playwright dependencies
+RUN apt-get update && apt-get install -y \
+    libatk1.0-0 \
+    libatk-bridge2.0-0 \
+    libcups2 \
+    libxcomposite1 \
+    libxrandr2 \
+    libxdamage1 \
+    libfontconfig1 \
+    libxext6 \
+    libxshmfence1 \
+    libasound2 \
+    libpangocairo-1.0-0 \
+    libcairo2 \
+    libgtk-3-0 \
+    --no-install-recommends && rm -rf /var/lib/apt/lists/*
+
+# Upgrade pip
+RUN python3 -m ensurepip && pip install --upgrade pip
+
+# Install Playwright and its browsers
+RUN pip install playwright && playwright install --with-deps
+
+# Create a virtual environment for dependencies
+RUN python -m venv /opt/venv
+
+# Install Celery and Flower globally
+RUN /opt/venv/bin/pip install celery flower
+
+# Copy requirements.txt to take advantage of Docker layer caching
+COPY requirements.txt /tmp/requirements.txt
+RUN /opt/venv/bin/pip install -r /tmp/requirements.txt
+
+# Set environment to use virtualenv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Define this as the base image for all services

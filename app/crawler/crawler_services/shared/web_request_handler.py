@@ -123,7 +123,7 @@ class webRequestManager:
   def request_token(url, username, password, timeout=1000):
     try:
       headers = {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/x-www-form-urlencoded'
       }
 
       payload = {
@@ -131,7 +131,7 @@ class webRequestManager:
         'password': password
       }
 
-      response = requests.post(url, json=payload, headers=headers, timeout=timeout, allow_redirects=True)
+      response = requests.post(url, data=payload, headers=headers, timeout=timeout, allow_redirects=True)
 
       if response.status_code != 200:
         return None, f"HTTP {response.status_code}: {response.text}"

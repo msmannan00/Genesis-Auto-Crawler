@@ -46,6 +46,9 @@ class runtime_parse_controller:
         browser = await playwright.chromium.launch(headless=True, proxy=proxies)
 
         context = await browser.new_context()
+        context.set_default_timeout(600000)
+        context.set_default_navigation_timeout(600000)
+
         await context.route("**/*", get_block_resources)
         return context
 

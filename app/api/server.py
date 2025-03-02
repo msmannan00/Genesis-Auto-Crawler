@@ -43,7 +43,6 @@ class APIService:
 
             async with self.semaphore:
                 response = await self.m_runtime_parser.get_email_username(query)
-
             return response
 
         except asyncio.TimeoutError:

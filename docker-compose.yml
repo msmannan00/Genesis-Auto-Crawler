@@ -5,6 +5,7 @@ services:
     build:
       context: ./
       dockerfile: dockerFiles/app_docker
+      target: app
     depends_on:
       - mongo
       - i2p-instance
@@ -46,6 +47,7 @@ services:
     build:
       context: ./
       dockerfile: dockerFiles/api_docker
+      target: api
     restart: always
     networks:
       - backend

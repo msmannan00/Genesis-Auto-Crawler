@@ -1,10 +1,10 @@
 <!--
 <i2p.release  version="2.8.0" minVersion="0.9.9" minJavaVersion="1.8" su3Torrent="magnet:?xt=urn:btih:40b59310d6c3c41519e06307290cadcf2f674585&dn=i2pupdate-2.8.0.su3&tr=http://tracker2.postman.i2p/announce.php" su3i2p="http://mgp6yzdxeoqds3wucnbhfrdgpjjyqbiqjdwcfezpul3or7bzm4ga.b32.i2p/2.8.0/i2pupdate.su3,http://stats.i2p/i2p/2.8.0/i2pupdate.su3"/>
-** News version:	1739045540
+** News version:	1739381054
 ** Signed by:	hankhill19580@gmail.com
 ** Feed:	I2P News
 ** Feed ID:	urn:uuid:60a76c80-d399-11d9-b91C-543213999af6
-** Feed Date:	Feb 8, 2025
+** Feed Date:	Feb 12, 2025
 -->
 <!-- Entry Date: 1739030400000 -->
 <h3>Feb 8, 2025: Local site access fails in 2.8.0</h3>

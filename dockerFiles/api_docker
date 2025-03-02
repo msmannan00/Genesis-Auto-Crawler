@@ -1,74 +1,16 @@
-# Use an official Python runtime as a parent image
-FROM python:3.11-slim
+# Use the pre-built base image
+FROM base AS api
 
-# Set environment variables to ensure reproducibility
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    gcc \
-    g++ \
-    libblas-dev \
-    liblapack-dev \
-    gfortran \
-    libnss3 \
-    libx11-xcb1 \
-    libxcomposite1 \
-    libxrandr2 \
-    libxdamage1 \
-    libxshmfence1 \
-    libasound2 \
-    libpangocairo-1.0-0 \
-    libcairo2 \
-    libffi-dev \
-    libpango-1.0-0 \
-    curl \
-    iputils-ping \
-    wget \
-    --no-install-recommends && rm -rf /var/lib/apt/lists/*
-
-# Install Playwright dependencies
-RUN apt-get update && apt-get install -y \
-    libnss3 \
-    libatk1.0-0 \
-    libatk-bridge2.0-0 \
-    libcups2 \
-    libxcomposite1 \
-    libxrandr2 \
-    libxdamage1 \
-    libfontconfig1 \
-    libxext6 \
-    libxshmfence1 \
-    libasound2 \
-    libpangocairo-1.0-0 \
-    libcairo2 \
-    libgtk-3-0 \
-    --no-install-recommends && rm -rf /var/lib/apt/lists/*
-
-# Upgrade pip
-RUN python3 -m ensurepip && pip install --upgrade pip
-
-# Install Playwright and its browsers
-RUN pip install --no-cache-dir playwright && playwright install --with-deps
-
-# Copy the requirements file first to leverage Docker's caching
-COPY requirements.txt /tmp/requirements.txt
-
-# Install Python dependencies, cached based on requirements.txt
-RUN pip install --no-cache-dir -r /tmp/requirements.txt
-
-# Set the working directory inside the container
+# Set working directory
 WORKDIR /app
 
-# Copy only the necessary application files to avoid cache busting
+# Copy only the necessary application files
 COPY app/api /app/api
 COPY app/raw /app/raw
 COPY app/crawler /app/crawler
 
-# Expose the port FastAPI will use
+# Expose API port
 EXPOSE 8000
 
-# Command to run the FastAPI app
+# Command to run the FastAPI application
 CMD ["uvicorn", "api.server:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

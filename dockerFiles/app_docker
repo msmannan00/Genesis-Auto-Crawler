@@ -1,80 +1,12 @@
-# Use an official Python runtime as a parent image
-FROM python:3.11-slim AS base
+# Use the pre-built base image
+FROM base AS app
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    NLTK_DATA=/root/nltk_data
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    gcc \
-    g++ \
-    libblas-dev \
-    liblapack-dev \
-    gfortran \
-    libnss3 \
-    libx11-xcb1 \
-    libxcomposite1 \
-    libxrandr2 \
-    libxdamage1 \
-    libxshmfence1 \
-    libasound2 \
-    libpangocairo-1.0-0 \
-    libcairo2 \
-    libffi-dev \
-    libpango-1.0-0 \
-    curl \
-    iputils-ping \
-    wget \
-    --no-install-recommends && rm -rf /var/lib/apt/lists/*
-
-# Install Playwright dependencies
-RUN apt-get update && apt-get install -y \
-    libnss3 \
-    libatk1.0-0 \
-    libatk-bridge2.0-0 \
-    libcups2 \
-    libxcomposite1 \
-    libxrandr2 \
-    libxdamage1 \
-    libfontconfig1 \
-    libxext6 \
-    libxshmfence1 \
-    libasound2 \
-    libpangocairo-1.0-0 \
-    libcairo2 \
-    libgtk-3-0 \
-    --no-install-recommends && rm -rf /var/lib/apt/lists/*
-
-# Upgrade pip
-RUN python3 -m ensurepip && pip install --upgrade pip
-
-# Install Playwright and its browsers
-RUN pip install --no-cache-dir playwright && playwright install --with-deps
-
-RUN apt-get update && apt-get install -y curl iputils-ping --no-install-recommends && rm -rf /var/lib/apt/lists/*
-
-# Create a virtual environment for dependencies to isolate installations
-RUN python -m venv /opt/venv
-
-# Install Celery and Flower globally to avoid reinstalling frequently
-RUN /opt/venv/bin/pip install celery flower
-
-# Copy requirements file for dependency caching
-COPY requirements.txt /tmp/requirements.txt
-
-# Install dependencies in the virtual environment
-RUN /opt/venv/bin/pip install --no-cache-dir -r /tmp/requirements.txt
-
-# Copy nltk_data folder for NLTK
-COPY app/libs/nltk_data /root/nltk_data
-
-# Set path to use the virtual environment
-ENV PATH="/opt/venv/bin:$PATH"
-
-# Copy application code into the container
+# Copy the application code
 COPY app /app
 COPY config /app
+
+# Set working directory
 WORKDIR /app
+
+# Set entry point
+ENTRYPOINT ["bash", "-c", "./start_app.sh start_app"]
